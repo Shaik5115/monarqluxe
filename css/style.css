@@ -61,12 +61,32 @@ body {
   justify-content: center;
   transition: all 1.2s cubic-bezier(0.77, 0, 0.18, 1);
   overflow: hidden;
+  perspective: 1200px;
 }
 
 .splash.hidden {
   opacity: 0;
   transform: scale(1.05);
   pointer-events: none;
+}
+
+/* ── 3D Floating Particles ── */
+.splash-particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  pointer-events: none;
+  z-index: 1;
+  transform-style: preserve-3d;
+}
+
+@keyframes particleFloat {
+  0%, 100% { transform: translateY(0) translateX(0) scale(1); opacity: 0.15; }
+  25% { transform: translateY(-40px) translateX(20px) scale(1.2); opacity: 0.4; }
+  50% { transform: translateY(-80px) translateX(-10px) scale(0.8); opacity: 0.6; }
+  75% { transform: translateY(-40px) translateX(15px) scale(1.1); opacity: 0.3; }
 }
 
 /* ── Splash Inner Frame ── */
@@ -98,6 +118,8 @@ body {
   animation: splashIn 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   opacity: 0;
   transform: translateY(30px);
+  transform-style: preserve-3d;
+  will-change: transform;
 }
 
 @keyframes splashIn {
@@ -152,7 +174,8 @@ body {
 .splash-divider {
   width: 100px;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.3), transparent);
+  background: linear-gradient(90deg, transparent, rgba(0, 230, 118, 0.5), transparent);
+  box-shadow: 0 0 12px rgba(0, 230, 118, 0.15);
   margin: 2rem auto;
 }
 
@@ -177,11 +200,11 @@ body {
 }
 
 .splash-enter:hover {
-  background: rgba(255, 215, 0, 0.06);
-  border-color: rgba(255, 215, 0, 0.4);
+  background: rgba(0, 230, 118, 0.06);
+  border-color: rgba(0, 230, 118, 0.4);
   padding: 1rem 3.5rem;
   letter-spacing: 6px;
-  box-shadow: 0 0 40px rgba(255, 215, 0, 0.05);
+  box-shadow: 0 0 40px rgba(0, 230, 118, 0.1);
 }
 
 .splash-enter .arrow {
