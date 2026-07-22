@@ -54,7 +54,7 @@ body {
   width: 100%;
   height: 100%;
   z-index: 99999;
-  background: #0a1628;
+  background: #1a1a1a;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -109,21 +109,19 @@ body {
   font-weight: 200;
   letter-spacing: 14px;
   padding: 0 0.3em;
-  background: linear-gradient(135deg, #ffd700 0%, #ffe44d 30%, #ffd700 60%, #b8962e 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  color: transparent;
+  color: rgba(255, 255, 255, 0.92);
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.92);
+  background: none;
   font-family: 'Inter', 'Segoe UI', sans-serif;
   text-transform: uppercase;
-  animation: glowTextGold 4s ease-in-out infinite;
+  animation: glowTextWhite 4s ease-in-out infinite;
   line-height: 1;
-  text-shadow: 0 0 40px rgba(255, 215, 0, 0.08), 0 0 80px rgba(255, 215, 0, 0.04);
+  text-shadow: 0 0 40px rgba(255, 255, 255, 0.06), 0 0 80px rgba(255, 255, 255, 0.03);
 }
 
-@keyframes glowTextGold {
-  0%, 100% { filter: brightness(1) drop-shadow(0 0 20px rgba(255,215,0,0.06)); }
-  50% { filter: brightness(1.15) drop-shadow(0 0 40px rgba(255,215,0,0.12)); }
+@keyframes glowTextWhite {
+  0%, 100% { opacity: 0.92; text-shadow: 0 0 40px rgba(255,255,255,0.06), 0 0 80px rgba(255,255,255,0.03); }
+  50% { opacity: 1; text-shadow: 0 0 60px rgba(255,255,255,0.12), 0 0 120px rgba(255,255,255,0.06); }
 }
 
 @media (max-width: 480px) {
