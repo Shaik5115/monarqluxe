@@ -32,84 +32,162 @@
       }, 1200);
     }
 
-    // Diagonal Mesh
+    // Galaxy
     (function() {
       var canvas = document.getElementById('networkCanvas');
       if (!canvas) return;
       var ctx = canvas.getContext('2d');
-      var W, H, grid = [], pulses = [];
+      var W, H, stars = [], planets = [], connections = [];
+      var mouseX = -9999, mouseY = -9999;
 
       function resize() {
         W = canvas.width = window.innerWidth;
         H = canvas.height = window.innerHeight;
-        buildGrid();
+        initStars();
+        initPlanets();
+        initConnections();
       }
 
-      function buildGrid() {
-        grid = [];
-        var spacing = 70;
-        var cols = Math.ceil(W / spacing) + 2;
-        var rows = Math.ceil(H / spacing) + 2;
-        for (var r = 0; r < rows; r++) {
-          for (var c = 0; c < cols; c++) {
-            var offset = (r % 2 === 0) ? 0 : spacing * 0.5;
-            grid.push({
-              x: c * spacing + offset + (Math.random() - 0.5) * 8,
-              y: r * spacing - spacing + (Math.random() - 0.5) * 8,
-              phase: Math.random() * Math.PI * 2
-            });
+      function initStars() {
+        stars = [];
+        for (var i = 0; i < 320; i++) {
+          stars.push({
+            x: Math.random() * W,
+            y: Math.random() * H,
+            z: Math.random() * 3 + 0.5,
+            phase: Math.random() * Math.PI * 2,
+            speed: 0.2 + Math.random() * 0.6
+          });
+        }
+      }
+
+      function initPlanets() {
+        planets = [];
+        var cx = W / 2, cy = H / 2;
+        var colors = ['255, 215, 0', '200, 170, 50', '150, 130, 80', '255, 230, 100', '180, 150, 60'];
+        for (var i = 0; i < 5; i++) {
+          var angle = (Math.PI * 2 / 5) * i;
+          var radius = 120 + i * 55 + Math.random() * 30;
+          planets.push({
+            angle: angle,
+            radius: radius,
+            size: 6 + Math.random() * 12,
+            speed: (0.1 + Math.random() * 0.15) * (i % 2 === 0 ? 1 : -1),
+            color: colors[i],
+            tilt: (Math.random() - 0.5) * 0.3,
+            phase: Math.random() * Math.PI * 2
+          });
+        }
+      }
+
+      function initConnections() {
+        connections = [];
+        // Create constellation-like connections between random stars
+        for (var i = 0; i < 25; i++) {
+          var a = Math.floor(Math.random() * stars.length);
+          var b = Math.floor(Math.random() * stars.length);
+          if (a !== b) connections.push({ a: a, b: b, phase: Math.random() * Math.PI * 2 });
+        }
+      }
+
+      function drawNebula(t) {
+        // Central glow
+        var cx = W / 2, cy = H / 2;
+        var grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.min(W, H) * 0.5);
+        grad.addColorStop(0, 'rgba(255, 215, 0, 0.04)');
+        grad.addColorStop(0.3, 'rgba(100, 80, 180, 0.02)');
+        grad.addColorStop(0.6, 'rgba(20, 10, 60, 0.01)');
+        grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, W, H);
+
+        // Secondary nebula swirl
+        var swirlX = cx + Math.sin(t * 0.0001) * 100;
+        var swirlY = cy + Math.cos(t * 0.00015) * 80;
+        var grad2 = ctx.createRadialGradient(swirlX, swirlY, 0, swirlX, swirlY, 300);
+        grad2.addColorStop(0, 'rgba(150, 100, 200, 0.02)');
+        grad2.addColorStop(1, 'rgba(0, 0, 0, 0)');
+        ctx.fillStyle = grad2;
+        ctx.fillRect(0, 0, W, H);
+      }
+
+      function drawStars(t) {
+        for (var i = 0; i < stars.length; i++) {
+          var s = stars[i];
+          var twinkle = 0.3 + 0.7 * Math.sin(t * 0.002 * s.speed + s.phase);
+          var alpha = twinkle * (0.3 + 0.7 * (1 - s.z / 3.5));
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.z * 0.5, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(255, 255, 255, ' + (alpha * 0.6) + ')';
+          ctx.fill();
+
+          // Glow on brighter stars
+          if (s.z > 2) {
+            ctx.beginPath();
+            ctx.arc(s.x, s.y, s.z * 2, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(255, 215, 0, ' + (alpha * 0.04) + ')';
+            ctx.fill();
           }
+        }
+      }
+
+      function drawConstellations(t) {
+        for (var i = 0; i < connections.length; i++) {
+          var c = connections[i];
+          var a = stars[c.a], b = stars[c.b];
+          var pulse = 0.3 + 0.3 * Math.sin(t * 0.001 + c.phase);
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.strokeStyle = 'rgba(255, 215, 0, ' + (pulse * 0.08) + ')';
+          ctx.lineWidth = 0.3;
+          ctx.stroke();
+        }
+      }
+
+      function drawPlanets(t) {
+        var cx = W / 2, cy = H / 2;
+        for (var i = 0; i < planets.length; i++) {
+          var p = planets[i];
+          p.angle += p.speed * 0.008;
+
+          var px = cx + Math.cos(p.angle) * p.radius;
+          var py = cy + Math.sin(p.angle) * p.radius * (0.6 + p.tilt);
+
+          // Orbit ring
+          ctx.beginPath();
+          ctx.ellipse(cx, cy, p.radius, p.radius * (0.6 + p.tilt), 0, 0, Math.PI * 2);
+          ctx.strokeStyle = 'rgba(255, 215, 0, 0.03)';
+          ctx.lineWidth = 0.3;
+          ctx.stroke();
+
+          // Planet glow
+          ctx.beginPath();
+          ctx.arc(px, py, p.size * 1.5, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(' + p.color + ', 0.06)';
+          ctx.fill();
+
+          // Planet body
+          ctx.beginPath();
+          ctx.arc(px, py, p.size, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(' + p.color + ', 0.2)';
+          ctx.fill();
+
+          // Planet ring line
+          ctx.beginPath();
+          ctx.arc(px, py, p.size, 0, Math.PI * 2);
+          ctx.strokeStyle = 'rgba(' + p.color + ', 0.3)';
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
         }
       }
 
       function draw(t) {
         ctx.clearRect(0, 0, W, H);
-
-        // Draw diagonal connections
-        var spacing = 70;
-        for (var i = 0; i < grid.length; i++) {
-          var a = grid[i];
-          // Connect to right, down-right, down-left neighbors
-          for (var di = 1; di <= 3; di++) {
-            if (i + di >= grid.length) continue;
-            var b = grid[i + di];
-            var dx = Math.abs(a.x - b.x);
-            var dy = Math.abs(a.y - b.y);
-            if (dx < spacing * 1.6 && dy < spacing * 1.6 && dx > 10) {
-              var dist = Math.sqrt(dx * dx + dy * dy);
-              var alpha = (1 - dist / (spacing * 1.8)) * 0.12;
-              ctx.beginPath();
-              ctx.moveTo(a.x, a.y);
-              ctx.lineTo(b.x, b.y);
-              ctx.strokeStyle = 'rgba(255, 215, 0, ' + alpha + ')';
-              ctx.lineWidth = 0.5;
-              ctx.stroke();
-            }
-          }
-        }
-
-        // Draw nodes
-        for (var ni = 0; ni < grid.length; ni++) {
-          var n = grid[ni];
-          var glow = 0.3 + 0.3 * Math.sin(t * 0.0015 + n.phase);
-
-          ctx.beginPath();
-          ctx.arc(n.x, n.y, 2 + glow, 0, Math.PI * 2);
-          ctx.fillStyle = 'rgba(255, 215, 0, ' + (0.3 + glow * 0.3) + ')';
-          ctx.fill();
-
-          // Glow ring
-          ctx.beginPath();
-          ctx.arc(n.x, n.y, 5 + glow * 3, 0, Math.PI * 2);
-          ctx.fillStyle = 'rgba(255, 215, 0, ' + (glow * 0.05) + ')';
-          ctx.fill();
-        }
-
-        // Animate nodes slightly
-        for (var mi = 0; mi < grid.length; mi++) {
-          grid[mi].x += Math.sin(t * 0.0004 + grid[mi].phase) * 0.06;
-          grid[mi].y += Math.cos(t * 0.0005 + grid[mi].phase + 1) * 0.06;
-        }
+        drawNebula(t);
+        drawConstellations(t);
+        drawStars(t);
+        drawPlanets(t);
       }
 
       function animate(t) {
