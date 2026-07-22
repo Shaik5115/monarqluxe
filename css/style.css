@@ -5,25 +5,25 @@
 }
 
 :root {
-  --bg-primary: #05080f;
-  --bg-secondary: #080e1a;
-  --bg-card: #0a1628;
-  --bg-card-hover: #0f1e3a;
-  --navy-deep: #060d1a;
-  --navy: #0a1628;
-  --navy-mid: #112240;
-  --gold: #ffd700;
-  --gold-light: #ffe44d;
-  --gold-dark: #b8962e;
-  --gold-subtle: rgba(255, 215, 0, 0.08);
-  --text-primary: #e8edf5;
-  --text-secondary: #94a3b8;
-  --text-muted: #556580;
-  --border: #1a2a44;
-  --border-gold: rgba(255, 215, 0, 0.2);
-  --gradient-gold: linear-gradient(135deg, #ffd700, #ffe44d, #ffd700);
-  --gradient-navy: linear-gradient(135deg, #0a1628, #112240);
-  --shadow-gold: 0 0 40px rgba(255, 215, 0, 0.1);
+  --bg-primary: #000000;
+  --bg-secondary: #050505;
+  --bg-card: #0a0a0a;
+  --bg-card-hover: #111111;
+  --navy-deep: #000000;
+  --navy: #050505;
+  --navy-mid: #0a0a0a;
+  --gold: #00e676;
+  --gold-light: #69f0ae;
+  --gold-dark: #00c853;
+  --gold-subtle: rgba(0, 230, 118, 0.08);
+  --text-primary: #ffffff;
+  --text-secondary: #cccccc;
+  --text-muted: #888888;
+  --border: #1a1a1a;
+  --border-gold: rgba(0, 230, 118, 0.2);
+  --gradient-gold: linear-gradient(135deg, #00e676, #69f0ae, #00e676);
+  --gradient-navy: linear-gradient(135deg, #000000, #0a0a0a);
+  --shadow-gold: 0 0 40px rgba(0, 230, 118, 0.1);
   --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.4);
   --transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   --radius: 16px;
@@ -185,8 +185,8 @@ body {
 .splash-divider {
   width: 100px;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.6), transparent);
-  box-shadow: 0 0 20px rgba(255, 215, 0, 0.3), 0 0 60px rgba(255, 215, 0, 0.1);
+  background: linear-gradient(90deg, transparent, rgba(0, 230, 118, 0.6), transparent);
+  box-shadow: 0 0 20px rgba(0, 230, 118, 0.3), 0 0 60px rgba(0, 230, 118, 0.1);
   margin: 2rem auto;
 }
 
@@ -211,11 +211,11 @@ body {
 }
 
 .splash-enter:hover {
-  background: rgba(255, 215, 0, 0.06);
-  border-color: rgba(255, 215, 0, 0.4);
+  background: rgba(0, 230, 118, 0.06);
+  border-color: rgba(0, 230, 118, 0.4);
   padding: 1rem 3.5rem;
   letter-spacing: 6px;
-  box-shadow: 0 0 40px rgba(255, 215, 0, 0.1);
+  box-shadow: 0 0 40px rgba(0, 230, 118, 0.1);
 }
 
 .splash-enter .arrow {
