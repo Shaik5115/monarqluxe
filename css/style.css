@@ -396,8 +396,13 @@ body {
     letter-spacing: 6px;
   }
   .splash-sub {
-    letter-spacing: 5px;
+    letter-spacing: 4px;
+    font-size: 0.6rem;
+  }
+  .splash-enter {
     font-size: 0.65rem;
+    letter-spacing: 3px;
+    padding: 0.8rem 1.8rem;
   }
 }
 
