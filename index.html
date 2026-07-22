@@ -1,1 +1,300 @@
-index.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Monarq Luxe — IT Services & Workforce Solutions</title>
+  <meta name="description" content="MonarqLuxe is a B2B IT Services and Workforce Solutions company helping businesses improve operations through Managed IT Services, Microsoft 365 Administration, IT Service Desk, Recruitment & Staffing, and Customer Support solutions.">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Splash Screen -->
+  <div class="splash" id="splash">
+    <div class="splash-3d-scene">
+      <div class="ring-3d ring-3d-1"></div>
+      <div class="ring-3d ring-3d-2"></div>
+      <div class="ring-3d ring-3d-3"></div>
+      <div class="ring-3d ring-3d-4"></div>
+      <div class="ring-3d ring-3d-5"></div>
+    </div>
+    <div class="splash-lines">
+      <div class="line"></div>
+      <div class="line"></div>
+      <div class="line"></div>
+    </div>
+    <div class="splash-cubes">
+      <div class="cube-3d">
+        <div class="face front glow"></div>
+        <div class="face back"></div>
+        <div class="face right"></div>
+        <div class="face left"></div>
+        <div class="face top"></div>
+        <div class="face bottom"></div>
+      </div>
+      <div class="cube-3d">
+        <div class="face front glow"></div>
+        <div class="face back"></div>
+        <div class="face right"></div>
+        <div class="face left"></div>
+        <div class="face top"></div>
+        <div class="face bottom"></div>
+      </div>
+      <div class="cube-3d">
+        <div class="face front glow"></div>
+        <div class="face back"></div>
+        <div class="face right"></div>
+        <div class="face left"></div>
+        <div class="face top"></div>
+        <div class="face bottom"></div>
+      </div>
+      <div class="cube-3d">
+        <div class="face front glow"></div>
+        <div class="face back"></div>
+        <div class="face right"></div>
+        <div class="face left"></div>
+        <div class="face top"></div>
+        <div class="face bottom"></div>
+      </div>
+      <div class="cube-3d">
+        <div class="face front glow"></div>
+        <div class="face back"></div>
+        <div class="face right"></div>
+        <div class="face left"></div>
+        <div class="face top"></div>
+        <div class="face bottom"></div>
+      </div>
+      <div class="cube-3d">
+        <div class="face front glow"></div>
+        <div class="face back"></div>
+        <div class="face right"></div>
+        <div class="face left"></div>
+        <div class="face top"></div>
+        <div class="face bottom"></div>
+      </div>
+    </div>
+    <div class="splash-particles">
+      <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    </div>
+    <div class="splash-content">
+      <div class="splash-logo">MONARQLUXE</div>
+      <div class="splash-sub">Welcome to Our World</div>
+      <div class="splash-divider"></div>
+      <button class="splash-enter" onclick="enterSite()">
+        Explore <span class="arrow">→</span>
+      </button>
+    </div>
+    <button class="splash-dismiss" onclick="enterSite()">skip</button>
+  </div>
+
+  <script>
+    function enterSite() {
+      document.getElementById('splash').classList.add('hidden');
+      setTimeout(() => {
+        document.getElementById('splash').style.display = 'none';
+      }, 1200);
+    }
+  </script>
+
+  <!-- Animated Background -->
+  <div class="animated-bg">
+    <div class="orb"></div>
+    <div class="orb"></div>
+    <div class="orb"></div>
+  </div>
+  <div class="particle-grid"></div>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="logo">
+        <span class="logo-icon">M</span>
+        MONARQ LUXE
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="industries.html">Industries</a></li>
+        <li><a href="careers.html">Careers</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <button class="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Page Wrapper -->
+  <div class="page-wrapper">
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-content">
+        <span class="hero-badge">Enterprise IT Solutions & Strategic Workforce Partners</span>
+        <h1>Powering Business Performance With<br><span class="highlight">Premium IT Infrastructure</span><br><span class="thin">& Elite Talent Acquisition</span></h1>
+        <p>We architect resilient IT ecosystems, deploy world-class service desks, and connect organizations with top-tier technology professionals — delivering operational excellence at every layer of your enterprise.</p>
+        <div class="hero-actions">
+          <a href="contact.html" class="btn btn-primary"> Request a Consultation</a>
+          <a href="services.html" class="btn btn-outline"> View Our Capabilities</a>
+        </div>
+
+        <div class="hero-stats">
+          <div class="stat-item">
+            <div class="stat-number">150+</div>
+            <div class="stat-label">Enterprise Clients</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">500+</div>
+            <div class="stat-label">Professionals Deployed</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">98%</div>
+            <div class="stat-label">Client Retention Rate</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">24/7</div>
+            <div class="stat-label">Concierge Support</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Overview -->
+    <section class="section">
+      <div class="section-header fade-in">
+        <span class="section-tag">Our Capabilities</span>
+        <h2 class="section-title">Enterprise <span class="highlight">Service Portfolio</span></h2>
+        <div class="gold-divider"></div>
+        <p class="section-desc">End-to-end technology infrastructure and strategic workforce solutions engineered for high-performance enterprises.</p>
+      </div>
+
+      <div class="services-grid">
+        <div class="service-card fade-in">
+          <div class="service-icon">🖥️</div>
+          <h3>Managed IT Infrastructure</h3>
+          <p>Proactive monitoring, maintenance, and optimization of enterprise IT environments — ensuring maximum uptime, security posture, and operational efficiency.</p>
+        </div>
+        <div class="service-card fade-in">
+          <div class="service-icon">📊</div>
+          <h3>Microsoft 365 Enterprise Admin</h3>
+          <p>End-to-end architecture, migration, and governance of Microsoft 365 ecosystems including Exchange Online, Teams, SharePoint, and Entra ID.</p>
+        </div>
+        <div class="service-card fade-in">
+          <div class="service-icon">🎧</div>
+          <h3>IT Service Desk</h3>
+          <p>24/7 multi-tier service desk operations with ITIL-aligned incident management, rapid escalation protocols, and certified support engineers.</p>
+        </div>
+        <div class="service-card fade-in">
+          <div class="service-icon">👥</div>
+          <h3>Strategic Recruitment & Talent</h3>
+          <p>Access a rigorously vetted network of IT specialists and executive-level talent through our bespoke recruitment and contract staffing solutions.</p>
+        </div>
+        <div class="service-card fade-in">
+          <div class="service-icon">💬</div>
+          <h3>Customer Experience Support</h3>
+          <p>Omnichannel customer service solutions combining AI-assisted automation with human expertise — voice, email, chat, and social across all time zones.</p>
+        </div>
+        <div class="service-card fade-in">
+          <div class="service-icon">🔒</div>
+          <h3>Cybersecurity & Compliance</h3>
+          <p>Comprehensive threat assessments, security architecture design, and regulatory compliance management aligned with ISO 27001, SOC 2, and GDPR standards.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Us -->
+    <section class="section">
+      <div class="section-header fade-in">
+        <span class="section-tag">The Monarq Standard</span>
+        <h2 class="section-title">Engineered for <span class="highlight">Excellence</span></h2>
+        <div class="gold-divider"></div>
+        <p class="section-desc">We fuse deep technical mastery with an uncompromising commitment to measurable enterprise outcomes.</p>
+      </div>
+
+      <div class="why-us-grid">
+        <div class="why-us-card fade-in">
+          <span class="icon">🛡️</span>
+          <h4>Fortified & Resilient</h4>
+          <p>Enterprise-grade security architecture with zero-trust principles and proven reliability spanning every service layer.</p>
+        </div>
+        <div class="why-us-card fade-in">
+          <span class="icon">👨‍💼</span>
+          <h4>Elite Talent Pool</h4>
+          <p>Our practitioners bring decades of collective expertise across Fortune 500 IT environments and executive recruitment.</p>
+        </div>
+        <div class="why-us-card fade-in">
+          <span class="icon">⚡</span>
+          <h4>Rapid Response</h4>
+          <p>Sub-15-minute incident acknowledgment with accelerated escalation pathways and guaranteed SLA adherence.</p>
+        </div>
+        <div class="why-us-card fade-in">
+          <span class="icon">🎧</span>
+          <h4>White-Glove Support</h4>
+          <p>Concierge-level support delivered 24/7/365 — because enterprise operations never sleep, neither do we.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+      <div class="cta-box fade-in">
+        <span class="section-tag">Begin Your Transformation</span>
+        <h2>Ready to Elevate Your <span class="highlight">Enterprise Operations?</span></h2>
+        <p>Schedule a discovery consultation with our solutions architects and learn how Monarq Luxe can accelerate your technology and talent strategy.</p>
+        <a href="contact.html" class="btn btn-primary"> Speak With Our Team — +91 9010552555</a>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h3>MONARQ LUXE</h3>
+        <p>Delivering enterprise-grade IT infrastructure, strategic workforce solutions, and white-glove service to industry-leading organizations worldwide.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="industries.html">Industries</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="services.html">Managed IT</a></li>
+          <li><a href="services.html">M365 Admin</a></li>
+          <li><a href="services/it-service-desk.html">IT Service Desk</a></li>
+          <li><a href="services.html">Recruitment</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="contact.html">Get in Touch</a></li>
+          <li><a href="tel:+919010552555">+91 9010552555</a></li>
+          <li><a href="careers.html">Careers</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 ML TECH PVT LTD. All Rights Reserved.</p>
+      <div class="footer-social">
+        <a href="#" aria-label="LinkedIn">in</a>
+        <a href="#" aria-label="Twitter">𝕏</a>
+        <a href="#" aria-label="Facebook">f</a>
+      </div>
+    </div>
+  <a href="https://wa.me/919010552555?text=Hi MonarqLuxe!%0A%0AI would like to inquire about your services.%0A%0AThank you!" target="_blank" class="whatsapp-float" aria-label="Chat on WhatsApp"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg></a>
+</footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
