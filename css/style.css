@@ -376,8 +376,8 @@ body {
 .splash-divider {
   width: 100px;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.3), transparent);
-  box-shadow: 0 0 12px rgba(255, 215, 0, 0.1);
+  background: linear-gradient(90deg, transparent, rgba(0, 230, 118, 0.6), transparent);
+  box-shadow: 0 0 20px rgba(0, 230, 118, 0.3), 0 0 60px rgba(0, 230, 118, 0.1);
   margin: 2rem auto;
 }
 
@@ -402,11 +402,11 @@ body {
 }
 
 .splash-enter:hover {
-  background: rgba(255, 215, 0, 0.06);
-  border-color: rgba(255, 215, 0, 0.4);
+  background: rgba(0, 230, 118, 0.06);
+  border-color: rgba(0, 230, 118, 0.4);
   padding: 1rem 3.5rem;
   letter-spacing: 6px;
-  box-shadow: 0 0 40px rgba(255, 215, 0, 0.05);
+  box-shadow: 0 0 40px rgba(0, 230, 118, 0.1);
 }
 
 .splash-enter .arrow {
