@@ -60,75 +60,118 @@
       });
     })();
 
-    // 3D Galaxy
+    // 3D Hexagonal Mesh + Lightning
     (function() {
       var canvas = document.getElementById('galaxyCanvas');
       if (!canvas) return;
       var ctx = canvas.getContext('2d');
-      var W, H, stars = [], t = 0;
+      var W, H, t = 0, hexes = [], bolts = [];
       var mouse = { x: 0.5, y: 0.5 };
 
       function resize() {
         W = canvas.width = window.innerWidth;
         H = canvas.height = window.innerHeight;
+        buildGrid();
       }
 
-      function Star() {
-        this.angle = Math.random() * Math.PI * 2;
-        this.radius = Math.pow(Math.random(), 1.5) * 3;
-        this.size = Math.random() * 2 + 0.5;
-        this.speed = (Math.random() * 0.005 + 0.002) / (this.radius * 0.3 + 0.5);
-        this.yOff = (Math.random() - 0.5) * 0.3 * this.radius;
-        this.pulse = Math.random() * Math.PI * 2;
-        this.hue = 40 + Math.random() * 20;
-        this.sat = 60 + Math.random() * 30;
-        return this;
+      function hexPoint(cx, cy, r, i) {
+        var a = Math.PI / 3 * i - Math.PI / 6;
+        return { x: cx + r * Math.cos(a), y: cy + r * Math.sin(a) };
       }
 
-      for (var i = 0; i < 800; i++) stars.push(new Star());
+      function buildGrid() {
+        hexes = [];
+        var r = Math.min(W, H) * 0.035;
+        var w = r * 1.732, h = r * 1.5;
+        var cols = Math.ceil(W / w) + 2;
+        var rows = Math.ceil(H / h) + 2;
+        for (var row = -1; row < rows; row++) {
+          for (var col = -1; col < cols; col++) {
+            var cx = col * w + (row % 2) * w / 2;
+            var cy = row * h;
+            hexes.push({
+              cx: cx, cy: cy, r: r,
+              phase: Math.random() * Math.PI * 2
+            });
+          }
+        }
+      }
+
+      function drawHex(x, y, r, alpha, pulse) {
+        ctx.beginPath();
+        for (var i = 0; i < 6; i++) {
+          var p = hexPoint(x, y, r, i);
+          i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y);
+        }
+        ctx.closePath();
+        ctx.strokeStyle = 'rgba(100, 230, 255, ' + (alpha * 0.3) + ')';
+        ctx.lineWidth = 0.8;
+        ctx.stroke();
+        ctx.strokeStyle = 'rgba(100, 230, 255, ' + (alpha * 0.1) + ')';
+        ctx.lineWidth = 3;
+        ctx.stroke();
+      }
+
+      function lightning(cx1, cy1, cx2, cy2, alpha) {
+        var segments = 8;
+        var points = [];
+        for (var i = 0; i <= segments; i++) {
+          var frac = i / segments;
+          var x = cx1 + (cx2 - cx1) * frac + (Math.random() - 0.5) * 30;
+          var y = cy1 + (cy2 - cy1) * frac + (Math.random() - 0.5) * 30;
+          points.push({ x: x, y: y });
+        }
+        ctx.beginPath();
+        ctx.moveTo(points[0].x, points[0].y);
+        for (var i = 1; i < points.length; i++) {
+          ctx.lineTo(points[i].x, points[i].y);
+        }
+        ctx.strokeStyle = 'rgba(150, 220, 255, ' + (alpha * 0.6) + ')';
+        ctx.lineWidth = 1.2;
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(points[0].x, points[0].y);
+        for (var i = 1; i < points.length; i++) {
+          ctx.lineTo(points[i].x, points[i].y);
+        }
+        ctx.strokeStyle = 'rgba(200, 240, 255, ' + (alpha * 0.3) + ')';
+        ctx.lineWidth = 4;
+        ctx.stroke();
+      }
 
       function draw() {
         ctx.clearRect(0, 0, W, H);
         t++;
-        var cx = W / 2 + (mouse.x - 0.5) * W * 0.05;
-        var cy = H / 2 + (mouse.y - 0.5) * H * 0.05;
+        var pitchX = (mouse.x - 0.5) * 0.05;
+        var pitchY = (mouse.y - 0.5) * 0.05;
 
-        for (var i = 0; i < stars.length; i++) {
-          var s = stars[i];
-          s.angle += s.speed;
-          s.pulse += 0.02;
-
-          var dist = s.radius * Math.min(W, H) * 0.16;
-          var x = cx + Math.cos(s.angle) * dist;
-          var z = Math.sin(s.angle) * dist * 0.3;
-
-          var depth = (z + dist) / (dist * 2);
-          var scale = 1 - depth * 0.5;
-          var y = cy + s.yOff * Math.min(W, H) * 0.16 * scale;
-
-          var alpha = (0.4 + 0.6 * depth) * (0.5 + 0.5 * Math.sin(s.pulse));
-          var lum = 70 + 30 * depth;
-
-          ctx.beginPath();
-          ctx.arc(x, y, s.size * scale, 0, Math.PI * 2);
-          ctx.fillStyle = 'hsla(' + s.hue + ', ' + s.sat + '%, ' + lum + '%, ' + alpha + ')';
-          ctx.fill();
-
-          if (alpha > 0.3) {
-            ctx.beginPath();
-            ctx.arc(x, y, s.size * scale * 4, 0, Math.PI * 2);
-            ctx.fillStyle = 'hsla(' + s.hue + ', ' + s.sat + '%, ' + lum + '%, ' + (alpha * 0.08) + ')';
-            ctx.fill();
-          }
+        // Background hex grid (3D parallax)
+        for (var i = 0; i < hexes.length; i++) {
+          var hx = hexes[i];
+          var dx = hx.cx - W / 2, dy = hx.cy - H / 2;
+          var px = hx.cx + dx * pitchX;
+          var py = hx.cy + dy * pitchY;
+          var pulse = 0.3 + 0.2 * Math.sin(t * 0.02 + hx.phase);
+          drawHex(px, py, hx.r, pulse, t);
         }
 
-        // Core glow
-        var grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.min(W, H) * 0.12);
-        grad.addColorStop(0, 'rgba(255, 215, 0, 0.06)');
-        grad.addColorStop(0.5, 'rgba(255, 215, 0, 0.02)');
-        grad.addColorStop(1, 'rgba(255, 215, 0, 0)');
-        ctx.fillStyle = grad;
-        ctx.fillRect(0, 0, W, H);
+        // Lightning bolts (random arcs)
+        if (t % 30 === 0 && hexes.length > 10) {
+          var a = hexes[Math.floor(Math.random() * hexes.length)];
+          var b = hexes[Math.floor(Math.random() * hexes.length)];
+          bolts.push({ a: a, b: b, life: 1 });
+        }
+
+        for (var i = bolts.length - 1; i >= 0; i--) {
+          var bolt = bolts[i];
+          bolt.life -= 0.03;
+          if (bolt.life <= 0) { bolts.splice(i, 1); continue; }
+          var dx = bolt.a.cx - W / 2, dy = bolt.a.cy - H / 2;
+          var ax = bolt.a.cx + dx * pitchX, ay = bolt.a.cy + dy * pitchY;
+          var dx2 = bolt.b.cx - W / 2, dy2 = bolt.b.cy - H / 2;
+          var bx = bolt.b.cx + dx2 * pitchX, by = bolt.b.cy + dy2 * pitchY;
+          lightning(ax, ay, bx, by, bolt.life);
+        }
       }
 
       function animate() {
