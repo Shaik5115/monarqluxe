@@ -157,20 +157,5 @@ document.addEventListener('DOMContentLoaded', () => {
   `;
   document.head.appendChild(styleSheet);
 
-  /* ── Form handling ── */
-  const contactForm = document.querySelector('.contact-form form');
-  if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const btn = contactForm.querySelector('.btn');
-      const original = btn.textContent;
-      btn.textContent = '✓ Message Sent!';
-      btn.style.background = 'linear-gradient(135deg, #22c55e, #16a34a)';
-      setTimeout(() => {
-        btn.textContent = original;
-        btn.style.background = '';
-        contactForm.reset();
-      }, 3000);
-    });
-  }
+
 });
