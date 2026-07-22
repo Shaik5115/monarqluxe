@@ -13,6 +13,7 @@
   <!-- Splash Screen -->
   <div class="splash" id="splash">
     <div class="splash-frame"></div>
+    <canvas class="splash-network" id="galaxyCanvas"></canvas>
     <div class="splash-particle" style="top:15%;left:10%;width:3px;height:3px;animation:particleFloat 12s infinite;animation-delay:0s;"></div>
     <div class="splash-particle" style="top:25%;left:85%;width:5px;height:5px;animation:particleFloat 15s infinite;animation-delay:2s;"></div>
     <div class="splash-particle" style="top:60%;left:5%;width:2px;height:2px;animation:particleFloat 10s infinite;animation-delay:4s;"></div>
@@ -59,7 +60,92 @@
       });
     })();
 
+    // 3D Galaxy
+    (function() {
+      var canvas = document.getElementById('galaxyCanvas');
+      if (!canvas) return;
+      var ctx = canvas.getContext('2d');
+      var W, H, stars = [], t = 0;
+      var mouse = { x: 0.5, y: 0.5 };
 
+      function resize() {
+        W = canvas.width = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+      }
+
+      function Star() {
+        this.angle = Math.random() * Math.PI * 2;
+        this.radius = Math.pow(Math.random(), 1.5) * 3;
+        this.size = Math.random() * 2 + 0.5;
+        this.speed = (Math.random() * 0.005 + 0.002) / (this.radius * 0.3 + 0.5);
+        this.yOff = (Math.random() - 0.5) * 0.3 * this.radius;
+        this.pulse = Math.random() * Math.PI * 2;
+        this.hue = 40 + Math.random() * 20;
+        this.sat = 60 + Math.random() * 30;
+        return this;
+      }
+
+      for (var i = 0; i < 800; i++) stars.push(new Star());
+
+      function draw() {
+        ctx.clearRect(0, 0, W, H);
+        t++;
+        var cx = W / 2 + (mouse.x - 0.5) * W * 0.05;
+        var cy = H / 2 + (mouse.y - 0.5) * H * 0.05;
+
+        for (var i = 0; i < stars.length; i++) {
+          var s = stars[i];
+          s.angle += s.speed;
+          s.pulse += 0.02;
+
+          var dist = s.radius * Math.min(W, H) * 0.16;
+          var x = cx + Math.cos(s.angle) * dist;
+          var z = Math.sin(s.angle) * dist * 0.3;
+
+          var depth = (z + dist) / (dist * 2);
+          var scale = 1 - depth * 0.5;
+          var y = cy + s.yOff * Math.min(W, H) * 0.16 * scale;
+
+          var alpha = (0.4 + 0.6 * depth) * (0.5 + 0.5 * Math.sin(s.pulse));
+          var lum = 70 + 30 * depth;
+
+          ctx.beginPath();
+          ctx.arc(x, y, s.size * scale, 0, Math.PI * 2);
+          ctx.fillStyle = 'hsla(' + s.hue + ', ' + s.sat + '%, ' + lum + '%, ' + alpha + ')';
+          ctx.fill();
+
+          if (alpha > 0.3) {
+            ctx.beginPath();
+            ctx.arc(x, y, s.size * scale * 4, 0, Math.PI * 2);
+            ctx.fillStyle = 'hsla(' + s.hue + ', ' + s.sat + '%, ' + lum + '%, ' + (alpha * 0.08) + ')';
+            ctx.fill();
+          }
+        }
+
+        // Core glow
+        var grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.min(W, H) * 0.12);
+        grad.addColorStop(0, 'rgba(255, 215, 0, 0.06)');
+        grad.addColorStop(0.5, 'rgba(255, 215, 0, 0.02)');
+        grad.addColorStop(1, 'rgba(255, 215, 0, 0)');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, W, H);
+      }
+
+      function animate() {
+        draw();
+        requestAnimationFrame(animate);
+      }
+
+      window.addEventListener('mousemove', function(e) {
+        mouse.x = e.clientX / W;
+        mouse.y = e.clientY / H;
+      });
+
+      resize();
+      animate();
+      window.addEventListener('resize', function() { resize(); });
+    })();
+  </script>
 
   <!-- Animated Background -->
   <div class="animated-bg">
