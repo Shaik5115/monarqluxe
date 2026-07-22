@@ -104,10 +104,10 @@
           i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y);
         }
         ctx.closePath();
-        ctx.strokeStyle = 'rgba(100, 230, 255, ' + (alpha * 0.3) + ')';
-        ctx.lineWidth = 0.8;
-        ctx.stroke();
-        ctx.strokeStyle = 'rgba(100, 230, 255, ' + (alpha * 0.1) + ')';
+            ctx.strokeStyle = 'rgba(255, 215, 0, ' + (alpha * 0.3) + ')';
+            ctx.lineWidth = 0.8;
+            ctx.stroke();
+            ctx.strokeStyle = 'rgba(255, 215, 0, ' + (alpha * 0.1) + ')';
         ctx.lineWidth = 3;
         ctx.stroke();
       }
@@ -126,7 +126,7 @@
         for (var i = 1; i < points.length; i++) {
           ctx.lineTo(points[i].x, points[i].y);
         }
-        ctx.strokeStyle = 'rgba(150, 220, 255, ' + (alpha * 0.6) + ')';
+        ctx.strokeStyle = 'rgba(255, 215, 0, ' + (alpha * 0.6) + ')';
         ctx.lineWidth = 1.2;
         ctx.stroke();
         ctx.beginPath();
@@ -134,7 +134,7 @@
         for (var i = 1; i < points.length; i++) {
           ctx.lineTo(points[i].x, points[i].y);
         }
-        ctx.strokeStyle = 'rgba(200, 240, 255, ' + (alpha * 0.3) + ')';
+        ctx.strokeStyle = 'rgba(255, 200, 50, ' + (alpha * 0.3) + ')';
         ctx.lineWidth = 4;
         ctx.stroke();
       }
