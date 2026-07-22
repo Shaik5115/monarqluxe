@@ -10,6 +10,38 @@
 </head>
 <body>
 
+  <!-- Splash Screen -->
+  <div class="splash" id="splash">
+    <div class="splash-bg">
+      <div class="ring"></div>
+      <div class="ring"></div>
+      <div class="ring"></div>
+      <div class="ring"></div>
+    </div>
+    <div class="splash-particles">
+      <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    </div>
+    <div class="splash-content">
+      <div class="splash-logo">MONARQLUXE</div>
+      <div class="splash-sub">Welcome to Our World</div>
+      <div class="splash-divider"></div>
+      <button class="splash-enter" onclick="enterSite()">
+        Explore <span class="arrow">→</span>
+      </button>
+    </div>
+    <button class="splash-dismiss" onclick="enterSite()">skip</button>
+  </div>
+
+  <script>
+    function enterSite() {
+      document.getElementById('splash').classList.add('hidden');
+      setTimeout(() => {
+        document.getElementById('splash').style.display = 'none';
+      }, 1200);
+    }
+  </script>
+
   <!-- Animated Background -->
   <div class="animated-bg">
     <div class="orb"></div>
