@@ -21,6 +21,7 @@
     <div class="splash-particle" style="top:85%;left:20%;width:2px;height:2px;animation:particleFloat 13s infinite;animation-delay:5s;"></div>
     <div class="splash-particle" style="top:10%;left:60%;width:4px;height:4px;animation:particleFloat 16s infinite;animation-delay:2.5s;"></div>
     <div class="splash-particle" style="top:90%;left:75%;width:3px;height:3px;animation:particleFloat 9s infinite;animation-delay:4.5s;"></div>
+    <canvas class="splash-network" id="galaxyCanvas"></canvas>
 
     <div class="splash-content">
       <div class="splash-logo">MONARQLUXE</div>
@@ -45,21 +46,127 @@
     (function() {
       var splash = document.getElementById('splash');
       var content = splash.querySelector('.splash-content');
-      var mx = 0, my = 0;
-
       splash.addEventListener('mousemove', function(e) {
-        mx = (e.clientX / window.innerWidth - 0.5) * 2;
-        my = (e.clientY / window.innerHeight - 0.5) * 2;
-        var rotY = mx * 8;
-        var rotX = -my * 8;
-        content.style.transform = 'rotateY(' + rotY + 'deg) rotateX(' + rotX + 'deg) translateZ(20px)';
+        var mx = (e.clientX / window.innerWidth - 0.5) * 2;
+        var my = (e.clientY / window.innerHeight - 0.5) * 2;
+        content.style.transform = 'rotateY(' + (mx * 8) + 'deg) rotateX(' + (-my * 8) + 'deg) translateZ(20px)';
         content.style.transition = 'transform 0.1s ease-out';
       });
-
       splash.addEventListener('mouseleave', function() {
         content.style.transform = 'rotateY(0deg) rotateX(0deg) translateZ(0px)';
         content.style.transition = 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)';
       });
+    })();
+
+    // 3D Rotating Galaxy
+    (function() {
+      var canvas = document.getElementById('galaxyCanvas');
+      if (!canvas) return;
+      var ctx = canvas.getContext('2d');
+      var W, H, stars = [];
+      var starCount = 600;
+
+      function resize() {
+        W = canvas.width = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+        initStars();
+      }
+
+      function initStars() {
+        stars = [];
+        for (var i = 0; i < starCount; i++) {
+          // Spiral galaxy distribution
+          var arm = Math.floor(Math.random() * 4);
+          var angle = (Math.PI * 2 / 4) * arm + Math.random() * 0.5;
+          var radius = 30 + Math.pow(Math.random(), 0.5) * Math.min(W, H) * 0.4;
+          angle += radius * 0.008;
+          var offset = (Math.random() - 0.5) * radius * 0.15;
+          stars.push({
+            x: Math.cos(angle + offset) * radius,
+            y: (Math.random() - 0.5) * radius * 0.3,
+            z: Math.sin(angle + offset) * radius,
+            size: 0.5 + Math.random() * 1.5,
+            brightness: 0.3 + Math.random() * 0.7,
+            phase: Math.random() * Math.PI * 2,
+            speed: 0.0002 + Math.random() * 0.0003
+          });
+        }
+      }
+
+      function draw(t) {
+        ctx.clearRect(0, 0, W, H);
+        var cx = W / 2, cy = H / 2;
+        var rot = t * 0.0001;
+
+        // Sort by z for depth
+        var sorted = stars.slice().sort(function(a, b) {
+          var az = a.x * Math.sin(rot) + a.z * Math.cos(rot);
+          var bz = b.x * Math.sin(rot) + b.z * Math.cos(rot);
+          return az - bz;
+        });
+
+        for (var i = 0; i < sorted.length; i++) {
+          var s = sorted[i];
+          // Rotate around Y axis
+          var rx = s.x * Math.cos(rot) - s.z * Math.sin(rot);
+          var rz = s.x * Math.sin(rot) + s.z * Math.cos(rot);
+
+          // Perspective
+          var perspective = 600;
+          var scale = perspective / (perspective + rz);
+          var px = cx + rx * scale;
+          var py = cy + s.y * scale;
+
+          if (px < -10 || px > W + 10 || py < -10 || py > H + 10) continue;
+
+          var twinkle = 0.5 + 0.5 * Math.sin(t * 0.002 * s.size + s.phase);
+          var alpha = s.brightness * twinkle * Math.min(1, scale * 1.5);
+          var size = s.size * scale * 0.8;
+
+          // Core glow
+          ctx.beginPath();
+          ctx.arc(px, py, size * 3, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(255, 255, 255, ' + (alpha * 0.04) + ')';
+          ctx.fill();
+
+          // Star
+          ctx.beginPath();
+          ctx.arc(px, py, size, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(255, 255, 255, ' + (alpha * 0.8) + ')';
+          ctx.fill();
+
+          // Bright core
+          if (size > 0.8) {
+            ctx.beginPath();
+            ctx.arc(px, py, size * 0.4, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(255, 255, 255, ' + (alpha * 0.5) + ')';
+            ctx.fill();
+          }
+        }
+
+        // Central glow
+        var grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.min(W, H) * 0.2);
+        grad.addColorStop(0, 'rgba(255, 255, 255, 0.03)');
+        grad.addColorStop(0.5, 'rgba(0, 230, 118, 0.01)');
+        grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, W, H);
+      }
+
+      function animate(t) {
+        draw(t);
+        requestAnimationFrame(animate);
+      }
+
+      resize();
+      requestAnimationFrame(animate);
+      window.addEventListener('resize', function() { resize(); });
+
+      var splash = document.getElementById('splash');
+      var observer = new MutationObserver(function() {
+        if (splash.classList.contains('hidden')) observer.disconnect();
+      });
+      observer.observe(splash, { attributes: true, attributeFilter: ['class'] });
     })();
   </script>
 
