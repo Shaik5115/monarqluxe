@@ -1304,10 +1304,16 @@ body {
   align-items: center;
   justify-content: center;
   text-decoration: none;
-  font-size: 2rem;
   box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
   transition: all 0.3s ease;
   animation: whatsappPulse 2s infinite;
+  padding: 14px;
+}
+
+.whatsapp-float svg {
+  width: 100%;
+  height: 100%;
+  fill: white;
 }
 
 .whatsapp-float:hover {
