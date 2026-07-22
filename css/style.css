@@ -82,16 +82,6 @@ body {
   transform-style: preserve-3d;
 }
 
-.splash-network {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  pointer-events: none;
-}
-
 @keyframes particleFloat {
   0%, 100% { transform: translateY(0) translateX(0) scale(1); opacity: 0.15; }
   25% { transform: translateY(-40px) translateX(20px) scale(1.2); opacity: 0.4; }
