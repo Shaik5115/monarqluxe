@@ -34,6 +34,8 @@ html {
   scroll-behavior: smooth;
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+
 body {
   font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
   background: var(--bg-primary);
@@ -42,6 +44,10 @@ body {
   overflow-x: hidden;
   min-height: 100vh;
   letter-spacing: 0.01em;
+}
+
+h1, h2, h3, h4, h5, h6, .logo, .hero-badge, .section-tag, .stat-number, .job-badge, .navbar .nav-links a {
+  font-family: 'Syne', sans-serif;
 }
 
 /* ── Animated Background ── */
