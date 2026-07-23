@@ -15,25 +15,13 @@
 
   <!-- Splash Screen -->
   <div class="splash" id="splash">
-    <div class="splash-frame"></div>
-
-    <div class="splash-particle" style="top:15%;left:10%;width:3px;height:3px;animation:particleFloat 12s infinite;animation-delay:0s;"></div>
-    <div class="splash-particle" style="top:25%;left:85%;width:5px;height:5px;animation:particleFloat 15s infinite;animation-delay:2s;"></div>
-    <div class="splash-particle" style="top:60%;left:5%;width:2px;height:2px;animation:particleFloat 10s infinite;animation-delay:4s;"></div>
-    <div class="splash-particle" style="top:70%;left:92%;width:4px;height:4px;animation:particleFloat 14s infinite;animation-delay:1s;"></div>
-    <div class="splash-particle" style="top:40%;left:50%;width:3px;height:3px;animation:particleFloat 11s infinite;animation-delay:3s;"></div>
-    <div class="splash-particle" style="top:85%;left:20%;width:2px;height:2px;animation:particleFloat 13s infinite;animation-delay:5s;"></div>
-    <div class="splash-particle" style="top:10%;left:60%;width:4px;height:4px;animation:particleFloat 16s infinite;animation-delay:2.5s;"></div>
-    <div class="splash-particle" style="top:90%;left:75%;width:3px;height:3px;animation:particleFloat 9s infinite;animation-delay:4.5s;"></div>
-
-
-
+    <canvas id="tech3d"></canvas>
     <div class="splash-content">
       <div class="splash-logo">MONARQLUXE</div>
       <div class="splash-sub">Enterprise IT &amp; Workforce Solutions</div>
       <div class="splash-divider"></div>
       <button class="splash-enter" onclick="enterSite()">
-        Discover Solutions <span class="arrow">→</span>
+        Explore <span class="arrow">→</span>
       </button>
     </div>
     <button class="splash-dismiss" onclick="enterSite()">skip</button>
@@ -63,7 +51,182 @@
       });
     })();
 
+    // 3D Tech Parts — RAM, CPU, Circuit
+    (function() {
+      var canvas = document.getElementById('tech3d');
+      if (!canvas) return;
+      var ctx = canvas.getContext('2d');
+      var W, H, t = 0, mouse = { x: 0, y: 0 };
+      var pts = [];
 
+      function resize() {
+        W = canvas.width = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+      }
+
+      // RAM stick wireframe
+      function ram3d(rx, ry, rz, cx, cy, sc) {
+        var hw = 20 * sc, hh = 80 * sc, hd = 4 * sc;
+        var v = [];
+        for (var x = -1; x <= 1; x += 2)
+          for (var y = -1; y <= 1; y += 2)
+            for (var z = -1; z <= 1; z += 2)
+              v.push({ x: x * hw, y: y * hh, z: z * hd });
+        var e = [[0,1],[0,2],[1,3],[2,3],[4,5],[4,6],[5,7],[6,7],[0,4],[1,5],[2,6],[3,7]];
+        var p = v.map(function(vv) {
+          var x = vv.x, y = vv.y, z = vv.z;
+          var cy2 = Math.cos(ry), sy2 = Math.sin(ry);
+          var cx2 = Math.cos(rx), sx2 = Math.sin(rx);
+          var cz2 = Math.cos(rz), sz2 = Math.sin(rz);
+          var x1 = x * cy2 * cz2 + z * sy2 * cz2 - y * sz2;
+          var y1 = x * (cy2 * sz2 + sx2 * sy2 * cz2) + z * (sy2 * sz2 - sx2 * cy2 * cz2) + y * cx2 * cz2;
+          var z1 = x * (sx2 * sz2 - cx2 * sy2 * cz2) + z * (cx2 * cy2 * cz2 + sx2 * sy2 * sz2) + y * cx2 * sz2;
+          return { x: x1, y: y1, z: z1 };
+        });
+        var persp = 600;
+        function proj(vv) {
+          var s = persp / (persp + vv.z * 1.2);
+          return { sx: cx + vv.x * s, sy: cy + vv.y * s, sz: vv.z, sc: s };
+        }
+        var pr = p.map(proj);
+        for (var i = 0; i < e.length; i++) {
+          var a = pr[e[i][0]], b = pr[e[i][1]];
+          var d = (a.sz + b.sz) / 2 + 100;
+          var al = Math.max(0.05, Math.min(0.6, 0.6 - d * 0.003));
+          ctx.beginPath(); ctx.moveTo(a.sx, a.sy); ctx.lineTo(b.sx, b.sy);
+          ctx.strokeStyle = 'rgba(0, 230, 118, ' + al + ')'; ctx.lineWidth = 1.2; ctx.stroke();
+          ctx.beginPath(); ctx.moveTo(a.sx, a.sy); ctx.lineTo(b.sx, b.sy);
+          ctx.strokeStyle = 'rgba(0, 230, 118, ' + (al * 0.2) + ')'; ctx.lineWidth = 4; ctx.stroke();
+        }
+        // Gold pins at bottom
+        for (var pz = -1; pz <= 1; pz += 2) {
+          for (var pi = 0; pi < 8; pi++) {
+            var px = -hw + pi * (hw * 2 / 7);
+            var pinZ = pz * hd;
+            var pinY = hh;
+            var p1 = { x: px, y: pinY, z: pinZ };
+            var p2 = { x: px, y: pinY + 12 * sc, z: pinZ };
+            var pp1 = proj({ x: p1.x, y: p1.y, z: p1.z });
+            var pp2 = proj({ x: p2.x, y: p2.y, z: p2.z });
+            ctx.beginPath(); ctx.moveTo(pp1.sx, pp1.sy); ctx.lineTo(pp2.sx, pp2.sy);
+            ctx.strokeStyle = 'rgba(255, 215, 0, 0.3)'; ctx.lineWidth = 1.5; ctx.stroke();
+          }
+        }
+        // Chip label
+        var cp = proj({ x: 0, y: 0, z: 0 });
+        ctx.fillStyle = 'rgba(0, 230, 118, 0.2)'; ctx.font = Math.round(7 * sc) + 'px monospace';
+        ctx.textAlign = 'center'; ctx.fillText('8GB DDR5', cp.sx, cp.sy + 3);
+      }
+
+      // CPU chip
+      function cpu3d(rx, ry, rz, cx, cy, sc) {
+        var s = 35 * sc;
+        var v = [];
+        for (var x = -1; x <= 1; x += 2)
+          for (var y = -1; y <= 1; y += 2)
+            for (var z = -1; z <= 1; z += 2)
+              v.push({ x: x * s, y: y * s * 0.3, z: z * s });
+        var e = [[0,1],[0,2],[1,3],[2,3],[4,5],[4,6],[5,7],[6,7],[0,4],[1,5],[2,6],[3,7]];
+        var p = v.map(function(vv) {
+          var x = vv.x, y = vv.y, z = vv.z;
+          var cy2 = Math.cos(ry), sy2 = Math.sin(ry);
+          var cx2 = Math.cos(rx), sx2 = Math.sin(rx);
+          var cz2 = Math.cos(rz), sz2 = Math.sin(rz);
+          var x1 = x * cy2 * cz2 + z * sy2 * cz2 - y * sz2;
+          var y1 = x * (cy2 * sz2 + sx2 * sy2 * cz2) + z * (sy2 * sz2 - sx2 * cy2 * cz2) + y * cx2 * cz2;
+          var z1 = x * (sx2 * sz2 - cx2 * sy2 * cz2) + z * (cx2 * cy2 * cz2 + sx2 * sy2 * sz2) + y * cx2 * sz2;
+          return { x: x1, y: y1, z: z1 };
+        });
+        var persp = 600;
+        function proj(vv) {
+          var sc2 = persp / (persp + vv.z * 1.2);
+          return { sx: cx + vv.x * sc2, sy: cy + vv.y * sc2, sz: vv.z, sc: sc2 };
+        }
+        var pr = p.map(proj);
+        for (var i = 0; i < e.length; i++) {
+          var a = pr[e[i][0]], b = pr[e[i][1]];
+          var d = (a.sz + b.sz) / 2 + 100;
+          var al = Math.max(0.05, Math.min(0.5, 0.5 - d * 0.003));
+          ctx.beginPath(); ctx.moveTo(a.sx, a.sy); ctx.lineTo(b.sx, b.sy);
+          ctx.strokeStyle = 'rgba(255, 215, 0, ' + al + ')'; ctx.lineWidth = 1; ctx.stroke();
+        }
+        // Grid pattern on CPU
+        for (var gx = -1; gx <= 1; gx += 0.5) {
+          for (var gz = -1; gz <= 1; gz += 0.5) {
+            var gp = proj({ x: gx * s * 0.7, y: 0, z: gz * s * 0.7 });
+            ctx.beginPath(); ctx.arc(gp.sx, gp.sy, 1.2, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(255, 215, 0, 0.15)'; ctx.fill();
+          }
+        }
+      }
+
+      // Floating particles
+      function initPts() {
+        pts = [];
+        for (var i = 0; i < 60; i++) {
+          pts.push({
+            x: (Math.random() - 0.5) * 2, y: (Math.random() - 0.5) * 2, z: (Math.random() - 0.5) * 2,
+            s: Math.random() * 1.5 + 0.5, sp: Math.random() * 0.003 + 0.001, ph: Math.random() * Math.PI * 2
+          });
+        }
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, W, H);
+        t++;
+        var cx = W / 2 + mouse.x * 20, cy = H / 2 + mouse.y * 20;
+        var sc = Math.min(W, H) / 800;
+        var rx = t * 0.005 + mouse.y * 0.002, ry = t * 0.008 + mouse.x * 0.002, rz = t * 0.002;
+
+        // Draw three RAM sticks at different positions
+        ram3d(rx, ry, rz, cx - 90 * sc, cy, sc);
+        ram3d(rx + 0.2, ry + 0.3, rz, cx + 90 * sc, cy, sc);
+        ram3d(rx - 0.1, ry - 0.2, rz + 0.1, cx, cy - 100 * sc, sc * 0.9);
+
+        // Draw CPU chip
+        cpu3d(rx + 0.5, ry - 0.3, rz, cx, cy, sc);
+
+        // Circuit lines connecting them
+        var spots = [
+          [cx - 90 * sc, cy], [cx + 90 * sc, cy],
+          [cx, cy - 100 * sc], [cx, cy]
+        ];
+        for (var i = 0; i < spots.length; i++) {
+          for (var j = i + 1; j < spots.length; j++) {
+            var al = 0.04 + 0.03 * Math.sin(t * 0.01 + i + j);
+            ctx.beginPath(); ctx.moveTo(spots[i][0], spots[i][1]);
+            ctx.lineTo(spots[j][0], spots[j][1]);
+            ctx.strokeStyle = 'rgba(0, 230, 118, ' + al + ')'; ctx.lineWidth = 0.5; ctx.stroke();
+          }
+        }
+
+        // Floating particles
+        var persp = 400;
+        for (var i = 0; i < pts.length; i++) {
+          var p = pts[i];
+          var z = Math.sin(t * p.sp + p.ph) * 1.5;
+          var x = p.x * 1.2, y = p.y * 1.2;
+          var s = persp / (persp + z * 100);
+          var px = cx + x * 200 * s, py = cy + y * 200 * s;
+          var a = 0.1 + 0.15 * (1 - Math.abs(z) / 1.5);
+          ctx.beginPath(); ctx.arc(px, py, p.s * s, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(0, 230, 118, ' + a + ')'; ctx.fill();
+          if (a > 0.15) {
+            ctx.beginPath(); ctx.arc(px, py, p.s * s * 3, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(0, 230, 118, ' + (a * 0.1) + ')'; ctx.fill();
+          }
+        }
+      }
+
+      window.addEventListener('mousemove', function(e) {
+        mouse.x = (e.clientX / W - 0.5) * 2;
+        mouse.y = (e.clientY / H - 0.5) * 2;
+      });
+
+      function animate() { draw(); requestAnimationFrame(animate); }
+      resize(); initPts(); animate();
+      window.addEventListener('resize', function() { resize(); });
+    })();
   </script>
 
   <!-- Animated Background -->
@@ -99,7 +262,8 @@
   <div class="page-wrapper">
 
     <!-- Hero -->
-    <section class="hero">
+    <section class="hero" style="background-image:url('https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1600&q=80');">
+      <div class="hero-overlay"></div>
       <div class="hero-content">
         <span class="hero-badge">Enterprise IT Solutions & Strategic Workforce Partners</span>
         <h1>Powering Business Performance With<br><span class="highlight">Premium IT Infrastructure</span><br><span class="thin">& Elite Talent Acquisition</span></h1>
@@ -129,6 +293,14 @@
         </div>
       </div>
     </section>
+
+    <!-- Team Image Strip -->
+    <div class="image-strip">
+      <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&q=80" alt="Team collaboration">
+      <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=600&q=80" alt="IT professionals">
+      <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600&q=80" alt="Tech consultation">
+      <img src="https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?w=600&q=80" alt="Business meeting">
+    </div>
 
     <!-- Services Overview -->
     <section class="section">
