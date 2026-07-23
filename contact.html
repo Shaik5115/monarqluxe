@@ -70,24 +70,23 @@
               <div class="phone-group" id="phoneGroup">
                 <div class="code-drop" id="codeDropdown">
                   <div class="code-selected" id="codeSelected">
-                    <span class="flag-icon">🇮🇳</span>
                     <span class="code-val">+91</span>
                     <svg class="code-arrow" width="10" height="6" viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z" fill="#777"/></svg>
                   </div>
                   <div class="code-options" id="codeOptions">
-                    <div class="code-opt" data-value="+91" data-pattern="[0-9]{10}"><span class="flag-icon">🇮🇳</span><span class="code-val">+91</span></div>
-                    <div class="code-opt" data-value="+1" data-pattern="[0-9]{10}"><span class="flag-icon">🇺🇸</span><span class="code-val">+1</span></div>
-                    <div class="code-opt" data-value="+44" data-pattern="[0-9]{10,11}"><span class="flag-icon">🇬🇧</span><span class="code-val">+44</span></div>
-                    <div class="code-opt" data-value="+61" data-pattern="[0-9]{9,10}"><span class="flag-icon">🇦🇺</span><span class="code-val">+61</span></div>
-                    <div class="code-opt" data-value="+971" data-pattern="[0-9]{9}"><span class="flag-icon">🇦🇪</span><span class="code-val">+971</span></div>
-                    <div class="code-opt" data-value="+966" data-pattern="[0-9]{9,10}"><span class="flag-icon">🇸🇦</span><span class="code-val">+966</span></div>
-                    <div class="code-opt" data-value="+974" data-pattern="[0-9]{8}"><span class="flag-icon">🇶🇦</span><span class="code-val">+974</span></div>
-                    <div class="code-opt" data-value="+965" data-pattern="[0-9]{8}"><span class="flag-icon">🇰🇼</span><span class="code-val">+965</span></div>
-                    <div class="code-opt" data-value="+973" data-pattern="[0-9]{8}"><span class="flag-icon">🇧🇭</span><span class="code-val">+973</span></div>
-                    <div class="code-opt" data-value="+968" data-pattern="[0-9]{8}"><span class="flag-icon">🇴🇲</span><span class="code-val">+968</span></div>
-                    <div class="code-opt" data-value="+65" data-pattern="[0-9]{8}"><span class="flag-icon">🇸🇬</span><span class="code-val">+65</span></div>
-                    <div class="code-opt" data-value="+20" data-pattern="[0-9]{10,11}"><span class="flag-icon">🇪🇬</span><span class="code-val">+20</span></div>
-                    <div class="code-opt" data-value="+92" data-pattern="[0-9]{10,11}"><span class="flag-icon">🇵🇰</span><span class="code-val">+92</span></div>
+                    <div class="code-opt" data-value="+91" data-pattern="[0-9]{10}"><span class="code-name">IN</span><span class="code-val">+91</span></div>
+                    <div class="code-opt" data-value="+1" data-pattern="[0-9]{10}"><span class="code-name">US</span><span class="code-val">+1</span></div>
+                    <div class="code-opt" data-value="+44" data-pattern="[0-9]{10,11}"><span class="code-name">UK</span><span class="code-val">+44</span></div>
+                    <div class="code-opt" data-value="+61" data-pattern="[0-9]{9,10}"><span class="code-name">AU</span><span class="code-val">+61</span></div>
+                    <div class="code-opt" data-value="+971" data-pattern="[0-9]{9}"><span class="code-name">AE</span><span class="code-val">+971</span></div>
+                    <div class="code-opt" data-value="+966" data-pattern="[0-9]{9,10}"><span class="code-name">SA</span><span class="code-val">+966</span></div>
+                    <div class="code-opt" data-value="+974" data-pattern="[0-9]{8}"><span class="code-name">QA</span><span class="code-val">+974</span></div>
+                    <div class="code-opt" data-value="+965" data-pattern="[0-9]{8}"><span class="code-name">KW</span><span class="code-val">+965</span></div>
+                    <div class="code-opt" data-value="+973" data-pattern="[0-9]{8}"><span class="code-name">BH</span><span class="code-val">+973</span></div>
+                    <div class="code-opt" data-value="+968" data-pattern="[0-9]{8}"><span class="code-name">OM</span><span class="code-val">+968</span></div>
+                    <div class="code-opt" data-value="+65" data-pattern="[0-9]{8}"><span class="code-name">SG</span><span class="code-val">+65</span></div>
+                    <div class="code-opt" data-value="+20" data-pattern="[0-9]{10,11}"><span class="code-name">EG</span><span class="code-val">+20</span></div>
+                    <div class="code-opt" data-value="+92" data-pattern="[0-9]{10,11}"><span class="code-name">PK</span><span class="code-val">+92</span></div>
                   </div>
                   <select id="countryCode" class="code-hidden-select">
                     <option value="+91" data-pattern="[0-9]{10}">IN +91</option>
@@ -244,10 +243,9 @@
       opts.forEach(function(opt) {
         opt.addEventListener('click', function() {
           var val = opt.getAttribute('data-value');
-          var flag = opt.querySelector('.flag-icon').textContent;
           var code = opt.querySelector('.code-val').textContent;
           var pattern = opt.getAttribute('data-pattern');
-          selected.innerHTML = '<span class="flag-icon">' + flag + '</span><span class="code-val">' + code + '</span><svg class="code-arrow" width="10" height="6" viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z" fill="#777"/></svg>';
+          selected.innerHTML = '<span class="code-val">' + code + '</span><svg class="code-arrow" width="10" height="6" viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z" fill="#777"/></svg>';
           dropdown.classList.remove('open');
           opts.forEach(function(o) { o.classList.remove('selected'); });
           opt.classList.add('selected');
