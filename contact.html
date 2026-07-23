@@ -67,22 +67,44 @@
             </div>
             <div class="form-group">
               <label for="phone">Phone Number</label>
-              <div class="phone-group">
-                <select id="countryCode" class="code-select">
-                  <option value="+91" data-pattern="[0-9]{10}">🇮🇳 +91</option>
-                  <option value="+1" data-pattern="[0-9]{10}">🇺🇸 +1</option>
-                  <option value="+44" data-pattern="[0-9]{10,11}">🇬🇧 +44</option>
-                  <option value="+61" data-pattern="[0-9]{9,10}">🇦🇺 +61</option>
-                  <option value="+971" data-pattern="[0-9]{9}">🇦🇪 +971</option>
-                  <option value="+966" data-pattern="[0-9]{9,10}">🇸🇦 +966</option>
-                  <option value="+974" data-pattern="[0-9]{8}">🇶🇦 +974</option>
-                  <option value="+965" data-pattern="[0-9]{8}">🇰🇼 +965</option>
-                  <option value="+973" data-pattern="[0-9]{8}">🇧🇭 +973</option>
-                  <option value="+968" data-pattern="[0-9]{8}">🇴🇲 +968</option>
-                  <option value="+65" data-pattern="[0-9]{8}">🇸🇬 +65</option>
-                  <option value="+20" data-pattern="[0-9]{10,11}">🇪🇬 +20</option>
-                  <option value="+92" data-pattern="[0-9]{10,11}">🇵🇰 +92</option>
-                </select>
+              <div class="phone-group" id="phoneGroup">
+                <div class="code-drop" id="codeDropdown">
+                  <div class="code-selected" id="codeSelected">
+                    <span class="flag-icon">🇮🇳</span>
+                    <span class="code-val">+91</span>
+                    <svg class="code-arrow" width="10" height="6" viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z" fill="#777"/></svg>
+                  </div>
+                  <div class="code-options" id="codeOptions">
+                    <div class="code-opt" data-value="+91" data-pattern="[0-9]{10}"><span class="flag-icon">🇮🇳</span><span class="code-val">+91</span></div>
+                    <div class="code-opt" data-value="+1" data-pattern="[0-9]{10}"><span class="flag-icon">🇺🇸</span><span class="code-val">+1</span></div>
+                    <div class="code-opt" data-value="+44" data-pattern="[0-9]{10,11}"><span class="flag-icon">🇬🇧</span><span class="code-val">+44</span></div>
+                    <div class="code-opt" data-value="+61" data-pattern="[0-9]{9,10}"><span class="flag-icon">🇦🇺</span><span class="code-val">+61</span></div>
+                    <div class="code-opt" data-value="+971" data-pattern="[0-9]{9}"><span class="flag-icon">🇦🇪</span><span class="code-val">+971</span></div>
+                    <div class="code-opt" data-value="+966" data-pattern="[0-9]{9,10}"><span class="flag-icon">🇸🇦</span><span class="code-val">+966</span></div>
+                    <div class="code-opt" data-value="+974" data-pattern="[0-9]{8}"><span class="flag-icon">🇶🇦</span><span class="code-val">+974</span></div>
+                    <div class="code-opt" data-value="+965" data-pattern="[0-9]{8}"><span class="flag-icon">🇰🇼</span><span class="code-val">+965</span></div>
+                    <div class="code-opt" data-value="+973" data-pattern="[0-9]{8}"><span class="flag-icon">🇧🇭</span><span class="code-val">+973</span></div>
+                    <div class="code-opt" data-value="+968" data-pattern="[0-9]{8}"><span class="flag-icon">🇴🇲</span><span class="code-val">+968</span></div>
+                    <div class="code-opt" data-value="+65" data-pattern="[0-9]{8}"><span class="flag-icon">🇸🇬</span><span class="code-val">+65</span></div>
+                    <div class="code-opt" data-value="+20" data-pattern="[0-9]{10,11}"><span class="flag-icon">🇪🇬</span><span class="code-val">+20</span></div>
+                    <div class="code-opt" data-value="+92" data-pattern="[0-9]{10,11}"><span class="flag-icon">🇵🇰</span><span class="code-val">+92</span></div>
+                  </div>
+                  <select id="countryCode" class="code-hidden-select">
+                    <option value="+91" data-pattern="[0-9]{10}">IN +91</option>
+                    <option value="+1" data-pattern="[0-9]{10}">US +1</option>
+                    <option value="+44" data-pattern="[0-9]{10,11}">UK +44</option>
+                    <option value="+61" data-pattern="[0-9]{9,10}">AU +61</option>
+                    <option value="+971" data-pattern="[0-9]{9}">AE +971</option>
+                    <option value="+966" data-pattern="[0-9]{9,10}">SA +966</option>
+                    <option value="+974" data-pattern="[0-9]{8}">QA +974</option>
+                    <option value="+965" data-pattern="[0-9]{8}">KW +965</option>
+                    <option value="+973" data-pattern="[0-9]{8}">BH +973</option>
+                    <option value="+968" data-pattern="[0-9]{8}">OM +968</option>
+                    <option value="+65" data-pattern="[0-9]{8}">SG +65</option>
+                    <option value="+20" data-pattern="[0-9]{10,11}">EG +20</option>
+                    <option value="+92" data-pattern="[0-9]{10,11}">PK +92</option>
+                  </select>
+                </div>
                 <input type="tel" name="Phone" id="phone" placeholder="Enter phone number" required>
               </div>
               <span id="phoneError" style="color:#e53935;font-size:0.78rem;display:none;margin-top:0.3rem;">Invalid number for selected country</span>
@@ -203,15 +225,50 @@
 
   <script>
     (function() {
-      var code = document.getElementById('countryCode');
+      var dropdown = document.getElementById('codeDropdown');
+      var selected = document.getElementById('codeSelected');
+      var options = document.getElementById('codeOptions');
+      var hidden = document.getElementById('countryCode');
       var phone = document.getElementById('phone');
       var err = document.getElementById('phoneError');
-      var group = document.querySelector('.phone-group');
+      var group = document.getElementById('phoneGroup');
 
+      // Toggle dropdown
+      selected.addEventListener('click', function(e) {
+        e.stopPropagation();
+        dropdown.classList.toggle('open');
+      });
+
+      // Select option
+      var opts = options.querySelectorAll('.code-opt');
+      opts.forEach(function(opt) {
+        opt.addEventListener('click', function() {
+          var val = opt.getAttribute('data-value');
+          var flag = opt.querySelector('.flag-icon').textContent;
+          var code = opt.querySelector('.code-val').textContent;
+          var pattern = opt.getAttribute('data-pattern');
+          selected.innerHTML = '<span class="flag-icon">' + flag + '</span><span class="code-val">' + code + '</span><svg class="code-arrow" width="10" height="6" viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z" fill="#777"/></svg>';
+          dropdown.classList.remove('open');
+          opts.forEach(function(o) { o.classList.remove('selected'); });
+          opt.classList.add('selected');
+          hidden.value = val;
+          phone.value = '';
+          err.style.display = 'none';
+          group.style.borderColor = '#d0d0d0';
+        });
+      });
+
+      // Close on outside click
+      document.addEventListener('click', function() {
+        dropdown.classList.remove('open');
+      });
+
+      // Validate
       function validate() {
         if (!phone.value) { err.style.display = 'none'; return; }
-        var opt = code.options[code.selectedIndex];
-        var pattern = opt.getAttribute('data-pattern');
+        var selOpt = options.querySelector('.code-opt.selected');
+        if (!selOpt) selOpt = opts[0];
+        var pattern = selOpt.getAttribute('data-pattern');
         var digits = phone.value.replace(/\D/g, '');
         var regex = new RegExp('^' + pattern + '$');
         if (regex.test(digits)) {
@@ -222,7 +279,11 @@
           group.style.borderColor = '#e53935';
         }
       }
-      code.addEventListener('change', function() { phone.value = ''; phone.style.borderColor = '#d0d0d0'; err.style.display = 'none'; group.style.borderColor = '#d0d0d0'; });
+
+      // Set default selected
+      opts[0].classList.add('selected');
+      hidden.value = '+91';
+
       phone.addEventListener('input', validate);
       phone.addEventListener('blur', validate);
     })();
