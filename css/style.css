@@ -539,11 +539,9 @@ body {
 }
 
 .hero h1 .highlight {
-  background: var(--gradient-gold);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-shadow: none;
+  color: #000000;
+  -webkit-text-fill-color: #000000;
+  background: none;
 }
 
 .hero h1 .thin {
@@ -658,10 +656,7 @@ body {
 .stat-number {
   font-size: 2.8rem;
   font-weight: 800;
-  background: var(--gradient-gold);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #000000;
   line-height: 1.1;
 }
 
@@ -718,10 +713,9 @@ body {
 }
 
 .section-title .highlight {
-  background: var(--gradient-gold);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #000000;
+  -webkit-text-fill-color: #000000;
+  background: none;
 }
 
 .section-title .thin {
