@@ -149,7 +149,7 @@ body {
 }
 
 .splash-sub {
-  color: rgba(229, 18, 46, 0.5);
+  color: rgba(0, 230, 118, 0.5);
   font-size: clamp(0.85rem, 2vw, 1.1rem);
   letter-spacing: 10px;
   text-transform: uppercase;
