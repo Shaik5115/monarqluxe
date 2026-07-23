@@ -68,10 +68,24 @@
             <div class="form-group">
               <label for="phone">Phone Number</label>
               <div class="phone-group">
-                <span class="phone-prefix">+91</span>
-                <input type="tel" name="Phone" id="phone" placeholder="Enter 10-digit mobile number" required>
+                <select id="countryCode" class="code-select">
+                  <option value="+91" data-pattern="[0-9]{10}">🇮🇳 +91</option>
+                  <option value="+1" data-pattern="[0-9]{10}">🇺🇸 +1</option>
+                  <option value="+44" data-pattern="[0-9]{10,11}">🇬🇧 +44</option>
+                  <option value="+61" data-pattern="[0-9]{9,10}">🇦🇺 +61</option>
+                  <option value="+971" data-pattern="[0-9]{9}">🇦🇪 +971</option>
+                  <option value="+966" data-pattern="[0-9]{9,10}">🇸🇦 +966</option>
+                  <option value="+974" data-pattern="[0-9]{8}">🇶🇦 +974</option>
+                  <option value="+965" data-pattern="[0-9]{8}">🇰🇼 +965</option>
+                  <option value="+973" data-pattern="[0-9]{8}">🇧🇭 +973</option>
+                  <option value="+968" data-pattern="[0-9]{8}">🇴🇲 +968</option>
+                  <option value="+65" data-pattern="[0-9]{8}">🇸🇬 +65</option>
+                  <option value="+20" data-pattern="[0-9]{10,11}">🇪🇬 +20</option>
+                  <option value="+92" data-pattern="[0-9]{10,11}">🇵🇰 +92</option>
+                </select>
+                <input type="tel" name="Phone" id="phone" placeholder="Enter phone number" required>
               </div>
-              <span id="phoneError" style="color:#e53935;font-size:0.78rem;display:none;margin-top:0.3rem;">Please enter a valid 10-digit number</span>
+              <span id="phoneError" style="color:#e53935;font-size:0.78rem;display:none;margin-top:0.3rem;">Invalid number for selected country</span>
             </div>
             <div class="form-group">
               <label for="service">Service Interested In</label>
@@ -189,13 +203,18 @@
 
   <script>
     (function() {
+      var code = document.getElementById('countryCode');
       var phone = document.getElementById('phone');
       var err = document.getElementById('phoneError');
-      var group = phone.closest('.phone-group');
+      var group = document.querySelector('.phone-group');
+
       function validate() {
+        if (!phone.value) { err.style.display = 'none'; return; }
+        var opt = code.options[code.selectedIndex];
+        var pattern = opt.getAttribute('data-pattern');
         var digits = phone.value.replace(/\D/g, '');
-        if (!phone.value) { err.style.display = 'none'; group.style.borderColor = '#d0d0d0'; return; }
-        if (/^[0-9]{10}$/.test(digits)) {
+        var regex = new RegExp('^' + pattern + '$');
+        if (regex.test(digits)) {
           err.style.display = 'none';
           group.style.borderColor = '#00e676';
         } else {
@@ -203,6 +222,7 @@
           group.style.borderColor = '#e53935';
         }
       }
+      code.addEventListener('change', function() { phone.value = ''; phone.style.borderColor = '#d0d0d0'; err.style.display = 'none'; group.style.borderColor = '#d0d0d0'; });
       phone.addEventListener('input', validate);
       phone.addEventListener('blur', validate);
     })();
