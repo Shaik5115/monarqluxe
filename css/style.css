@@ -1264,9 +1264,24 @@ body {
   font-weight: 600;
 }
 
-.flag-icon {
-  font-size: 1.2rem;
-  line-height: 1;
+.code-name {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 22px;
+  background: #e8ecf0;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #555;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+}
+
+.code-opt.selected .code-name {
+  background: rgba(0, 230, 118, 0.15);
+  color: #00e676;
 }
 
 .code-hidden-select {
