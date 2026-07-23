@@ -1173,37 +1173,44 @@ body {
   resize: vertical;
 }
 
-.phone-row {
+.phone-group {
   display: flex;
-  gap: 8px;
-  align-items: center;
-}
-
-.code-select {
-  width: 110px;
-  flex-shrink: 0;
-  padding: 0.85rem 0.6rem;
-  background: #f0f0f0;
+  gap: 0;
   border: 1px solid #d0d0d0;
   border-radius: var(--radius-sm);
-  color: #222;
-  font-size: 0.9rem;
-  font-weight: 600;
-  font-family: inherit;
-  cursor: pointer;
+  overflow: hidden;
+  background: #f8f8f8;
+}
+
+.phone-prefix {
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  background: #e8e8e8;
+  color: #111;
+  font-weight: 700;
+  font-size: 1rem;
+  border-right: 1px solid #d0d0d0;
+  white-space: nowrap;
+}
+
+.phone-group input {
+  flex: 1;
+  min-width: 0;
+  border: none !important;
+  border-radius: 0 !important;
+  background: #f8f8f8 !important;
+  padding: 0.85rem 1rem !important;
   outline: none;
 }
 
-.code-select:focus {
+.phone-group:focus-within {
   border-color: #00e676;
   box-shadow: 0 0 0 3px rgba(0, 230, 118, 0.12);
-  background: #fff;
 }
 
-.phone-row input {
-  flex: 1;
-  min-width: 0;
-  width: auto !important;
+.phone-group:focus-within input {
+  background: #fff !important;
 }
 
 .contact-info {
