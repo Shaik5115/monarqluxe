@@ -67,6 +67,7 @@
             <div class="form-group">
               <label for="email">Email Address <span style="color:#e53935;">*</span></label>
               <div class="email-wrap">
+                <span class="email-icon">@</span>
                 <input type="email" name="Email" id="email" placeholder="your@email.com" required>
                 <span class="email-status" id="emailStatus"></span>
               </div>
@@ -240,9 +241,9 @@
         var re = /^[^\s@]+@[^\s@]+\.(com|in|co\.uk|org|net|edu|gov|ae|sa|qa|kw|bh|om|sg|eg|pk|bd|lk|au|uk)$/i;
         function validate() {
           var v = email.value.trim();
-          if (!v) { status.textContent = ''; err.style.display = 'none'; email.style.borderColor = '#d0d0d0'; return; }
-          if (re.test(v)) { status.textContent = '✓'; status.style.color = '#00e676'; err.style.display = 'none'; email.style.borderColor = '#00e676'; }
-          else { status.textContent = '✗'; status.style.color = '#e53935'; err.style.display = 'block'; email.style.borderColor = '#e53935'; }
+          if (!v) { status.innerHTML = ''; err.style.display = 'none'; email.style.borderColor = '#d0d0d0'; return; }
+          if (re.test(v)) { status.innerHTML = '<span style="color:#00e676;font-size:1.2rem;">✓</span>'; err.style.display = 'none'; email.style.borderColor = '#00e676'; }
+          else { status.innerHTML = '<span style="color:#e53935;font-size:1.2rem;">✗</span>'; err.style.display = 'block'; email.style.borderColor = '#e53935'; }
         }
         email.addEventListener('input', validate);
         email.addEventListener('blur', validate);
