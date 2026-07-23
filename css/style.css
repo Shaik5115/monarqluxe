@@ -1173,6 +1173,36 @@ body {
   resize: vertical;
 }
 
+.phone-wrap {
+  display: flex;
+  gap: 0;
+}
+
+.country-code {
+  width: 130px;
+  flex-shrink: 0;
+  padding: 0.85rem 0.6rem;
+  background: #f0f0f0;
+  border: 1px solid #d0d0d0;
+  border-right: none;
+  border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+  color: #222;
+  font-size: 0.85rem;
+  font-family: inherit;
+  cursor: pointer;
+  outline: none;
+}
+
+.phone-wrap input {
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0 !important;
+}
+
+.country-code:focus {
+  border-color: #00e676;
+  box-shadow: 0 0 0 3px rgba(0, 230, 118, 0.12);
+  background: #fff;
+}
+
 .contact-info {
   display: flex;
   flex-direction: column;
