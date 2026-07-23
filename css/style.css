@@ -1271,24 +1271,21 @@ body {
   font-weight: 600;
 }
 
-.code-name {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 22px;
-  background: #e8ecf0;
-  border-radius: 4px;
-  font-size: 0.7rem;
-  font-weight: 700;
-  color: #555;
-  letter-spacing: 0.5px;
+.flag-icon {
+  font-size: 1.15rem;
+  line-height: 1;
+  font-family: 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', 'EmojiOne Color', sans-serif;
   flex-shrink: 0;
+  width: 22px;
+  text-align: center;
 }
 
-.code-opt.selected .code-name {
-  background: rgba(0, 230, 118, 0.15);
-  color: #00e676;
+.code-selected .flag-icon {
+  font-size: 1rem;
+}
+
+.code-opt .flag-icon {
+  font-size: 1.1rem;
 }
 
 .code-hidden-select {
