@@ -5,28 +5,33 @@
 }
 
 :root {
-  --bg-primary: #faf8f5;
+  --bg-primary: #f5f2ed;
   --bg-secondary: #ffffff;
   --bg-card: #ffffff;
-  --bg-card-hover: #f5f3ef;
-  --cream: #faf8f5;
-  --cream-dark: #f2efe9;
-  --navy-deep: #e8e4de;
-  --navy: #f0ece6;
-  --navy-mid: #e0dcd4;
+  --bg-card-hover: #eeebe6;
+  --bg-alt: #f0f5f0;
+  --bg-dark: #0f1a14;
+  --cream: #f5f2ed;
+  --cream-dark: #e8e3dc;
+  --navy-deep: #e0dbd4;
+  --navy: #e8e3dc;
+  --navy-mid: #d5d0c8;
   --gold: #00e676;
   --gold-light: #69f0ae;
   --gold-dark: #00c853;
   --gold-subtle: rgba(0, 230, 118, 0.08);
+  --gold-bg: rgba(0, 230, 118, 0.035);
   --text-primary: #000000;
   --text-secondary: #000000;
   --text-muted: #000000;
-  --border: #e0dcd6;
+  --border: #d5d0c8;
   --border-gold: rgba(0, 230, 118, 0.2);
   --gradient-gold: linear-gradient(135deg, #00e676, #69f0ae, #00e676);
-  --gradient-navy: linear-gradient(135deg, #f0ece6, #e8e4de);
+  --gradient-navy: linear-gradient(135deg, #e8e3dc, #ddd8d0);
+  --gradient-green-wash: linear-gradient(180deg, rgba(0, 230, 118, 0.03) 0%, transparent 100%);
   --shadow-gold: 0 0 40px rgba(0, 230, 118, 0.1);
-  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.06);
+  --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.05);
+  --shadow-card-hover: 0 12px 40px rgba(0, 0, 0, 0.08);
   --transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   --radius: 16px;
   --radius-sm: 10px;
@@ -308,8 +313,61 @@ body {
   z-index: 0;
   pointer-events: none;
   background-image:
-    radial-gradient(circle at 15% 30%, rgba(0, 230, 118, 0.015) 0%, transparent 50%),
-    radial-gradient(circle at 85% 70%, rgba(0, 230, 118, 0.01) 0%, transparent 50%);
+    radial-gradient(circle at 20% 25%, rgba(0, 230, 118, 0.025) 0%, transparent 45%),
+    radial-gradient(circle at 80% 75%, rgba(0, 230, 118, 0.015) 0%, transparent 40%);
+}
+
+/* ── Subtle Dot Grid Overlay ── */
+.dot-grid {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.dot-grid::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: radial-gradient(circle, rgba(0, 230, 118, 0.06) 1px, transparent 1px);
+  background-size: 32px 32px;
+  opacity: 0.5;
+}
+
+/* ── Section Alternating Backgrounds ── */
+.section-alt {
+  background: var(--bg-alt);
+  position: relative;
+}
+
+.section-white {
+  background: #ffffff;
+  position: relative;
+}
+
+.section-dark {
+  background: var(--bg-dark);
+  position: relative;
+}
+
+/* ── Subtle Green Top Border Accent ── */
+.section-bordered {
+  border-top: 1px solid var(--border);
+}
+
+/* ── Gradient Wash Overlay ── */
+.green-wash {
+  position: relative;
+}
+
+.green-wash::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 280px;
+  background: var(--gradient-green-wash);
+  pointer-events: none;
 }
 
 /* ── Navbar ── */
@@ -466,7 +524,7 @@ body {
 .hero-overlay {
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: linear-gradient(135deg, rgba(250, 248, 245, 0.78) 0%, rgba(250, 248, 245, 0.55) 55%, rgba(255, 255, 255, 0.72) 100%);
+  background: linear-gradient(135deg, rgba(245, 242, 237, 0.82) 0%, rgba(245, 242, 237, 0.50) 50%, rgba(255, 255, 255, 0.75) 100%);
   pointer-events: none;
 }
 
@@ -639,11 +697,11 @@ body {
   gap: 1.5rem;
   margin-top: 4.5rem;
   padding: 2.5rem;
-  background: rgba(250, 248, 245, 0.85);
+  background: rgba(245, 242, 237, 0.88);
   border: 1px solid var(--border);
   border-radius: 20px;
   animation: fadeInUp 0.8s ease 1s both;
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(16px);
 }
 
 .stat-item {
@@ -678,7 +736,20 @@ body {
 
 /* ── Section Styles ── */
 .section {
-  padding: 7rem 2rem;
+  padding: 6rem 2rem;
+  max-width: 1280px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.section-full {
+  padding: 6rem 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.section-full .section-inner {
   max-width: 1280px;
   margin: 0 auto;
 }
@@ -1503,7 +1574,7 @@ body {
 
 /* ── Footer ── */
 .footer {
-  background: var(--bg-card);
+  background: var(--cream-dark);
   border-top: 1px solid var(--border);
   padding: 5rem 2rem 2rem;
   position: relative;
