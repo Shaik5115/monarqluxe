@@ -1195,20 +1195,7 @@ body {
   position: relative;
 }
 
-.email-icon {
-  position: absolute;
-  left: 14px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 1rem;
-  font-weight: 700;
-  color: #999;
-  line-height: 1;
-  pointer-events: none;
-}
-
 .email-wrap input {
-  padding-left: 34px !important;
   padding-right: 40px !important;
 }
 
