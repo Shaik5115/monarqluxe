@@ -385,15 +385,15 @@ body {
 .navbar .logo-icon {
   width: 42px;
   height: 42px;
-  background: var(--gradient-gold);
-  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 900;
-  font-size: 1.1rem;
-  color: var(--bg-primary);
-  box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+}
+
+.logo-svg {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
 }
 
 .navbar .nav-links {
