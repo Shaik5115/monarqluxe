@@ -1191,6 +1191,23 @@ body {
   border-radius: 0 12px 12px 0 !important;
 }
 
+.email-wrap {
+  position: relative;
+}
+
+.email-status {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.email-wrap input {
+  padding-right: 40px !important;
+}
+
 .phone-group:focus-within {
   border-color: #00e676;
   box-shadow: 0 0 0 3px rgba(0, 230, 118, 0.12), 0 2px 12px rgba(0, 230, 118, 0.08);
