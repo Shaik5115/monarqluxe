@@ -51,12 +51,12 @@
       });
     })();
 
-    // 3D Premium Laptop Showcase — inspired by Rolex 3D watch viewer
+    // 3D Tech Parts + Inventive System One brand emblem
     (function() {
       var canvas = document.getElementById('tech3d');
       if (!canvas) return;
       var ctx = canvas.getContext('2d');
-      var W, H, t = 0, mouse = { x: 0, y: 0, tx: 0, ty: 0 };
+      var W, H, t = 0, mouse = { x: 0, y: 0 };
 
       function resize() {
         W = canvas.width = window.innerWidth;
@@ -64,177 +64,207 @@
       }
 
       function rot3D(v, rx, ry, rz) {
-        var x = v[0], y = v[1], z = v[2];
-        var c1 = Math.cos(rx), s1 = Math.sin(rx);
-        var c2 = Math.cos(ry), s2 = Math.sin(ry);
-        var c3 = Math.cos(rz), s3 = Math.sin(rz);
-        return [
-          x*c2*c3 + z*s2*c3 - y*s3,
-          x*(c2*s3 + s1*s2*c3) + z*(s2*s3 - s1*c2*c3) + y*c1*c3,
-          x*(s1*s2*c3 - c1*s3) + z*(c1*c2*c3 + s1*s2*s3) + y*s1*c3
-        ];
+        var x=v[0], y=v[1], z=v[2];
+        var c1=Math.cos(rx),s1=Math.sin(rx),c2=Math.cos(ry),s2=Math.sin(ry),c3=Math.cos(rz),s3=Math.sin(rz);
+        return [x*c2*c3+z*s2*c3-y*s3, x*(c2*s3+s1*s2*c3)+z*(s2*s3-s1*c2*c3)+y*c1*c3, x*(s1*s2*c3-c1*s3)+z*(c1*c2*c3+s1*s2*s3)+y*s1*c3];
       }
 
-      function proj(v, cx, cy, persp) {
-        var s = persp / (persp + v[2] + 200);
-        return [cx + v[0] * s, cy + v[1] * s, v[2], s];
+      function proj(v, cx, cy, p) {
+        var s = p/(p+v[2]*1.2);
+        return [cx+v[0]*s, cy+v[1]*s, v[2], s];
       }
 
-      function drawFaces(verts, faces, colors, cx, cy, persp, lineCol) {
-        var pr = verts.map(function(v) { return proj(v, cx, cy, persp); });
-        var fdata = [];
-        for (var i = 0; i < faces.length; i++) {
-          var f = faces[i];
-          var pts = f.map(function(idx) { return [pr[idx][0], pr[idx][1], pr[idx][2]]; });
-          var az = pts.reduce(function(s, p) { return s + p[2]; }, 0) / pts.length;
-          fdata.push({ pts: pts, z: az, col: colors[i] });
+      function drawBox(verts, faces, colors, cx, cy, p, lw, lc) {
+        var pr = verts.map(function(v){return proj(v,cx,cy,p);});
+        var fd = [];
+        for(var i=0;i<faces.length;i++){
+          var f=faces[i], pts=f.map(function(j){return [pr[j][0],pr[j][1],pr[j][2]];});
+          var az=pts.reduce(function(s,pt){return s+pt[2];},0)/pts.length;
+          fd.push({pts:pts,z:az,col:colors[i]});
         }
-        fdata.sort(function(a, b) { return b.z - a.z; });
-        for (var i = 0; i < fdata.length; i++) {
-          var d = fdata[i];
-          ctx.beginPath(); ctx.moveTo(d.pts[0][0], d.pts[0][1]);
-          for (var j = 1; j < d.pts.length; j++) ctx.lineTo(d.pts[j][0], d.pts[j][1]);
-          ctx.closePath();
-          ctx.fillStyle = d.col; ctx.fill();
-          if (lineCol) { ctx.strokeStyle = lineCol; ctx.lineWidth = 0.5; ctx.stroke(); }
+        fd.sort(function(a,b){return b.z-a.z;});
+        for(var i=0;i<fd.length;i++){
+          var d=fd[i]; ctx.beginPath(); ctx.moveTo(d.pts[0][0],d.pts[0][1]);
+          for(var j=1;j<d.pts.length;j++) ctx.lineTo(d.pts[j][0],d.pts[j][1]);
+          ctx.closePath(); ctx.fillStyle=d.col; ctx.fill();
+          if(lw){ctx.strokeStyle=lc||'rgba(255,255,255,0.03)';ctx.lineWidth=lw;ctx.stroke();}
         }
       }
 
-      function makeBox(hw, hh, hd) {
+      function makeBox(hw,hh,hd){
+        var v=[];
+        for(var x=-1;x<=1;x+=2) for(var y=-1;y<=1;y+=2) for(var z=-1;z<=1;z+=2) v.push([x*hw,y*hh,z*hd]);
+        return {verts:v,faces:[[0,1,3,2],[4,6,7,5],[0,4,5,1],[2,3,7,6],[0,2,6,4],[1,5,7,3]]};
+      }
+
+      // ── Wireframe Tech Parts ──
+      function ramWire(rx,ry,rz,cx,cy,sc){
+        var p=600,hw=20*sc,hh=80*sc,hd=4*sc,v=[];
+        for(var x=-1;x<=1;x+=2) for(var y=-1;y<=1;y+=2) for(var z=-1;z<=1;z+=2) v.push([x*hw,y*hh,z*hd]);
+        var ro=v.map(function(vv){return rot3D(vv,rx,ry,rz);});
+        var pr=ro.map(function(vv){return proj(vv,cx,cy,p);});
+        var e=[[0,1],[0,2],[1,3],[2,3],[4,5],[4,6],[5,7],[6,7],[0,4],[1,5],[2,6],[3,7]];
+        for(var i=0;i<e.length;i++){
+          var a=pr[e[i][0]],b=pr[e[i][1]];
+          var d=(a[2]+b[2])/2+100,al=Math.max(0.05,Math.min(0.6,0.6-d*0.003));
+          ctx.beginPath();ctx.moveTo(a[0],a[1]);ctx.lineTo(b[0],b[1]);
+          ctx.strokeStyle='rgba(0,230,118,'+al+')';ctx.lineWidth=1.2;ctx.stroke();
+          ctx.beginPath();ctx.moveTo(a[0],a[1]);ctx.lineTo(b[0],b[1]);
+          ctx.strokeStyle='rgba(0,230,118,'+(al*0.2)+')';ctx.lineWidth=4;ctx.stroke();
+        }
+        // Gold pins
+        for(var pz=-1;pz<=1;pz+=2){
+          for(var pi=0;pi<8;pi++){
+            var px=-hw+pi*(hw*2/7),pinZ=pz*hd,pinY=hh;
+            var pp1=proj(rot3D([px,pinY,pinZ],rx,ry,rz),cx,cy,p);
+            var pp2=proj(rot3D([px,pinY+12*sc,pinZ],rx,ry,rz),cx,cy,p);
+            ctx.beginPath();ctx.moveTo(pp1[0],pp1[1]);ctx.lineTo(pp2[0],pp2[1]);
+            ctx.strokeStyle='rgba(255,215,0,0.3)';ctx.lineWidth=1.5;ctx.stroke();
+          }
+        }
+        var cp=proj(rot3D([0,0,0],rx,ry,rz),cx,cy,p);
+        ctx.fillStyle='rgba(0,230,118,0.15)';ctx.font=Math.round(7*sc)+'px monospace';
+        ctx.textAlign='center';ctx.fillText('8GB DDR5',cp[0],cp[1]+3);
+      }
+
+      function cpuWire(rx,ry,rz,cx,cy,sc){
+        var p=600,s=35*sc,v=[];
+        for(var x=-1;x<=1;x+=2) for(var y=-1;y<=1;y+=2) for(var z=-1;z<=1;z+=2) v.push([x*s,y*s*0.3,z*s]);
+        var ro=v.map(function(vv){return rot3D(vv,rx,ry,rz);});
+        var pr=ro.map(function(vv){return proj(vv,cx,cy,p);});
+        var e=[[0,1],[0,2],[1,3],[2,3],[4,5],[4,6],[5,7],[6,7],[0,4],[1,5],[2,6],[3,7]];
+        for(var i=0;i<e.length;i++){
+          var a=pr[e[i][0]],b=pr[e[i][1]];
+          var d=(a[2]+b[2])/2+100,al=Math.max(0.05,Math.min(0.5,0.5-d*0.003));
+          ctx.beginPath();ctx.moveTo(a[0],a[1]);ctx.lineTo(b[0],b[1]);
+          ctx.strokeStyle='rgba(255,215,0,'+al+')';ctx.lineWidth=1;ctx.stroke();
+        }
+        for(var gx=-1;gx<=1;gx+=0.5) for(var gz=-1;gz<=1;gz+=0.5){
+          var gp=proj(rot3D([gx*s*0.7,0,gz*s*0.7],rx,ry,rz),cx,cy,p);
+          ctx.beginPath();ctx.arc(gp[0],gp[1],1.2,0,Math.PI*2);
+          ctx.fillStyle='rgba(255,215,0,0.15)';ctx.fill();
+        }
+      }
+
+      // ── Inventive System One — Premium 3D Brand Emblem ──
+      function emblem(rx, ry, rz, cx, cy, sc) {
+        var p = 700;
+        var r = 36 * sc, depth = 5 * sc;
+        var edges = 8;
+        // Generate octagonal prism
         var v = [];
-        for (var x = -1; x <= 1; x += 2)
-          for (var y = -1; y <= 1; y += 2)
-            for (var z = -1; z <= 1; z += 2)
-              v.push([x*hw, y*hh, z*hd]);
-        var f = [[0,1,3,2],[4,6,7,5],[0,4,5,1],[2,3,7,6],[0,2,6,4],[1,5,7,3]];
-        return { verts: v, faces: f };
-      }
-
-      function laptop(rx, ry, rz, cx, cy, sc) {
-        var p = 800;
-        var bw = 44*sc, bd = 30*sc, bh = 2.2*sc;
-        var sw = 41*sc, sh = 27*sc, st = 0.7*sc;
-        var hingeY = -bd/2 + 1*sc;
-
-        // Base keyboard deck
-        var base = makeBox(bw/2, bd/2, bh/2);
-        var baseR = base.verts.map(function(v) { return rot3D(v, rx, ry, rz); });
-        var baseCols = ['#2a2a35','#1a1a22','#222230','#222230','#30303d','#15151c'];
-        drawFaces(baseR, base.faces, baseCols, cx, cy, p, null);
-
-        // Keyboard surface (recessed area on top of base)
-        var kbW = bw*0.7, kbD = bd*0.55;
-        var kbVerts = [
-          [-kbW/2, -bd/2+bh*0.5+2*sc, bh], [kbW/2, -bd/2+bh*0.5+2*sc, bh],
-          [kbW/2, -bd/2+bh*0.5+kbD, bh], [-kbW/2, -bd/2+bh*0.5+kbD, bh],
-          [-kbW/2, -bd/2+bh*0.5+2*sc, bh+0.5*sc], [kbW/2, -bd/2+bh*0.5+2*sc, bh+0.5*sc],
-          [kbW/2, -bd/2+bh*0.5+kbD, bh+0.5*sc], [-kbW/2, -bd/2+bh*0.5+kbD, bh+0.5*sc]
-        ];
-        var kbR = kbVerts.map(function(v) { return rot3D(v, rx, ry, rz); });
-        var kbFaces = [[0,1,2,3],[4,6,7,5],[0,4,5,1],[2,3,7,6],[0,2,6,4],[1,5,7,3]];
-        drawFaces(kbR, kbFaces, ['#1a1a22','#111118','#181820','#181820','#202028','#0d0d14'], cx, cy, p, null);
-
-        // Trackpad
-        var tpW = bw*0.15, tpD = bd*0.12;
-        var tpx = 0, tpy = -bd/2 + bh*0.5 + kbD + 2*sc;
-        var tpVerts = [
-          [-tpW/2, tpy, bh+0.3*sc], [tpW/2, tpy, bh+0.3*sc],
-          [tpW/2, tpy+tpD, bh+0.3*sc], [-tpW/2, tpy+tpD, bh+0.3*sc],
-          [-tpW/2, tpy, bh+0.8*sc], [tpW/2, tpy, bh+0.8*sc],
-          [tpW/2, tpy+tpD, bh+0.8*sc], [-tpW/2, tpy+tpD, bh+0.8*sc]
-        ];
-        var tpR = tpVerts.map(function(v) { return rot3D(v, rx, ry, rz); });
-        var tpFaces = [[0,1,2,3],[4,6,7,5],[0,4,5,1],[2,3,7,6],[0,2,6,4],[1,5,7,3]];
-        drawFaces(tpR, tpFaces, ['#3a3a45','#2a2a35','#333340','#333340','#40404d','#252530'], cx, cy, p, null);
-
-        // Screen — angled back from hinge
-        var scrAng = -Math.PI * 0.58;
-        var scrCx = 0, scrCy = hingeY + Math.cos(scrAng) * sh/2, scrCz = Math.sin(scrAng) * sh/2;
-        var screen = makeBox(sw/2, sh/2, st/2);
-        var screenR = screen.verts.map(function(v) {
-          var vr = rot3D([v[0], v[1], v[2] + sh/2], scrAng, 0, 0);
-          var vt = [vr[0] + scrCx, -vr[2] + scrCy, vr[1] + scrCz];
-          return rot3D(vt, rx, ry, rz);
-        });
-        var scrCols = ['#0a0a0f','#05050a','#080810','#080810','#0d0d15','#030308'];
-        drawFaces(screenR, screen.faces, scrCols, cx, cy, p, null);
-
-        // Screen display (glowing inner panel)
-        var dW = sw*0.88, dH = sh*0.88, dOff = 0.4*sc;
-        var dispVerts = [
-          [-dW/2, -dH/2, -st/2-dOff], [dW/2, -dH/2, -st/2-dOff],
-          [dW/2, dH/2, -st/2-dOff], [-dW/2, dH/2, -st/2-dOff],
-          [-dW/2, -dH/2, -st/2-dOff-0.1*sc], [dW/2, -dH/2, -st/2-dOff-0.1*sc],
-          [dW/2, dH/2, -st/2-dOff-0.1*sc], [-dW/2, dH/2, -st/2-dOff-0.1*sc]
-        ];
-        var dispR = dispVerts.map(function(v) {
-          var vr = rot3D([v[0], v[1], v[2] + sh/2], scrAng, 0, 0);
-          var vt = [vr[0] + scrCx, -vr[2] + scrCy, vr[1] + scrCz];
-          return rot3D(vt, rx, ry, rz);
-        });
-        var dispFaces = [[0,1,2,3],[4,6,7,5]];
-        var glow = 'rgba(0, 230, 118, ' + (0.15 + 0.08 * Math.sin(t * 0.02)) + ')';
-        var glow2 = 'rgba(0, 230, 118, ' + (0.06 + 0.04 * Math.sin(t * 0.02 + 1)) + ')';
-        drawFaces(dispR, dispFaces, [glow, glow2], cx, cy, p, null);
-
-        // Screen circuit lines overlay
-        var projDisp = dispR.map(function(v) { return proj(v, cx, cy, p); });
-        var frontFace = [projDisp[0], projDisp[1], projDisp[2], projDisp[3]];
-        for (var li = 0; li < 6; li++) {
-          var lx1 = frontFace[0][0] + (frontFace[1][0]-frontFace[0][0]) * (0.15 + li*0.14);
-          var ly1 = frontFace[0][1] + (frontFace[1][1]-frontFace[0][1]) * (0.15 + li*0.14);
-          var lx2 = frontFace[3][0] + (frontFace[2][0]-frontFace[3][0]) * (0.15 + li*0.14);
-          var ly2 = frontFace[3][1] + (frontFace[2][1]-frontFace[3][1]) * (0.15 + li*0.14);
-          var a = 0.03 + 0.05 * Math.sin(t * 0.01 + li * 2);
-          ctx.beginPath(); ctx.moveTo(lx1, ly1); ctx.lineTo(lx2, ly2);
-          ctx.strokeStyle = 'rgba(0, 230, 118, ' + a + ')'; ctx.lineWidth = 0.5; ctx.stroke();
+        for (var i = 0; i < edges; i++) {
+          var a = (i / edges) * Math.PI * 2 - Math.PI / 2;
+          v.push([Math.cos(a) * r, Math.sin(a) * r, -depth]);
         }
-
-        // Glowing dots on screen display
-        for (var di = 0; di < 8; di++) {
-          var dx = frontFace[0][0] + (frontFace[1][0]-frontFace[0][0]) * (0.2 + Math.random()*0.6);
-          var dy = frontFace[0][1] + (frontFace[3][1]-frontFace[0][1]) * (0.2 + Math.random()*0.6);
-          ctx.beginPath(); ctx.arc(dx, dy, 1.2, 0, Math.PI*2);
-          ctx.fillStyle = 'rgba(0, 230, 118, ' + (0.1 + Math.random()*0.15) + ')'; ctx.fill();
+        for (var i = 0; i < edges; i++) {
+          var a = (i / edges) * Math.PI * 2 - Math.PI / 2;
+          v.push([Math.cos(a) * r, Math.sin(a) * r, depth]);
         }
+        // Side faces
+        var sf = [];
+        for (var i = 0; i < edges; i++) {
+          var ni = (i + 1) % edges;
+          sf.push([i, ni, ni + edges, i + edges]);
+        }
+        // End caps
+        var fFront = [], fBack = [];
+        for (var i = 0; i < edges; i++) { fFront.push(i); fBack.push(i + edges); }
+        sf.push(fFront);
+        sf.push(fBack);
 
-        // Tech glow behind laptop
-        var prC = proj([0,0,0], cx, cy, p);
-        var grd = ctx.createRadialGradient(prC[0], prC[1], 0, prC[0], prC[1], 200*sc);
-        grd.addColorStop(0, 'rgba(0, 230, 118, 0.02)');
+        var gold = ['#c99b3c','#d4a848','#b8922e','#c9a03a','#e0b850','#a07820','#bf9030','#c9a03a','#d4a848','#d4a848'];
+        while (gold.length < sf.length) gold.push('#c9a03a');
+
+        // Rotate all vertices
+        var ro = v.map(function(vv) { return rot3D(vv, rx, ry, rz); });
+        drawBox(ro, sf, gold, cx, cy, p, 0.5, 'rgba(255,215,0,0.1)');
+
+        // Front face text
+        var fCenter = ro.slice(0, edges);
+        var fAvg = fCenter.reduce(function(s, vv) { return [s[0]+vv[0], s[1]+vv[1], s[2]+vv[2]]; }, [0,0,0]);
+        fAvg = [fAvg[0]/edges, fAvg[1]/edges, fAvg[2]/edges];
+        var fp = proj(fAvg, cx, cy, p);
+        var fs = 0.55 + 0.15 * (1 - Math.abs(fAvg[2]) / 150);
+
+        // Glowing ring
+        ctx.beginPath(); ctx.arc(fp[0], fp[1], r*0.85*fs, 0, Math.PI*2);
+        ctx.strokeStyle = 'rgba(0,230,118,'+(0.15+0.1*Math.sin(t*0.02))+')';
+        ctx.lineWidth = 1.5; ctx.stroke();
+
+        // Text
+        ctx.save();
+        ctx.translate(fp[0], fp[1]);
+        ctx.scale(fs, fs);
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+
+        ctx.fillStyle = 'rgba(255,255,255,0.85)';
+        ctx.font = 'bold ' + Math.round(8 * sc * 0.6) + 'px "Inter",sans-serif';
+        ctx.letterSpacing = '3px';
+        ctx.fillText('INVENTIVE', 0, -8 * sc * 0.6);
+        ctx.fillStyle = 'rgba(0,230,118,0.9)';
+        ctx.font = 'bold ' + Math.round(8 * sc * 0.55) + 'px "Inter",sans-serif';
+        ctx.fillText('SYSTEM', 0, 2 * sc * 0.6);
+        ctx.fillStyle = 'rgba(255,255,255,0.5)';
+        ctx.font = Math.round(4.5 * sc * 0.6) + 'px "Inter",sans-serif';
+        ctx.fillText('ONE', 0, 11 * sc * 0.6);
+
+        ctx.restore();
+
+        // Outer glow
+        var grd = ctx.createRadialGradient(fp[0], fp[1], 0, fp[0], fp[1], r*1.4*fs);
+        grd.addColorStop(0, 'rgba(0,230,118,0.04)');
         grd.addColorStop(1, 'transparent');
         ctx.fillStyle = grd;
-        ctx.beginPath(); ctx.arc(prC[0], prC[1], 200*sc, 0, Math.PI*2); ctx.fill();
+        ctx.beginPath(); ctx.arc(fp[0], fp[1], r*1.4*fs, 0, Math.PI*2); ctx.fill();
       }
 
       function draw() {
         ctx.clearRect(0, 0, W, H);
         t++;
-        var cx = W/2 + mouse.tx*15, cy = H/2 + mouse.ty*15;
-        var sc = Math.min(W, H) / 750;
-        var rx = Math.sin(t*0.002)*0.1 + mouse.ty*0.003;
-        var ry = Math.cos(t*0.003)*0.3 + mouse.tx*0.003;
-        var rz = Math.sin(t*0.0015)*0.03;
+        var cx = W/2 + mouse.x*20, cy = H/2 + mouse.y*20;
+        var sc = Math.min(W, H) / 800;
+        var rx = t*0.005 + mouse.y*0.002, ry = t*0.008 + mouse.x*0.002, rz = t*0.002;
 
-        laptop(rx, ry, rz, cx, cy, sc);
+        // Wireframe tech parts
+        ramWire(rx, ry, rz, cx-90*sc, cy, sc);
+        ramWire(rx+0.2, ry+0.3, rz, cx+90*sc, cy, sc);
+        ramWire(rx-0.1, ry-0.2, rz+0.1, cx, cy-100*sc, sc*0.9);
+        cpuWire(rx+0.5, ry-0.3, rz, cx, cy, sc);
 
-        // Subtle floating particles
-        for (var i = 0; i < 35; i++) {
-          var ph = i*2.1, ps = 0.0015 + i*0.00008;
-          var pz = Math.sin(t*ps+ph)*2;
-          var px = Math.cos(i*0.8+t*0.0008)*1.3;
-          var py = Math.sin(i*0.6+t*0.001)*1.3;
-          var pp = 500 / (500 + pz*100);
-          var sx = cx + px*300*pp, sy = cy + py*300*pp;
-          var a = 0.01 + 0.04*(1-Math.abs(pz)/2);
-          ctx.beginPath(); ctx.arc(sx, sy, 1*pp, 0, Math.PI*2);
-          ctx.fillStyle = 'rgba(0, 230, 118, '+a+')'; ctx.fill();
+        // Circuit lines
+        var spots = [[cx-90*sc, cy],[cx+90*sc, cy],[cx, cy-100*sc],[cx, cy]];
+        for(var i=0;i<spots.length;i++) for(var j=i+1;j<spots.length;j++){
+          var al=0.04+0.03*Math.sin(t*0.01+i+j);
+          ctx.beginPath();ctx.moveTo(spots[i][0],spots[i][1]);ctx.lineTo(spots[j][0],spots[j][1]);
+          ctx.strokeStyle='rgba(0,230,118,'+al+')';ctx.lineWidth=0.5;ctx.stroke();
+        }
+
+        // Center: Inventive System One emblem
+        var eRx = t*0.004 + mouse.y*0.003;
+        var eRy = t*0.006 + mouse.x*0.003;
+        emblem(eRx, eRy, t*0.001, cx, cy, sc);
+
+        // Particles
+        var persp=400;
+        for(var i=0;i<60;i++){
+          var ph=i*1.7, ps=0.001+i*0.00005;
+          var pz=Math.sin(t*ps+ph)*1.5;
+          var px=Math.cos(i*0.9+t*0.0008)*1.2, py=Math.sin(i*0.7+t*0.001)*1.2;
+          var s=persp/(persp+pz*100);
+          var sx=cx+px*200*s, sy=cy+py*200*s;
+          var a=0.05+0.12*(1-Math.abs(pz)/1.5);
+          ctx.beginPath();ctx.arc(sx,sy,1.5*s,0,Math.PI*2);
+          ctx.fillStyle='rgba(0,230,118,'+a+')';ctx.fill();
+          if(a>0.12){ctx.beginPath();ctx.arc(sx,sy,1.5*s*3,0,Math.PI*2);
+          ctx.fillStyle='rgba(0,230,118,'+(a*0.08)+')';ctx.fill();}
         }
       }
 
       window.addEventListener('mousemove', function(e) {
-        mouse.tx += ((e.clientX/W-0.5)*2 - mouse.tx) * 0.08;
-        mouse.ty += ((e.clientY/H-0.5)*2 - mouse.ty) * 0.08;
+        mouse.x = (e.clientX/W-0.5)*2;
+        mouse.y = (e.clientY/H-0.5)*2;
       });
 
       function animate() { draw(); requestAnimationFrame(animate); }
