@@ -1189,29 +1189,88 @@ body {
   box-shadow: 0 0 0 3px rgba(0, 230, 118, 0.12), 0 2px 12px rgba(0, 230, 118, 0.08);
 }
 
-.code-select {
-  padding: 0.85rem 0 0.85rem 14px;
-  background: #f5f7fa;
-  border: none;
-  border-right: 1px solid #e0e0e0;
-  color: #111;
-  font-size: 0.95rem;
-  font-weight: 600;
-  font-family: inherit;
-  cursor: pointer;
-  outline: none;
+.code-drop {
+  position: relative;
   min-width: 105px;
-  appearance: none;
-  -webkit-appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23777'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 10px center;
-  padding-right: 28px;
+  background: #f5f7fa;
+  border-right: 1px solid #e0e0e0;
+  cursor: pointer;
+  user-select: none;
 }
 
-.code-select:focus {
-  background-color: #f0f2f5;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%2300e676'/%3E%3C/svg%3E");
+.code-selected {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.85rem 28px 0.85rem 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #111;
+  white-space: nowrap;
+}
+
+.code-arrow {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: transform 0.2s;
+}
+
+.code-drop.open .code-arrow {
+  transform: translateY(-50%) rotate(180deg);
+}
+
+.code-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  min-width: 140px;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+  display: none;
+  z-index: 20;
+  max-height: 260px;
+  overflow-y: auto;
+  padding: 4px;
+}
+
+.code-drop.open .code-options {
+  display: block;
+}
+
+.code-opt {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #222;
+  border-radius: 8px;
+  transition: background 0.15s;
+}
+
+.code-opt:hover {
+  background: #f0f2f5;
+}
+
+.code-opt.selected {
+  background: rgba(0, 230, 118, 0.08);
+  color: #00e676;
+  font-weight: 600;
+}
+
+.flag-icon {
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.code-hidden-select {
+  display: none;
 }
 
 .phone-group input {
