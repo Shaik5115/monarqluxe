@@ -5,33 +5,26 @@
 }
 
 :root {
-  --bg-primary: #f5f2ed;
+  --bg-primary: #f5f7fa;
   --bg-secondary: #ffffff;
   --bg-card: #ffffff;
-  --bg-card-hover: #eeebe6;
-  --bg-alt: #f0f5f0;
-  --bg-dark: #0f1a14;
-  --cream: #f5f2ed;
-  --cream-dark: #e8e3dc;
-  --navy-deep: #e0dbd4;
-  --navy: #e8e3dc;
-  --navy-mid: #d5d0c8;
+  --bg-card-hover: #f0f2f5;
+  --navy-deep: #e8ecf0;
+  --navy: #f0f2f5;
+  --navy-mid: #e0e4e8;
   --gold: #00e676;
   --gold-light: #69f0ae;
   --gold-dark: #00c853;
   --gold-subtle: rgba(0, 230, 118, 0.08);
-  --gold-bg: rgba(0, 230, 118, 0.035);
   --text-primary: #000000;
   --text-secondary: #000000;
   --text-muted: #000000;
-  --border: #d5d0c8;
+  --border: #d0d4dc;
   --border-gold: rgba(0, 230, 118, 0.2);
   --gradient-gold: linear-gradient(135deg, #00e676, #69f0ae, #00e676);
-  --gradient-navy: linear-gradient(135deg, #e8e3dc, #ddd8d0);
-  --gradient-green-wash: linear-gradient(180deg, rgba(0, 230, 118, 0.03) 0%, transparent 100%);
+  --gradient-navy: linear-gradient(135deg, #f0f2f5, #e8ecf0);
   --shadow-gold: 0 0 40px rgba(0, 230, 118, 0.1);
-  --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.05);
-  --shadow-card-hover: 0 12px 40px rgba(0, 0, 0, 0.08);
+  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.06);
   --transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   --radius: 16px;
   --radius-sm: 10px;
@@ -274,27 +267,31 @@ body {
 }
 
 .animated-bg .orb:nth-child(1) {
-  width: 600px;
-  height: 600px;
-  background: #00e676;
-  top: -250px;
-  right: -150px;
+  width: 700px;
+  height: 700px;
+  background: #ffd700;
+  top: -300px;
+  left: -200px;
   animation-delay: 0s;
-  opacity: 0.04;
 }
 
 .animated-bg .orb:nth-child(2) {
-  width: 450px;
-  height: 450px;
-  background: #00e676;
-  bottom: -180px;
-  left: -100px;
-  animation-delay: -10s;
-  opacity: 0.03;
+  width: 500px;
+  height: 500px;
+  background: #0a1628;
+  bottom: -200px;
+  right: -100px;
+  animation-delay: -8s;
 }
 
 .animated-bg .orb:nth-child(3) {
-  display: none;
+  width: 400px;
+  height: 400px;
+  background: #ffd700;
+  top: 40%;
+  left: 60%;
+  animation-delay: -16s;
+  opacity: 0.05;
 }
 
 @keyframes orbFloat {
@@ -313,61 +310,8 @@ body {
   z-index: 0;
   pointer-events: none;
   background-image:
-    radial-gradient(circle at 20% 25%, rgba(0, 230, 118, 0.025) 0%, transparent 45%),
-    radial-gradient(circle at 80% 75%, rgba(0, 230, 118, 0.015) 0%, transparent 40%);
-}
-
-/* ── Subtle Dot Grid Overlay ── */
-.dot-grid {
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  pointer-events: none;
-  z-index: 0;
-  overflow: hidden;
-}
-
-.dot-grid::after {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background-image: radial-gradient(circle, rgba(0, 230, 118, 0.06) 1px, transparent 1px);
-  background-size: 32px 32px;
-  opacity: 0.5;
-}
-
-/* ── Section Alternating Backgrounds ── */
-.section-alt {
-  background: var(--bg-alt);
-  position: relative;
-}
-
-.section-white {
-  background: #ffffff;
-  position: relative;
-}
-
-.section-dark {
-  background: var(--bg-dark);
-  position: relative;
-}
-
-/* ── Subtle Green Top Border Accent ── */
-.section-bordered {
-  border-top: 1px solid var(--border);
-}
-
-/* ── Gradient Wash Overlay ── */
-.green-wash {
-  position: relative;
-}
-
-.green-wash::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 280px;
-  background: var(--gradient-green-wash);
-  pointer-events: none;
+    radial-gradient(circle at 15% 30%, rgba(255, 215, 0, 0.02) 0%, transparent 50%),
+    radial-gradient(circle at 85% 70%, rgba(10, 22, 40, 0.06) 0%, transparent 50%);
 }
 
 /* ── Navbar ── */
@@ -524,7 +468,7 @@ body {
 .hero-overlay {
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: linear-gradient(135deg, rgba(245, 242, 237, 0.82) 0%, rgba(245, 242, 237, 0.50) 50%, rgba(255, 255, 255, 0.75) 100%);
+  background: linear-gradient(135deg, rgba(245, 247, 250, 0.75) 0%, rgba(245, 247, 250, 0.55) 60%, rgba(255, 255, 255, 0.7) 100%);
   pointer-events: none;
 }
 
@@ -697,11 +641,11 @@ body {
   gap: 1.5rem;
   margin-top: 4.5rem;
   padding: 2.5rem;
-  background: rgba(245, 242, 237, 0.88);
+  background: rgba(0, 0, 0, 0.02);
   border: 1px solid var(--border);
   border-radius: 20px;
   animation: fadeInUp 0.8s ease 1s both;
-  backdrop-filter: blur(16px);
+  backdrop-filter: blur(10px);
 }
 
 .stat-item {
@@ -736,20 +680,7 @@ body {
 
 /* ── Section Styles ── */
 .section {
-  padding: 6rem 2rem;
-  max-width: 1280px;
-  margin: 0 auto;
-  position: relative;
-  z-index: 1;
-}
-
-.section-full {
-  padding: 6rem 2rem;
-  position: relative;
-  z-index: 1;
-}
-
-.section-full .section-inner {
+  padding: 7rem 2rem;
   max-width: 1280px;
   margin: 0 auto;
 }
@@ -1574,7 +1505,7 @@ body {
 
 /* ── Footer ── */
 .footer {
-  background: var(--cream-dark);
+  background: var(--bg-secondary);
   border-top: 1px solid var(--border);
   padding: 5rem 2rem 2rem;
   position: relative;
