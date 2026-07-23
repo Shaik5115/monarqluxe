@@ -62,8 +62,12 @@
               <input type="text" name="Full Name" id="name" placeholder="Your full name" required>
             </div>
             <div class="form-group">
-              <label for="email">Email Address</label>
-              <input type="email" name="Email" id="email" placeholder="your@email.com" required>
+              <label for="email">Email Address <span style="color:#e53935;">*</span></label>
+              <div class="email-wrap">
+                <input type="email" name="Email" id="email" placeholder="your@email.com" required>
+                <span class="email-status" id="emailStatus"></span>
+              </div>
+              <span id="emailError" style="color:#e53935;font-size:0.78rem;display:none;margin-top:0.3rem;">Please enter a valid email address (e.g. name@domain.com)</span>
             </div>
             <div class="form-group">
               <label for="phone">Phone Number</label>
@@ -225,6 +229,22 @@
 
   <script>
     (function() {
+      // Email validation
+      (function() {
+        var email = document.getElementById('email');
+        var status = document.getElementById('emailStatus');
+        var err = document.getElementById('emailError');
+        var re = /^[^\s@]+@[^\s@]+\.(com|in|co\.uk|org|net|edu|gov|ae|sa|qa|kw|bh|om|sg|eg|pk|bd|lk|au|uk)$/i;
+        function validate() {
+          var v = email.value.trim();
+          if (!v) { status.textContent = ''; err.style.display = 'none'; email.style.borderColor = '#d0d0d0'; return; }
+          if (re.test(v)) { status.textContent = '✓'; status.style.color = '#00e676'; err.style.display = 'none'; email.style.borderColor = '#00e676'; }
+          else { status.textContent = '✗'; status.style.color = '#e53935'; err.style.display = 'block'; email.style.borderColor = '#e53935'; }
+        }
+        email.addEventListener('input', validate);
+        email.addEventListener('blur', validate);
+      })();
+
       var dropdown = document.getElementById('codeDropdown');
       var selected = document.getElementById('codeSelected');
       var options = document.getElementById('codeOptions');
