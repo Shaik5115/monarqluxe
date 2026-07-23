@@ -54,7 +54,7 @@ body {
   width: 100%;
   height: 100%;
   z-index: 99999;
-  background: var(--bg-primary);
+  background: #0a0a0f;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -124,15 +124,17 @@ body {
   font-weight: 200;
   letter-spacing: 14px;
   padding: 0 0.3em;
-  color: rgba(26, 26, 46, 0.92);
+  color: rgba(255, 255, 255, 0.92);
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.92);
   font-family: 'Inter', 'Segoe UI', sans-serif;
   text-transform: uppercase;
-  animation: glowTextDark 4s ease-in-out infinite;
+  animation: glowTextWhite 4s ease-in-out infinite;
   line-height: 1;
+  text-shadow: 0 0 40px rgba(255, 255, 255, 0.04), 0 0 80px rgba(255, 255, 255, 0.02);
 }
 
-@keyframes glowTextDark {
-  0%, 100% { opacity: 0.85; }
+@keyframes glowTextWhite {
+  0%, 100% { opacity: 0.88; }
   50% { opacity: 1; }
 }
 
@@ -153,7 +155,7 @@ body {
 }
 
 .splash-sub {
-  color: rgba(26, 26, 46, 0.45);
+  color: rgba(0, 230, 118, 0.5);
   font-size: clamp(0.85rem, 2vw, 1.1rem);
   letter-spacing: 10px;
   text-transform: uppercase;
@@ -176,8 +178,8 @@ body {
   padding: 1rem 2.8rem;
   border: 1px solid var(--gold);
   border-radius: 50px;
-  background: rgba(0, 230, 118, 0.08);
-  color: var(--text-primary);
+  background: rgba(0, 230, 118, 0.06);
+  color: rgba(255, 255, 255, 0.9);
   font-size: 0.85rem;
   font-weight: 500;
   letter-spacing: 4px;
@@ -235,7 +237,7 @@ body {
   left: 50%;
   transform: translateX(-50%);
   z-index: 3;
-  color: var(--text-muted);
+  color: rgba(255, 255, 255, 0.15);
   font-size: 0.65rem;
   letter-spacing: 3px;
   text-transform: uppercase;
