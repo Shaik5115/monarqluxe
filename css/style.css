@@ -16,9 +16,9 @@
   --gold-light: #69f0ae;
   --gold-dark: #00c853;
   --gold-subtle: rgba(0, 230, 118, 0.08);
-  --text-primary: #1a1a2e;
-  --text-secondary: #555566;
-  --text-muted: #9999aa;
+  --text-primary: #000000;
+  --text-secondary: #000000;
+  --text-muted: #000000;
   --border: #d0d4dc;
   --border-gold: rgba(0, 230, 118, 0.2);
   --gradient-gold: linear-gradient(135deg, #00e676, #69f0ae, #00e676);
