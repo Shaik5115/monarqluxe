@@ -220,14 +220,8 @@
         ctx.fillStyle = grd;
         ctx.fillRect(0, 0, W, H);
 
-        // Particles background layer (before emblem)
+        // Particles background
         drawParticles(cx, cy);
-
-        // Emblem with its own rotation
-        var sc = Math.min(W, H) / 800;
-        var eRx = t*0.004 + mouse.y*0.003;
-        var eRy = t*0.006 + mouse.x*0.003;
-        emblem(eRx, eRy, t*0.001, cx, cy, sc);
       }
 
       window.addEventListener('mousemove', function(e) {
