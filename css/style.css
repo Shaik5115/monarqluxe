@@ -1195,17 +1195,31 @@ body {
   position: relative;
 }
 
+.email-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1rem;
+  font-weight: 700;
+  color: #999;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.email-wrap input {
+  padding-left: 34px !important;
+  padding-right: 40px !important;
+}
+
 .email-status {
   position: absolute;
   right: 14px;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 1.2rem;
+  font-size: 1.1rem;
+  font-weight: 700;
   line-height: 1;
-}
-
-.email-wrap input {
-  padding-right: 40px !important;
 }
 
 .phone-group:focus-within {
