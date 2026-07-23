@@ -1178,10 +1178,17 @@ body {
   gap: 0;
   border: 1px solid #d0d0d0;
   border-radius: 12px;
-  overflow: hidden;
   background: #fff;
   box-shadow: 0 2px 8px rgba(0,0,0,0.04);
   transition: all 0.3s ease;
+}
+
+.code-drop {
+  border-radius: 12px 0 0 12px;
+}
+
+.phone-group input {
+  border-radius: 0 12px 12px 0 !important;
 }
 
 .phone-group:focus-within {
