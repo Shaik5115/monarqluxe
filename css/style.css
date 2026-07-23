@@ -1124,11 +1124,11 @@ body {
 }
 
 .contact-form {
-  background: var(--gradient-navy);
-  border: 1px solid var(--border);
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
   border-radius: 20px;
   padding: 3rem;
-  box-shadow: var(--shadow-card);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.06);
 }
 
 .form-group {
@@ -1140,7 +1140,7 @@ body {
   margin-bottom: 0.4rem;
   font-size: 0.82rem;
   font-weight: 600;
-  color: var(--text-secondary);
+  color: #333333;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -1150,10 +1150,10 @@ body {
 .form-group textarea {
   width: 100%;
   padding: 0.85rem 1.2rem;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--border);
+  background: #f8f8f8;
+  border: 1px solid #d0d0d0;
   border-radius: var(--radius-sm);
-  color: var(--text-primary);
+  color: #222222;
   font-size: 0.92rem;
   font-family: inherit;
   transition: var(--transition);
@@ -1163,9 +1163,9 @@ body {
 .form-group select:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: var(--gold);
-  box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.08);
-  background: rgba(255, 255, 255, 0.05);
+  border-color: #00e676;
+  box-shadow: 0 0 0 3px rgba(0, 230, 118, 0.12);
+  background: #ffffff;
 }
 
 .form-group textarea {
