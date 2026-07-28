@@ -1510,6 +1510,68 @@ body {
   z-index: 2;
 }
 
+/* "" Segment Sections (full-width bg image sections) "" */
+.segment-section {
+  position: relative;
+  overflow: hidden;
+  padding: 5rem 2rem;
+}
+.segment-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0,10,20,0.92) 0%, rgba(0,30,25,0.88) 100%);
+  z-index: 1;
+  pointer-events: none;
+}
+.segment-section .section-header,
+.segment-section .content-grid,
+.segment-section .segment-content {
+  position: relative;
+  z-index: 2;
+}
+.segment-section p,
+.segment-section li,
+.segment-section h2,
+.segment-section h3,
+.segment-section h4 {
+  color: #ffffff;
+}
+.segment-section ul {
+  list-style: none;
+  padding: 0;
+}
+.segment-section ul li {
+  padding: 0.5rem 0;
+  padding-left: 1.8rem;
+  position: relative;
+}
+.segment-section ul li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.85rem;
+  width: 8px;
+  height: 8px;
+  background: #0D9488;
+  border-radius: 50%;
+}
+.segment-section .btn-primary {
+  background: #0D9488;
+  border: none;
+  color: #fff;
+  padding: 0.8rem 2rem;
+  border-radius: 50px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-decoration: none;
+  display: inline-block;
+}
+.segment-section .btn-primary:hover {
+  background: #004D40;
+  transform: translateY(-2px);
+}
+
 /* "" Service Detail "" */
 .service-detail-header {
   background: var(--gradient-navy);
@@ -2074,6 +2136,15 @@ body {
 
   .navbar .nav-links.open {
     right: 0;
+  }
+
+  .navbar .nav-links a {
+    color: #ffffff;
+  }
+
+  .navbar .nav-links a:hover,
+  .navbar .nav-links a.active {
+    color: #0D9488;
   }
 
   .hamburger {
