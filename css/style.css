@@ -1453,7 +1453,7 @@ body {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 2.5rem 2rem;
-  text-align: center;
+  text-align: left;
   transition: var(--transition);
   box-shadow: var(--shadow-card);
   position: relative;
@@ -1474,10 +1474,21 @@ body {
   box-shadow: var(--shadow-brand), var(--shadow-card);
 }
 
+.ind-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+  position: relative;
+  z-index: 2;
+}
+
 .industry-card .ind-icon {
   font-size: 2.5rem;
-  margin-bottom: 1rem;
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
   position: relative;
   z-index: 2;
 }
@@ -1485,10 +1496,10 @@ body {
 .industry-card h4 {
   font-size: 1.1rem;
   font-weight: 700;
-  margin-bottom: 0.5rem;
   color: #ffffff;
   position: relative;
   z-index: 2;
+  margin: 0;
 }
 
 .industry-card p {
