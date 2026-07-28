@@ -1456,6 +1456,16 @@ body {
   text-align: center;
   transition: var(--transition);
   box-shadow: var(--shadow-card);
+  position: relative;
+  overflow: hidden;
+}
+
+.industry-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0,10,20,0.92) 0%, rgba(0,30,25,0.88) 100%);
+  z-index: 1;
+  pointer-events: none;
 }
 
 .industry-card:hover {
@@ -1468,19 +1478,25 @@ body {
   font-size: 2.5rem;
   margin-bottom: 1rem;
   display: block;
+  position: relative;
+  z-index: 2;
 }
 
 .industry-card h4 {
   font-size: 1.1rem;
   font-weight: 700;
   margin-bottom: 0.5rem;
-  color: #000000;
+  color: #ffffff;
+  position: relative;
+  z-index: 2;
 }
 
 .industry-card p {
-  color: var(--text-secondary);
+  color: rgba(255,255,255,0.85);
   font-size: 0.88rem;
   line-height: 1.7;
+  position: relative;
+  z-index: 2;
 }
 
 /* "" Service Detail "" */
