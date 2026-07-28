@@ -1184,11 +1184,11 @@ body {
 }
 
 .contact-form {
-  background: #ffffff;
-  border: 1px solid #e0e0e0;
+  background: #0a0a0a;
+  border: 1px solid rgba(13,148,136,0.25);
   border-radius: 20px;
   padding: 3rem;
-  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
 }
 
 .form-group {
@@ -1200,7 +1200,7 @@ body {
   margin-bottom: 0.4rem;
   font-size: 0.82rem;
   font-weight: 600;
-  color: #000000;
+  color: #ffffff;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -1210,10 +1210,10 @@ body {
 .form-group textarea {
   width: 100%;
   padding: 0.85rem 1.2rem;
-  background: #f8f8f8;
-  border: 1px solid #d0d0d0;
+  background: #1a1a1a;
+  border: 1px solid rgba(255,255,255,0.12);
   border-radius: var(--radius-sm);
-  color: #000000;
+  color: #ffffff;
   font-size: 0.92rem;
   font-family: inherit;
   transition: var(--transition);
@@ -1223,9 +1223,9 @@ body {
 .form-group select:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: #004D40;
-  box-shadow: 0 0 0 3px rgba(0, 77, 64, 0.12);
-  background: #ffffff;
+  border-color: #0D9488;
+  box-shadow: 0 0 0 3px rgba(13,148,136,0.15);
+  background: #222;
 }
 
 .form-group textarea {
@@ -1233,13 +1233,19 @@ body {
   resize: vertical;
 }
 
+.form-group input::placeholder,
+.form-group select::placeholder,
+.form-group textarea::placeholder {
+  color: rgba(255,255,255,0.35);
+}
+
 .phone-group {
   display: flex;
   gap: 0;
-  border: 1px solid #d0d0d0;
+  border: 1px solid rgba(255,255,255,0.12);
   border-radius: 12px;
-  background: #fff;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  background: #1a1a1a;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
   transition: all 0.3s ease;
 }
 
@@ -1270,15 +1276,15 @@ body {
 }
 
 .phone-group:focus-within {
-  border-color: #004D40;
-  box-shadow: 0 0 0 3px rgba(0, 77, 64, 0.12), 0 2px 12px rgba(0, 77, 64, 0.08);
+  border-color: #0D9488;
+  box-shadow: 0 0 0 3px rgba(13,148,136,0.15), 0 2px 12px rgba(0, 77, 64, 0.08);
 }
 
 .code-drop {
   position: relative;
   min-width: 105px;
-  background: #f5f7fa;
-  border-right: 1px solid #e0e0e0;
+  background: #1a1a1a;
+  border-right: 1px solid rgba(255,255,255,0.1);
   cursor: pointer;
   user-select: none;
 }
@@ -1290,7 +1296,7 @@ body {
   padding: 0.85rem 28px 0.85rem 12px;
   font-size: 0.95rem;
   font-weight: 600;
-  color: #000000;
+  color: #ffffff;
   white-space: nowrap;
 }
 
@@ -1312,10 +1318,10 @@ body {
   left: 0;
   right: 0;
   min-width: 140px;
-  background: #fff;
-  border: 1px solid #e0e0e0;
+  background: #1a1a1a;
+  border: 1px solid rgba(255,255,255,0.12);
   border-radius: 10px;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
   display: none;
   z-index: 20;
   max-height: 260px;
@@ -1334,18 +1340,18 @@ body {
   padding: 10px 12px;
   font-size: 0.9rem;
   font-weight: 500;
-  color: #000000;
+  color: rgba(255,255,255,0.85);
   border-radius: 8px;
   transition: background 0.15s;
 }
 
 .code-opt:hover {
-  background: #f0f2f5;
+  background: rgba(255,255,255,0.06);
 }
 
 .code-opt.selected {
-  background: rgba(0, 77, 64, 0.08);
-  color: #000000;
+  background: rgba(13,148,136,0.12);
+  color: #ffffff;
   font-weight: 600;
 }
 
@@ -1379,7 +1385,7 @@ body {
 }
 
 .phone-group input::placeholder {
-  color: #aaa;
+  color: rgba(255,255,255,0.35);
   font-weight: 400;
 }
 
