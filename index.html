@@ -24,29 +24,8 @@
       <p class="splash-quote">-Transforming vision into reality through technology and talent.-</p>
     </div>
     <div class="splash-loader" id="splashLoader">
-      <div class="loader-progress">
-        <div class="loader-track">
-          <div class="loader-fill" id="loaderFill"></div>
-        </div>
-        <div class="loader-pct" id="loaderPct">0%</div>
-      </div>
-      <div class="loader-sparks">
-        <span></span><span></span><span></span><span></span><span></span>
-        <span></span><span></span><span></span><span></span><span></span>
-      </div>
-    </div>
-    <div class="splash-clock-card" id="splashClockCard">
-      <div class="splash-clock-face" id="splashLiveClock">
-        <div class="splash-clock-hand sh-hour" id="splashCh"></div>
-        <div class="splash-clock-hand sh-minute" id="splashCm"></div>
-        <div class="splash-clock-hand sh-second" id="splashCs"></div>
-        <div class="splash-clock-center"></div>
-      </div>
-      <div class="splash-clock-info">
-        <span class="splash-clock-label">Business Hours</span>
-        <span class="splash-clock-days">Mon - Sat</span>
-        <span class="splash-clock-hours">9:00 AM - 6:00 PM</span>
-        <span class="splash-clock-247">24/7 Support Available</span>
+      <div class="loader-track">
+        <div class="loader-fill" id="loaderFill"></div>
       </div>
     </div>
   </div>
@@ -226,7 +205,6 @@
         splashActive = false;
         var loader = document.getElementById('splashLoader');
         var fill = document.getElementById('loaderFill');
-        var pct = document.getElementById('loaderPct');
         loader.classList.add('active');
         var start = performance.now();
         var duration = 1000;
@@ -235,7 +213,6 @@
           var progress = Math.min(elapsed / duration, 1);
           var eased = 1 - Math.pow(1 - progress, 3);
           fill.style.width = (eased * 100) + '%';
-          pct.textContent = Math.round(eased * 100) + '%';
           if (progress < 1) {
             requestAnimationFrame(tick);
           } else {
@@ -330,16 +307,6 @@
     </div>
 
     <!- World Clock Grid ->
-    <section class="section world-clock-section">
-      <div class="section-header fade-in reveal reveal-up">
-        <span class="section-tag">Global Presence</span>
-        <h2 class="section-title">Live Worldwide <span class="highlight">Clocks</span></h2>
-        <div class="gold-divider"></div>
-        <p class="section-desc">Track our operating hours across the globe in real-time. <span class="clock-add-hint" onclick="showClockSelector()" style="cursor:pointer;color:var(--teal);text-decoration:underline;">+ Add a timezone</span></p>
-      </div>
-      <div class="clock-grid" id="clockGrid"></div>
-    </section>
-
     <!- Services Overview ->
     <section class="section">
       <div class="section-header fade-in reveal reveal-up">
@@ -578,7 +545,7 @@
           { keys: ["tech", "technology", "stack", "tools", "platform"], reply: " <b>Technology Stack</b><br><br>> Cloud: Azure, AWS, Google Cloud<br>> M365: Exchange, Teams, SharePoint, Entra ID<br>> Security: Sentinel, Defender, CrowdStrike<br>> ITSM: ServiceNow, Jira, Zendesk<br>> Monitoring: SolarWinds, PRTG, Datadog" },
           { keys: ["sla", "uptime", "guarantee", "service level"], reply: " <b>Service Level Agreements</b><br><br>> Enterprise-grade infrastructure uptime<br>> Rapid incident acknowledgment<br>> Fast critical issue response<br>> 24/7/365 support coverage<br>> Monthly performance reporting" },
           { keys: ["location", "global", "office", "presence", "worldwide"], reply: " <b>Global Presence</b><br><br>> North America: United States, Canada<br>> Europe: United Kingdom, Germany, Netherlands<br>> Middle East: UAE, Saudi Arabia<br>> Asia Pacific: India, Singapore, Australia<br><br>Multi-shore delivery model for 24/7 coverage." },
-          { keys: ["clock", "timezone", "time zone", "world clock", "live clock", "clocks"], reply: " <b>World Clock</b><br>Track live time across our global operating hubs.<br><br> Default timezones: India (IST), USA (EST), UK (GMT), UAE (GST)<br><br> To add a timezone, click <b>'+ Add a timezone'</b> above the clock grid, or type <b>'add India'</b>, <b>'add UAE'</b>, etc.<br><br> Type <b>'list clocks'</b> to see all available countries." },
+
           { keys: ["partner", "partnership", "alliance", "vendor"], reply: " <b>Partnerships and Alliances</b><br><br>> Microsoft Gold Partner<br>> Cisco Premier Partner<br>> AWS Advanced Tier Partner<br>> ServiceNow Alliance Partner<br>> ISO 27001 Certified" },
           { keys: ["hello", "hi", "hey", "greetings", "good morning", "good evening"], reply: " Hello! Welcome to <b>Monarq Luxe</b>!<br><br>I'm your AI assistant. Ask me about:<br>*  IT Infrastructure<br>*  Staffing Solutions<br>*  Cybersecurity<br>*  Pricing<br>*  Contact Info<br><br>Or type your question below!" },
           { keys: ["thank", "thanks", "appreciate", "grateful"], reply: " You're very welcome! If you have more questions, just ask. We're available 24/7 to help your business succeed.<br><br> Need urgent help? WhatsApp us at +919010552555" },
@@ -607,7 +574,6 @@
           tech: ["Cloud services", "M365 admin", "Security tools"],
           sla: ["IT service desk", "Infrastructure services", "Contact support"],
           location: ["Global offices", "Industries served", "About us"],
-          clock: ["List available clocks", "Add India clock", "Remove UAE clock"],
           partner: ["Technology stack", "About Monarq Luxe", "Contact us"],
           hello: ["IT Services overview", "Staffing solutions", "Pricing"],
           thank: ["Tell me about IT", "Contact information", "WhatsApp chat"],
@@ -621,7 +587,6 @@
           cyber: "Tell me about cybersecurity",
           pricing: "What are your pricing details?",
           contact: "What are your contact details?",
-          clock: "Show world clocks"
         };
 
         function getMatchedKey(text) {
@@ -695,50 +660,6 @@
         function handleUserMessage(text) {
           addUserMsg(text);
           replies.style.display = 'none';
-          var lower = text.toLowerCase().trim();
-          if (lower.indexOf('list') !== -1 && (lower.indexOf('clock') !== -1 || lower.indexOf('timezone') !== -1)) {
-            showTyping(function() {
-              var html = '<b>Available Countries for Clock</b><br><br>';
-              for (var cc in clockCountries) {
-                var c = clockCountries[cc];
-                var active = activeClocks.indexOf(cc) > -1;
-                var img = '<img src="'+c.flag+'" style="width:20px;border-radius:2px;vertical-align:middle;margin-right:4px;">';
-                html += (active ? ' ' : ' ') + img + ' <b>'+c.name+'</b> - '+c.city+' (UTC'+(c.offset>=0?'+':'')+c.offset/60+')' + (active ? ' [active]' : '') + '<br>';
-              }
-              html += '<br>Type <b>add [country]</b> to add a clock, <b>remove [country]</b> to remove.';
-              addBotMsg(html);
-            });
-            return;
-          }
-          if (lower.indexOf('add ') !== -1 || lower.indexOf('remove ') !== -1) {
-            var isAdd = lower.indexOf('add ') !== -1;
-            var parts = lower.split(/\s+/);
-            var searchName = parts.slice(1).join(' ');
-            var found = null;
-            for (var cc in clockCountries) {
-              if (clockCountries[cc].name.toLowerCase().indexOf(searchName) !== -1 || cc === searchName) {
-                found = cc; break;
-              }
-            }
-            showTyping(function() {
-              if (found) {
-                if (isAdd) {
-                  if (activeClocks.indexOf(found) === -1) {
-                    addClock(found);
-                    addBotMsg(' Added <b>'+clockCountries[found].name+'</b> clock to your dashboard!');
-                  } else {
-                    addBotMsg(' <b>'+clockCountries[found].name+'</b> clock is already active.');
-                  }
-                } else {
-                  removeClock(found);
-                  addBotMsg(' Removed <b>'+clockCountries[found].name+'</b> clock from your dashboard.');
-                }
-              } else {
-                addBotMsg(' Country not found. Type <b>list clocks</b> to see all available countries.');
-              }
-            });
-            return;
-          }
           showTyping(function() {
             var key = getMatchedKey(text);
             if (key) {
@@ -782,173 +703,7 @@
       })();
     </script>
   </div>
-  <!- Clock Selector Overlay ->
-  <div class="clock-selector-overlay" id="clockSelector">
-    <div class="clock-selector-modal">
-      <h3>World Clock</h3>
-      <p>Select countries to add to your live clock dashboard.</p>
-      <div class="clock-selector-list" id="clockSelectorList"></div>
-      <button class="clock-selector-close" onclick="closeClockSelector()">Done</button>
-    </div>
-  </div>
 
-  <script>
-    /* ── World Clock ── */
-    var clockCountries = {
-      'in': { name: 'India', flag: 'https://flagcdn.com/w40/in.png', city: 'New Delhi', offset: 330, code: 'in' },
-      'us': { name: 'United States', flag: 'https://flagcdn.com/w40/us.png', city: 'New York', offset: -300, code: 'us' },
-      'gb': { name: 'United Kingdom', flag: 'https://flagcdn.com/w40/gb.png', city: 'London', offset: 60, code: 'gb' },
-      'ae': { name: 'UAE', flag: 'https://flagcdn.com/w40/ae.png', city: 'Dubai', offset: 240, code: 'ae' },
-      'sg': { name: 'Singapore', flag: 'https://flagcdn.com/w40/sg.png', city: 'Singapore', offset: 480, code: 'sg' },
-      'au': { name: 'Australia', flag: 'https://flagcdn.com/w40/au.png', city: 'Sydney', offset: 660, code: 'au' },
-      'sa': { name: 'Saudi Arabia', flag: 'https://flagcdn.com/w40/sa.png', city: 'Riyadh', offset: 180, code: 'sa' },
-      'qa': { name: 'Qatar', flag: 'https://flagcdn.com/w40/qa.png', city: 'Doha', offset: 180, code: 'qa' },
-      'kw': { name: 'Kuwait', flag: 'https://flagcdn.com/w40/kw.png', city: 'Kuwait City', offset: 180, code: 'kw' },
-      'bh': { name: 'Bahrain', flag: 'https://flagcdn.com/w40/bh.png', city: 'Manama', offset: 180, code: 'bh' },
-      'om': { name: 'Oman', flag: 'https://flagcdn.com/w40/om.png', city: 'Muscat', offset: 240, code: 'om' },
-      'ca': { name: 'Canada', flag: 'https://flagcdn.com/w40/ca.png', city: 'Toronto', offset: -300, code: 'ca' },
-      'de': { name: 'Germany', flag: 'https://flagcdn.com/w40/de.png', city: 'Berlin', offset: 60, code: 'de' },
-      'fr': { name: 'France', flag: 'https://flagcdn.com/w40/fr.png', city: 'Paris', offset: 60, code: 'fr' },
-      'nl': { name: 'Netherlands', flag: 'https://flagcdn.com/w40/nl.png', city: 'Amsterdam', offset: 60, code: 'nl' },
-      'jp': { name: 'Japan', flag: 'https://flagcdn.com/w40/jp.png', city: 'Tokyo', offset: 540, code: 'jp' },
-      'cn': { name: 'China', flag: 'https://flagcdn.com/w40/cn.png', city: 'Beijing', offset: 480, code: 'cn' },
-      'kr': { name: 'South Korea', flag: 'https://flagcdn.com/w40/kr.png', city: 'Seoul', offset: 540, code: 'kr' },
-      'za': { name: 'South Africa', flag: 'https://flagcdn.com/w40/za.png', city: 'Johannesburg', offset: 120, code: 'za' },
-      'br': { name: 'Brazil', flag: 'https://flagcdn.com/w40/br.png', city: 'Brasilia', offset: -180, code: 'br' }
-    };
-
-    function detectDefaultClocks() {
-      var def = ['in'];
-      try {
-        var tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-        var tzMap = {
-          'America/New_York':'us','America/Chicago':'us','America/Denver':'us','America/Los_Angeles':'us','America/Phoenix':'us',
-          'America/Anchorage':'us','Pacific/Honolulu':'us','America/Toronto':'ca','America/Vancouver':'ca','America/Montreal':'ca',
-          'Europe/London':'gb','Europe/Paris':'fr','Europe/Berlin':'de','Europe/Amsterdam':'nl',
-          'Asia/Dubai':'ae','Asia/Riyadh':'sa','Asia/Qatar':'qa','Asia/Kuwait':'kw','Asia/Bahrain':'bh','Asia/Muscat':'om',
-          'Asia/Singapore':'sg','Asia/Tokyo':'jp','Asia/Seoul':'kr','Asia/Shanghai':'cn','Asia/Hong_Kong':'cn',
-          'Australia/Sydney':'au','Australia/Melbourne':'au','Australia/Perth':'au',
-          'Africa/Johannesburg':'za','America/Sao_Paulo':'br'
-        };
-        var det = tzMap[tz];
-        if (det && det !== 'in' && def.indexOf(det) === -1) def.push(det);
-      } catch(e) {}
-      return def;
-    }
-
-    var saved = localStorage.getItem('ml_clocks');
-    var activeClocks = saved ? JSON.parse(saved) : detectDefaultClocks();
-
-    function saveClocks() {
-      localStorage.setItem('ml_clocks', JSON.stringify(activeClocks));
-    }
-
-    function getTimeStr(code) {
-      var c = clockCountries[code];
-      if (!c) return '';
-      var now = new Date();
-      var utc = now.getTime() + now.getTimezoneOffset() * 60000;
-      var t = new Date(utc + c.offset * 60000);
-      var h = t.getHours(), m = String(t.getMinutes()).padStart(2,'0'), s = String(t.getSeconds()).padStart(2,'0');
-      var ampm = h >= 12 ? 'PM' : 'AM';
-      var h12 = h % 12 || 12;
-      return { h12: String(h12).padStart(2,'0'), m: m, s: s, ampm: ampm };
-    }
-
-    function renderGridClocks() {
-      var grid = document.getElementById('clockGrid');
-      if (!grid) return;
-      grid.innerHTML = '';
-      activeClocks.forEach(function(code) {
-        var c = clockCountries[code];
-        if (!c) return;
-        var t = getTimeStr(code);
-        var card = document.createElement('div');
-        card.className = 'clock-card reveal reveal-up';
-        card.innerHTML =
-          '<button class="clock-remove" onclick="removeClock(\''+code+'\')" title="Remove">x</button>' +
-          '<img class="clock-flag" src="'+c.flag+'" alt="'+c.name+'">' +
-          '<span class="clock-country">'+c.name+'</span>' +
-          '<span class="clock-city">'+c.city+'</span>' +
-          '<div><span class="clock-time">'+t.h12+':'+t.m+':'+t.s+'</span><span class="clock-ampm"> '+t.ampm+'</span></div>';
-        grid.appendChild(card);
-        setTimeout(function(el){ el.classList.add('visible'); }, 50, card);
-      });
-    }
-
-    function tickSplashClock() {
-      var ch = document.getElementById('splashCh');
-      var cm = document.getElementById('splashCm');
-      var cs = document.getElementById('splashCs');
-      if (!ch) return;
-      var now = new Date();
-      var utc = now.getTime() + now.getTimezoneOffset() * 60000;
-      var ist = new Date(utc + 330 * 60000);
-      var h = ist.getHours() % 12, m = ist.getMinutes(), s = ist.getSeconds();
-      ch.style.transform = 'translateX(-50%) rotate(' + (h * 30 + m * 0.5) + 'deg)';
-      cm.style.transform = 'translateX(-50%) rotate(' + (m * 6 + s * 0.1) + 'deg)';
-      cs.style.transform = 'translateX(-50%) rotate(' + (s * 6) + 'deg)';
-    }
-
-    function renderClocks() {
-      tickSplashClock();
-      renderGridClocks();
-    }
-
-    function tickClocks() {
-      renderClocks();
-    }
-
-    function addClock(code) {
-      if (activeClocks.indexOf(code) === -1) {
-        activeClocks.push(code);
-        saveClocks();
-        renderClocks();
-      }
-    }
-
-    function removeClock(code) {
-      var idx = activeClocks.indexOf(code);
-      if (idx > -1) {
-        activeClocks.splice(idx, 1);
-        saveClocks();
-        renderClocks();
-      }
-    }
-
-    function showClockSelector() {
-      var list = document.getElementById('clockSelectorList');
-      list.innerHTML = '';
-      for (var code in clockCountries) {
-        var c = clockCountries[code];
-        var sel = activeClocks.indexOf(code) > -1;
-        var item = document.createElement('div');
-        item.className = 'clock-selector-item' + (sel ? ' selected' : '');
-        item.innerHTML = '<img src="'+c.flag+'" alt="'+c.name+'"> '+c.name+' ('+c.city+')';
-        item.onclick = function(cc) {
-          return function() {
-            if (activeClocks.indexOf(cc) === -1) {
-              addClock(cc);
-            } else {
-              removeClock(cc);
-            }
-            showClockSelector();
-          };
-        }(code);
-        list.appendChild(item);
-      }
-      document.getElementById('clockSelector').classList.add('active');
-    }
-
-    function closeClockSelector() {
-      document.getElementById('clockSelector').classList.remove('active');
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-      renderClocks();
-      setInterval(tickClocks, 1000);
-    });
-  </script>
 
   <script src="js/main.js"></script>
 </body>
