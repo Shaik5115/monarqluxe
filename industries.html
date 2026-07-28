@@ -328,23 +328,6 @@
       function handleUserMessage(text) {
         addUserMsg(text);
         replies.style.display = 'none';
-        var lower = text.toLowerCase().trim();
-        if (lower.indexOf('set clock') !== -1 || lower.indexOf('change timezone') !== -1 || lower.indexOf('change to') !== -1 || lower.indexOf('switch to') !== -1) {
-          var searchName = lower.replace(/set clock |change timezone to |change to |switch to /, '').trim();
-          var found = null;
-          for (var cc in clockCountries) {
-            if (clockCountries[cc].name.toLowerCase().indexOf(searchName) !== -1 || cc === searchName) { found = cc; break; }
-          }
-          showTyping(function() {
-            if (found) {
-              setClockTimezone(found);
-              addBotMsg(' Floating clock updated to <b>' + clockCountries[found].name + '</b> (' + getTzAbbr(clockCountries[found].offset) + ') time!');
-            } else {
-              addBotMsg(' Country not found. Try: set clock UAE, set clock USA, etc.');
-            }
-          });
-          return;
-        }
         showTyping(function() {
           var key = getMatchedKey(text);
           if (key) {
@@ -387,18 +370,6 @@
       });
     })();
   </script>
-  <div class="float-clock" id="floatClock">
-    <div class="fc-face" id="fcFace">
-      <div class="fc-hand fc-hour" id="fcH"></div>
-      <div class="fc-hand fc-minute" id="fcM"></div>
-      <div class="fc-hand fc-second" id="fcS"></div>
-      <div class="fc-center"></div>
-    </div>
-    <div class="fc-info">
-      <span class="fc-tz" id="fcTz">India (IST)</span>
-      <span class="fc-digital" id="fcDigital">--:--:--</span>
-    </div>
-  </div>
-  <script src="js/clock.js"></script>
+
 </body>
 </html>

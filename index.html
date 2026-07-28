@@ -564,7 +564,7 @@
           { keys: ["tech", "technology", "stack", "tools", "platform"], reply: " <b>Technology Stack</b><br><br>> Cloud: Azure, AWS, Google Cloud<br>> M365: Exchange, Teams, SharePoint, Entra ID<br>> Security: Sentinel, Defender, CrowdStrike<br>> ITSM: ServiceNow, Jira, Zendesk<br>> Monitoring: SolarWinds, PRTG, Datadog" },
           { keys: ["sla", "uptime", "guarantee", "service level"], reply: " <b>Service Level Agreements</b><br><br>> Enterprise-grade infrastructure uptime<br>> Rapid incident acknowledgment<br>> Fast critical issue response<br>> 24/7/365 support coverage<br>> Monthly performance reporting" },
           { keys: ["location", "global", "office", "presence", "worldwide"], reply: " <b>Global Presence</b><br><br>> North America: United States, Canada<br>> Europe: United Kingdom, Germany, Netherlands<br>> Middle East: UAE, Saudi Arabia<br>> Asia Pacific: India, Singapore, Australia<br><br>Multi-shore delivery model for 24/7 coverage." },
-          { keys: ["clock", "timezone", "time zone", "world clock", "live clock", "clocks"], reply: " <b>World Clock</b><br>The floating clock (bottom-left) shows live time in your selected timezone.<br><br> Default: India (IST)<br><br> Change it anytime: type <b>'set clock UAE'</b>, <b>'set clock USA'</b>, <b>'set clock London'</b>, etc.<br><br> Type <b>'list clocks'</b> to see all available countries." },
+          { keys: ["clock", "timezone", "time zone", "world clock", "live clock", "clocks"], reply: " <b>World Clock</b><br>Track live time across our global operating hubs.<br><br> Default timezones: India (IST), USA (EST), UK (GMT), UAE (GST)<br><br> To add a timezone, click <b>'+ Add a timezone'</b> above the clock grid, or type <b>'add India'</b>, <b>'add UAE'</b>, etc.<br><br> Type <b>'list clocks'</b> to see all available countries." },
           { keys: ["partner", "partnership", "alliance", "vendor"], reply: " <b>Partnerships and Alliances</b><br><br>> Microsoft Gold Partner<br>> Cisco Premier Partner<br>> AWS Advanced Tier Partner<br>> ServiceNow Alliance Partner<br>> ISO 27001 Certified" },
           { keys: ["hello", "hi", "hey", "greetings", "good morning", "good evening"], reply: " Hello! Welcome to <b>Monarq Luxe</b>!<br><br>I'm your AI assistant. Ask me about:<br>*  IT Infrastructure<br>*  Staffing Solutions<br>*  Cybersecurity<br>*  Pricing<br>*  Contact Info<br><br>Or type your question below!" },
           { keys: ["thank", "thanks", "appreciate", "grateful"], reply: " You're very welcome! If you have more questions, just ask. We're available 24/7 to help your business succeed.<br><br> Need urgent help? WhatsApp us at +919010552555" },
@@ -593,7 +593,7 @@
           tech: ["Cloud services", "M365 admin", "Security tools"],
           sla: ["IT service desk", "Infrastructure services", "Contact support"],
           location: ["Global offices", "Industries served", "About us"],
-          clock: ["List available clocks", "Set clock UAE", "Set clock USA"],
+          clock: ["List available clocks", "Add India clock", "Remove UAE clock"],
           partner: ["Technology stack", "About Monarq Luxe", "Contact us"],
           hello: ["IT Services overview", "Staffing solutions", "Pricing"],
           thank: ["Tell me about IT", "Contact information", "WhatsApp chat"],
@@ -607,7 +607,7 @@
           cyber: "Tell me about cybersecurity",
           pricing: "What are your pricing details?",
           contact: "What are your contact details?",
-          clock: "Set clock UAE"
+          clock: "Show world clocks"
         };
 
         function getMatchedKey(text) {
@@ -691,27 +691,8 @@
                 var img = '<img src="'+c.flag+'" style="width:20px;border-radius:2px;vertical-align:middle;margin-right:4px;">';
                 html += (active ? ' ' : ' ') + img + ' <b>'+c.name+'</b> - '+c.city+' (UTC'+(c.offset>=0?'+':'')+c.offset/60+')' + (active ? ' [active]' : '') + '<br>';
               }
-              html += '<br>Type <b>add [country]</b> to add to grid, <b>remove [country]</b> to remove, <b>set clock [country]</b> for the floating clock.';
+              html += '<br>Type <b>add [country]</b> to add a clock, <b>remove [country]</b> to remove.';
               addBotMsg(html);
-            });
-            return;
-          }
-          if (lower.indexOf('set clock') !== -1 || lower.indexOf('change timezone') !== -1 || lower.indexOf('change to') !== -1 || lower.indexOf('switch to') !== -1) {
-            var parts = lower.replace(/set clock |change timezone to |change to |switch to /, '').trim().split(/\s+/);
-            var searchName = parts.join(' ');
-            var found = null;
-            for (var cc in clockCountries) {
-              if (clockCountries[cc].name.toLowerCase().indexOf(searchName) !== -1 || cc === searchName) {
-                found = cc; break;
-              }
-            }
-            showTyping(function() {
-              if (found) {
-                setClockTimezone(found);
-                addBotMsg(' Floating clock updated to <b>' + clockCountries[found].name + '</b> (' + getTzAbbr(clockCountries[found].offset) + ') time!');
-              } else {
-                addBotMsg(' Country not found. Try: set clock UAE, set clock USA, etc. Type <b>list clocks</b> for all options.');
-              }
             });
             return;
           }
@@ -787,20 +768,6 @@
       })();
     </script>
   </div>
-  <!- Floating Clock Widget ->
-  <div class="float-clock" id="floatClock">
-    <div class="fc-face" id="fcFace">
-      <div class="fc-hand fc-hour" id="fcH"></div>
-      <div class="fc-hand fc-minute" id="fcM"></div>
-      <div class="fc-hand fc-second" id="fcS"></div>
-      <div class="fc-center"></div>
-    </div>
-    <div class="fc-info">
-      <span class="fc-tz" id="fcTz">India (IST)</span>
-      <span class="fc-digital" id="fcDigital">--:--:--</span>
-    </div>
-  </div>
-
   <!- Clock Selector Overlay ->
   <div class="clock-selector-overlay" id="clockSelector">
     <div class="clock-selector-modal">
@@ -872,42 +839,6 @@
       var ampm = h >= 12 ? 'PM' : 'AM';
       var h12 = h % 12 || 12;
       return { h12: String(h12).padStart(2,'0'), m: m, s: s, ampm: ampm };
-    }
-
-    var currentClockTz = localStorage.getItem('ml_clock_tz') || 'in';
-
-    function tickFloatClock() {
-      var c = clockCountries[currentClockTz];
-      if (!c) { currentClockTz = 'in'; c = clockCountries['in']; }
-      var now = new Date();
-      var utc = now.getTime() + now.getTimezoneOffset() * 60000;
-      var t = new Date(utc + c.offset * 60000);
-      var h24 = t.getHours(), h = h24 % 12, m = t.getMinutes(), s = t.getSeconds();
-      var ampm = h24 >= 12 ? 'PM' : 'AM';
-      var h12 = h || 12;
-      var fh = document.getElementById('fcH');
-      var fm = document.getElementById('fcM');
-      var fs = document.getElementById('fcS');
-      var ftz = document.getElementById('fcTz');
-      var fdig = document.getElementById('fcDigital');
-      if (fh) { fh.style.transform = 'translateX(-50%) rotate(' + (h * 30 + m * 0.5) + 'deg)'; }
-      if (fm) { fm.style.transform = 'translateX(-50%) rotate(' + (m * 6 + s * 0.1) + 'deg)'; }
-      if (fs) { fs.style.transform = 'translateX(-50%) rotate(' + (s * 6) + 'deg)'; }
-      if (ftz) ftz.textContent = c.name + ' (' + getTzAbbr(c.offset) + ')';
-      if (fdig) fdig.textContent = String(h12).padStart(2,'0') + ':' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0') + ' ' + ampm;
-    }
-
-    function getTzAbbr(offset) {
-      var abbrs = { 330: 'IST', 60: 'GMT', -300: 'EST', -240: 'EDT', -180: 'BRT', 120: 'SAST', 180: 'AST', 240: 'GST', 480: 'SGT', 540: 'JST', 660: 'AEST' };
-      return abbrs[offset] || 'UTC' + (offset >= 0 ? '+' : '') + (offset / 60);
-    }
-
-    function setClockTimezone(code) {
-      if (clockCountries[code]) {
-        currentClockTz = code;
-        localStorage.setItem('ml_clock_tz', code);
-        tickFloatClock();
-      }
     }
 
     function renderGridClocks() {
@@ -986,8 +917,7 @@
 
     document.addEventListener('DOMContentLoaded', function() {
       renderClocks();
-      tickFloatClock();
-      setInterval(function() { tickFloatClock(); tickClocks(); }, 1000);
+      setInterval(tickClocks, 1000);
     });
   </script>
 
