@@ -144,7 +144,7 @@
         <h4>Contact</h4>
         <ul>
           <li><a href="contact.html">Get in Touch</a></li>
-          <li><a href="tel:+919010552555">+91 9010552555</a></li>
+          <li><a href="contact.html">Send an Enquiry</a></li>
           <li><a href="careers.html">Careers</a></li>
         </ul>
       </div>
@@ -212,8 +212,8 @@
         { keys: ["microsoft", "m365", "office", "exchange", "teams", "sharepoint", "entra"], reply: " <b>Microsoft 365 Enterprise Admin</b><br>Full-spectrum M365 management: architecture, migration, security &amp; governance.<br><br>> Exchange Online, Teams, SharePoint, Entra ID<br>> Security &amp; compliance configuration<br>> User &amp; license management" },
         { keys: ["cyber", "security", "hack", "protect", "firewall", "compliance", "soc"], reply: " <b>Cybersecurity &amp; Compliance</b><br>Comprehensive security services to protect your enterprise.<br><br>> Vulnerability assessments &amp; pen testing<br>> SOC monitoring &amp; threat response<br>> Compliance: ISO 27001, SOC 2, GDPR, HIPAA" },
         { keys: ["service desk", "help desk", "ticket", "level 1", "level 2", "level 3"], reply: " <b>IT Service Desk</b><br>24/7 multi-tier support with ITIL-aligned processes.<br><br>> L1-L3 certified engineers (Microsoft, Cisco)<br>> Ticketing: ServiceNow, Jira, Zendesk<br>> Rapid incident acknowledgment" },
-        { keys: ["price", "pricing", "cost", "rate", "quote", "package", "plan", "budget"], reply: " <b>Pricing &amp; Quotes</b><br>Our pricing is tailored to your enterprise needs.<br><br> Contact our sales team:<br>* Phone: +91 9010555555<br>* Email: nusrathali25011999@gmail.com<br><br>We offer competitive enterprise-grade pricing with flexible engagement models." },
-        { keys: ["contact", "phone", "email", "reach", "call", "whatsapp", "address"], reply: " <b>Contact Information</b><br><br> Phone: +91 9010555555<br> Email: nusrathali25011999@gmail.com<br> WhatsApp: Click the green chat button (bottom-right)<br> Web: monarqluxe.com<br><br>Available 24/7 for your inquiries." },
+        { keys: ["price", "pricing", "cost", "rate", "quote", "package", "plan", "budget"], reply: " <b>Pricing &amp; Quotes</b><br>Our pricing is tailored to your enterprise needs.<br><br> Contact our sales team:<br>Contact us via our form: <a href="contact.html">Send an Enquiry</a><br>* Email: nusrathali25011999@gmail.com<br><br>We offer competitive enterprise-grade pricing with flexible engagement models." },
+        { keys: ["contact", "phone", "email", "reach", "call", "whatsapp", "address"], reply: " <b>Contact Information</b><br><br>Send an enquiry through our <a href="contact.html">contact form</a><br> Email: nusrathali25011999@gmail.com<br> WhatsApp: Click the green chat button (bottom-right)<br> Web: monarqluxe.com<br><br>Available 24/7 for your inquiries." },
         { keys: ["about", "company", "monarq", "who", "background", "mission"], reply: " <b>About Monarq Luxe</b><br>A premium B2B IT Services &amp; Workforce Solutions company.<br><br>> Managed IT Infrastructure<br>> M365 Administration<br>> IT Service Desk<br>> Executive Recruitment &amp; Staffing<br>> Customer Support<br>> Cybersecurity &amp; Compliance<br><br> Serving clients across North America, Europe, Middle East &amp; Asia Pacific." },
         { keys: ["industry", "sector", "client", "enterprise", "business", "verticals"], reply: " <b>Industries We Serve</b><br><br>* Technology &amp; SaaS<br>* Finance &amp; Banking<br>* Healthcare &amp; Pharma<br>* Manufacturing &amp; Logistics<br>* Retail &amp; E-commerce<br>* Government &amp; Public Sector<br><br>Each engagement is tailored to your industry's unique compliance and operational needs." },
         { keys: ["training", "onboard", "onboarding", "induction"], reply: " <b>Training &amp; Onboarding</b><br>We provide structured onboarding and training programs:<br><br>> Technical certification programs<br>> Compliance &amp; security awareness training<br>> Tool-specific training (M365, ServiceNow, etc.)<br>> Continuous professional development" },
@@ -222,8 +222,8 @@
         { keys: ["location", "global", "office", "presence", "worldwide"], reply: " <b>Global Presence</b><br><br>> North America: United States, Canada<br>> Europe: United Kingdom, Germany, Netherlands<br>> Middle East: UAE, Saudi Arabia<br>> Asia Pacific: India, Singapore, Australia<br><br>Multi-shore delivery model for 24/7 coverage." },
         { keys: ["partner", "partnership", "alliance", "vendor"], reply: " <b>Partnerships &amp; Alliances</b><br><br>> Microsoft Gold Partner<br>> Cisco Premier Partner<br>> AWS Advanced Tier Partner<br>> ServiceNow Alliance Partner<br>> ISO 27001 Certified" },
         { keys: ["hello", "hi", "hey", "greetings", "good morning", "good evening"], reply: " Hello! Welcome to <b>Monarq Luxe</b>!<br><br>I'm your AI assistant. Ask me about:<br>*  IT Infrastructure<br>*  Staffing Solutions<br>*  Cybersecurity<br>*  Pricing<br>*  Contact Info<br><br>Or type your question below!" },
-        { keys: ["thank", "thanks", "appreciate", "grateful"], reply: " You're very welcome! If you have more questions, just ask. We're available 24/7 to help your business succeed.<br><br> Need urgent help? WhatsApp us at +919010552555" },
-        { keys: ["bye", "goodbye", "see you", "talk later"], reply: " Goodbye! Thanks for visiting <b>Monarq Luxe</b>.<br><br> For urgent inquiries: +91 9010555555<br> WhatsApp the green chat button anytime.<br><br>We look forward to serving you!" }
+        { keys: ["thank", "thanks", "appreciate", "grateful"], reply: " You're very welcome! If you have more questions, just ask. We're available 24/7 to help your business succeed.<br><br> Need urgent help? <a href="contact.html">Send an Enquiry</a> or WhatsApp us" },
+        { keys: ["bye", "goodbye", "see you", "talk later"], reply: " Goodbye! Thanks for visiting <b>Monarq Luxe</b>.<br><br> For urgent inquiries: <a href="contact.html">Send an Enquiry</a><br> Or use the WhatsApp green chat button anytime.<br><br>We look forward to serving you!" }
       ];
 
       var knowledgeFlat = {};
@@ -340,7 +340,7 @@
             addBotMsg(knowledgeFlat[key]);
             showSuggestions(key);
           } else {
-            addBotMsg("Thanks for reaching out! I'm not sure about that specific query. Our team would be happy to help:<br><br> +91 9010555555<br> nusrathali25011999@gmail.com<br><br>Or type <b>'whatsapp'</b> to chat with us on WhatsApp!");
+            addBotMsg("Thanks for reaching out! I'm not sure about that specific query. Our team would be happy to help:<br><br> <a href="contact.html">Send an Enquiry</a><br> nusrathali25011999@gmail.com<br><br>Or type <b>'whatsapp'</b> to chat with us on WhatsApp!");
           }
         });
       }
