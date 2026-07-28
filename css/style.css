@@ -146,7 +146,7 @@ body {
   cursor: pointer;
   transition: all 0.35s ease;
   box-shadow: 0 0 20px rgba(0,77,64,0.1), inset 0 0 20px rgba(0,77,64,0.02);
-  animation: btnPulse 0.8s ease-in-out infinite;
+  animation: splashBtnIn 0.5s ease 0.2s both, btnPulse 0.8s ease-in-out 0.7s infinite;
   position: relative;
   overflow: hidden;
 }
@@ -162,6 +162,10 @@ body {
 }
 @keyframes btnShine {
   to { transform: rotate(360deg); }
+}
+@keyframes splashBtnIn {
+  0% { opacity: 0; transform: translateY(20px) scale(0.92); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
 }
 .splash-enter-btn:hover {
   background: rgba(0,77,64,0.15);

@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&family=Bebas+Neue&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg?v=2">
-  <link rel="stylesheet" href="css/style.css?ts=20260728v9">
+  <link rel="stylesheet" href="css/style.css?ts=20260728v10">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
@@ -154,9 +154,9 @@
         if (!startTime) startTime = ts;
         var elapsed = (ts - startTime) / 1000;
 
-        var t1 = Math.min(elapsed / 1.5, 1);
-        var t2 = Math.min(Math.max((elapsed - 0.5) / 2, 0), 1);
-        var t3 = Math.min(Math.max((elapsed - 1.0) / 2, 0), 1);
+        var t1 = Math.min(elapsed / 0.8, 1);
+        var t2 = Math.min(Math.max((elapsed - 0.3) / 1.2, 0), 1);
+        var t3 = Math.min(Math.max((elapsed - 0.6) / 1.2, 0), 1);
 
         matDiamond.opacity = t1 * 0.92;
         matWire.opacity = t1 * 0.45;
@@ -207,7 +207,7 @@
         var fill = document.getElementById('loaderFill');
         loader.classList.add('active');
         var start = performance.now();
-        var duration = 1000;
+        var duration = 400;
         function tick(now) {
           var elapsed = now - start;
           var progress = Math.min(elapsed / duration, 1);
@@ -225,7 +225,7 @@
               document.getElementById('guideChatbot').style.display = 'none';
               document.getElementById('innerChatbot').style.display = '';
               sessionStorage.setItem('ml_unlocked', 'true');
-            }, 200);
+            }, 80);
           }
         }
         requestAnimationFrame(tick);
