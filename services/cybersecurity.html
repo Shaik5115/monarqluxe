@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
-  <link rel="stylesheet" href="../css/style.css?ts=20260728v9">
+  <link rel="stylesheet" href="../css/style.css?ts=20260728v11">
 </head>
 <body>
 
@@ -192,12 +192,12 @@
       <div class="chatbot-avatar"></div>
       <div class="chatbot-header-info">
         <h4>Monarq AI Assistant</h4>
-        <p>Online  -  Typically replies instantly</p>
+        <p>Online | Typically replies instantly</p>
       </div>
       <button class="chatbot-close" id="chatbotClose" aria-label="Close chatbot"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
     </div>
     <div class="chatbot-body" id="chatbotBody">
-      <div class="chat-msg bot"> I am your <strong>AI Assistant</strong>, ready to help with all our services.<br><br><b>Staffing</b> - IT and Non-IT hiring, sourcing, screening, and delivering top-notch candidates perfectly suited for your business.<br><b>Service Delivery</b> - Teams setup, helpdesk support, ticketing tools, and lot more across multiple industries.<br><br>Ask me anything!</div>
+      <div class="chat-msg bot"> I am your <strong>AI Assistant</strong>, ready to help with all our services.<br><br><b>Staffing</b>: IT and Non-IT hiring, sourcing, screening, and delivering top-notch candidates perfectly suited for your business.<br><b>Service Delivery</b>: Teams setup, helpdesk support, ticketing tools, and lot more across multiple industries.<br><br>Ask me anything!</div>
       <div class="chat-quick-replies" id="quickReplies">
         <button class="chat-quick-reply" data-key="it"> IT Infrastructure</button>
         <button class="chat-quick-reply" data-key="staffing"> Staffing</button>
@@ -224,12 +224,12 @@
 
       if (sessionStorage.getItem('ml_unlocked') === 'true') {
         var welcomeMsg = document.querySelector('#chatbotBody .chat-msg.bot');
-        if (welcomeMsg) welcomeMsg.innerHTML = ' Welcome! You have unlocked the <strong>Full MonarqLuxe Experience</strong>!<br><br>I am your AI assistant, ready to help with all our services - IT Infrastructure, Staffing, Cybersecurity, and more. Ask me anything!';
+        if (welcomeMsg) welcomeMsg.innerHTML = ' Welcome! You have unlocked the <strong>Full MonarqLuxe Experience</strong>!<br><br>I am your AI assistant, ready to help with all our services: IT Infrastructure, Staffing, Cybersecurity, and more. Ask me anything!';
       }
 
       var knowledge = [
-        { keys: ["it", "infrastructure", "managed", "network", "server", "cloud", "tech support"], reply: " <b>Managed IT Infrastructure</b><br>We provide end-to-end IT management: proactive monitoring, cloud infrastructure, network security, and 24/7 support  -  all with a enterprise uptime commitment.<br><br>> Services include: server maintenance, cloud migration, network optimization, and disaster recovery." },
-        { keys: ["staffing", "recruit", "hire", "talent", "job", "employment", "staff", "workforce"], reply: " <b>Executive Recruitment &amp; Global Staffing</b><br>We place top-tier tech professionals worldwide  -  contract, permanent, and executive-level.<br><br>> Industries: Technology, Finance, Healthcare, Manufacturing, Retail &amp; Government.<br>> Coverage: North America, Europe, Middle East, Asia Pacific." },
+        { keys: ["it", "infrastructure", "managed", "network", "server", "cloud", "tech support"], reply: " <b>Managed IT Infrastructure</b><br>We provide end-to-end IT management: proactive monitoring, cloud infrastructure, network security, and 24/7 support, all with a enterprise uptime commitment.<br><br>> Services include: server maintenance, cloud migration, network optimization, and disaster recovery." },
+        { keys: ["staffing", "recruit", "hire", "talent", "job", "employment", "staff", "workforce"], reply: " <b>Executive Recruitment &amp; Global Staffing</b><br>We place top-tier tech professionals worldwide, contract, permanent, and executive-level.<br><br>> Industries: Technology, Finance, Healthcare, Manufacturing, Retail &amp; Government.<br>> Coverage: North America, Europe, Middle East, Asia Pacific." },
         { keys: ["support", "customer service", "helpdesk", "bpo", "call center"], reply: " <b>Customer Experience Support</b><br>Omnichannel solutions combining AI automation with human expertise.<br><br>> Channels: Voice, Email, Chat, Social Media<br>> Coverage: 24/7, multilingual<br>> Levels: L1-L3 technical support" },
         { keys: ["microsoft", "m365", "office", "exchange", "teams", "sharepoint", "entra"], reply: " <b>Microsoft 365 Enterprise Admin</b><br>Full-spectrum M365 management: architecture, migration, security &amp; governance.<br><br>> Exchange Online, Teams, SharePoint, Entra ID<br>> Security &amp; compliance configuration<br>> User &amp; license management" },
         { keys: ["cyber", "security", "hack", "protect", "firewall", "compliance", "soc"], reply: " <b>Cybersecurity &amp; Compliance</b><br>Comprehensive security services to protect your enterprise.<br><br>> Vulnerability assessments &amp; pen testing<br>> SOC monitoring &amp; threat response<br>> Compliance: ISO 27001, SOC 2, GDPR, HIPAA" },
