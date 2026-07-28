@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Monarq Luxe - IT Services & Workforce Solutions</title>
+  <meta name="description" content="MonarqLuxe " Technology Solutions & Workforce Architects. IT Services, IT & Non-IT Hiring, and Enterprise Solutions Worldwide.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&family=Bebas+Neue&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg?v=2">
+  <link rel="stylesheet" href="css/style.css?ts=20260728v8">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+
+  <!- Splash Screen " Three.js 3D Gold Theme ->
+  <div id="splashScreen">
+    <canvas id="splashCanvas"></canvas>
+    <div id="splashLanding">
+      <h1 class="splash-title">MonarqLuxe</h1>
+      <p class="splash-subtitle">Staffing Solutions - IT &amp; Non-IT - Technology Solutions - IT Service Delivery &amp; Helpdesk - Designing Solution Teams &amp; Architects</p>
+      <button class="splash-enter-btn" onclick="enterSite()">Explore Services &rarr;</button>
+      <p class="splash-quote">-Transforming vision into reality through technology and talent.-</p>
+    </div>
+    <div class="splash-loader" id="splashLoader">
+      <div class="loader-progress">
+        <div class="loader-track">
+          <div class="loader-fill" id="loaderFill"></div>
+        </div>
+        <div class="loader-pct" id="loaderPct">0%</div>
+      </div>
+      <div class="loader-sparks">
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      var canvas = document.getElementById('splashCanvas');
+      var renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setClearColor(0x000000, 1);
+
+      var scene = new THREE.Scene();
+      var camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 200);
+      camera.position.set(0, 0.8, 18);
+
+      scene.fog = new THREE.FogExp2(0x000000, 0.035);
+
+      var GREEN = new THREE.Color(0x004D40);
+      var GREEN_DIM = new THREE.Color(0x00352B);
+      var GREEN_LIGHT = new THREE.Color(0x00897B);
+
+      scene.add(new THREE.AmbientLight(0x0a1a0a, 0.8));
+      var dirLight = new THREE.DirectionalLight(0x004D40, 1.2);
+      dirLight.position.set(5, 10, 8);
+      scene.add(dirLight);
+      var backLight = new THREE.PointLight(0x0a3320, 0.8, 50);
+      backLight.position.set(-8, -5, -10);
+      scene.add(backLight);
+      var rimLight = new THREE.PointLight(0x004D40, 0.5, 30);
+      rimLight.position.set(0, 8, -12);
+      scene.add(rimLight);
+
+      var geoDiamond = new THREE.OctahedronGeometry(2.2, 0);
+      var matDiamond = new THREE.MeshPhongMaterial({
+        color: 0x000000, emissive: 0x004D40, emissiveIntensity: 0.08,
+        specular: 0x00897B, shininess: 200, transparent: true, opacity: 0.0, wireframe: false,
+      });
+      var diamond = new THREE.Mesh(geoDiamond, matDiamond);
+      scene.add(diamond);
+
+      var matWire = new THREE.MeshBasicMaterial({ color: 0x004D40, wireframe: true, transparent: true, opacity: 0.0 });
+      var diamondWire = new THREE.Mesh(geoDiamond, matWire);
+      diamondWire.scale.set(1.01, 1.01, 1.01);
+      scene.add(diamondWire);
+
+      var rings = [];
+      var ringConfigs = [
+        { r: 3.8, tube: 0.012, tilt: Math.PI * 0.18, speed: 0.006, opacity: 0.5 },
+        { r: 5.2, tube: 0.008, tilt: Math.PI * 0.45, speed: -0.004, opacity: 0.3 },
+        { r: 6.8, tube: 0.006, tilt: Math.PI * 0.72, speed: 0.003, opacity: 0.2 },
+      ];
+      ringConfigs.forEach(function(cfg) {
+        var geo = new THREE.TorusGeometry(cfg.r, cfg.tube, 8, 120);
+        var mat = new THREE.MeshBasicMaterial({ color: 0x004D40, transparent: true, opacity: 0.0 });
+        var mesh = new THREE.Mesh(geo, mat);
+        mesh.rotation.x = cfg.tilt;
+        mesh.rotation.y = Math.random() * Math.PI;
+        scene.add(mesh);
+        rings.push({ mesh: mesh, mat: mat, speed: cfg.speed, targetOpacity: cfg.opacity });
+      });
+
+      var PARTICLE_COUNT = 700;
+      var posArr = new Float32Array(PARTICLE_COUNT * 3);
+      var sizeArr = new Float32Array(PARTICLE_COUNT);
+      var alphaArr = new Float32Array(PARTICLE_COUNT);
+      for (var i = 0; i < PARTICLE_COUNT; i++) {
+        var theta = Math.random() * Math.PI * 2;
+        var phi = Math.acos(2 * Math.random() - 1);
+        var r = 6 + Math.random() * 14;
+        posArr[i * 3]     = r * Math.sin(phi) * Math.cos(theta);
+        posArr[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+        posArr[i * 3 + 2] = r * Math.cos(phi);
+        sizeArr[i] = 0.5 + Math.random() * 1.8;
+        alphaArr[i] = Math.random();
+      }
+      var particleGeo = new THREE.BufferGeometry();
+      particleGeo.setAttribute('position', new THREE.BufferAttribute(posArr, 3));
+      var particleMat = new THREE.PointsMaterial({
+        color: 0x004D40, size: 0.06, transparent: true, opacity: 0.0, sizeAttenuation: true,
+      });
+      var particles = new THREE.Points(particleGeo, particleMat);
+      scene.add(particles);
+
+      var gridHelper = new THREE.GridHelper(60, 40, 0x0a1a0a, 0x050a05);
+      gridHelper.position.y = -8;
+      gridHelper.material.transparent = true;
+      gridHelper.material.opacity = 0.0;
+      scene.add(gridHelper);
+
+      var floaters = [];
+      for (var i = 0; i < 16; i++) {
+        var size = 0.08 + Math.random() * 0.18;
+        var fgeo = new THREE.TetrahedronGeometry(size, 0);
+        var fmat = new THREE.MeshPhongMaterial({
+          color: 0x004D40, emissive: 0x00281F, transparent: true, opacity: 0.0,
+          wireframe: Math.random() > 0.5,
+        });
+        var fmesh = new THREE.Mesh(fgeo, fmat);
+        var angle = Math.random() * Math.PI * 2;
+        var dist = 4 + Math.random() * 8;
+        fmesh.position.set(
+          Math.cos(angle) * dist,
+          (Math.random() - 0.5) * 8,
+          Math.sin(angle) * dist - 5
+        );
+        fmesh.userData = {
+          rotSpd: { x: (Math.random()-0.5)*0.02, y: (Math.random()-0.5)*0.02, z: (Math.random()-0.5)*0.02 },
+          floatAmp: 0.3 + Math.random() * 0.6,
+          floatFreq: 0.3 + Math.random() * 0.8,
+          floatOffset: Math.random() * Math.PI * 2,
+          origY: fmesh.position.y,
+          targetOpacity: 0.25 + Math.random() * 0.35,
+        };
+        scene.add(fmesh);
+        floaters.push({ mesh: fmesh, mat: fmat });
+      }
+
+      var startTime = null;
+      var splashActive = true;
+
+      function animate(ts) {
+        if (!splashActive) return;
+        requestAnimationFrame(animate);
+
+        if (!startTime) startTime = ts;
+        var elapsed = (ts - startTime) / 1000;
+
+        var t1 = Math.min(elapsed / 1.5, 1);
+        var t2 = Math.min(Math.max((elapsed - 0.5) / 2, 0), 1);
+        var t3 = Math.min(Math.max((elapsed - 1.0) / 2, 0), 1);
+
+        matDiamond.opacity = t1 * 0.92;
+        matWire.opacity = t1 * 0.45;
+        diamond.rotation.y += 0.008;
+        diamond.rotation.x = Math.sin(elapsed * 0.3) * 0.2;
+        diamondWire.rotation.y = diamond.rotation.y;
+        diamondWire.rotation.x = diamond.rotation.x;
+
+        rings.forEach(function(r) {
+          r.mat.opacity += (r.targetOpacity * t2 - r.mat.opacity) * 0.05;
+          r.mesh.rotation.y += r.speed;
+          r.mesh.rotation.z += r.speed * 0.3;
+        });
+
+        particleMat.opacity += (0.55 * t3 - particleMat.opacity) * 0.04;
+        particles.rotation.y += 0.0008;
+
+        gridHelper.material.opacity += (0.3 * t2 - gridHelper.material.opacity) * 0.04;
+
+        floaters.forEach(function(item) {
+          var mesh = item.mesh;
+          var mat = item.mat;
+          var ud = mesh.userData;
+          mat.opacity += (ud.targetOpacity * t3 - mat.opacity) * 0.04;
+          mesh.rotation.x += ud.rotSpd.x;
+          mesh.rotation.y += ud.rotSpd.y;
+          mesh.rotation.z += ud.rotSpd.z;
+          mesh.position.y = ud.origY + Math.sin(elapsed * ud.floatFreq + ud.floatOffset) * ud.floatAmp;
+        });
+
+        camera.position.x = Math.sin(elapsed * 0.12) * 1.2;
+        camera.position.y = Math.sin(elapsed * 0.08) * 0.6;
+        camera.lookAt(0, 0, 0);
+
+        renderer.render(scene, camera);
+      }
+      requestAnimationFrame(animate);
+
+      window.addEventListener('resize', function() {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+
+      window.enterSite = function() {
+        splashActive = false;
+        var loader = document.getElementById('splashLoader');
+        var fill = document.getElementById('loaderFill');
+        var pct = document.getElementById('loaderPct');
+        loader.classList.add('active');
+        var start = performance.now();
+        var duration = 1000;
+        function tick(now) {
+          var elapsed = now - start;
+          var progress = Math.min(elapsed / duration, 1);
+          var eased = 1 - Math.pow(1 - progress, 3);
+          fill.style.width = (eased * 100) + '%';
+          pct.textContent = Math.round(eased * 100) + '%';
+          if (progress < 1) {
+            requestAnimationFrame(tick);
+          } else {
+            setTimeout(function() {
+              var splash = document.getElementById('splashScreen');
+              splash.classList.add('exit-anim');
+              splash.addEventListener('animationend', function() {
+                splash.style.display = 'none';
+              }, { once: true });
+              document.getElementById('guideChatbot').style.display = 'none';
+              document.getElementById('innerChatbot').style.display = '';
+              sessionStorage.setItem('ml_unlocked', 'true');
+            }, 200);
+          }
+        }
+        requestAnimationFrame(tick);
+      };
+    })();
+  </script>
+
+  <!- Animated Background ->
+  <div class="animated-bg">
+    <div class="orb"></div>
+    <div class="orb"></div>
+    <div class="orb"></div>
+  </div>
+  <div class="particle-grid"></div>
+
+  <!- Navbar ->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="logo">
+        <img src="assets/logo.svg" alt="Monarq Luxe" class="logo-icon logo-svg">
+        MONARQ LUXE
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="industries.html">Industries</a></li>
+        <li><a href="careers.html">Careers</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <button class="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!- Page Wrapper ->
+  <div class="page-wrapper">
+
+    <!- Hero ->
+    <section class="hero" style="background-image:url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1920&q=85');">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <span class="hero-badge">Enterprise IT Solutions & Strategic Workforce Partners</span>
+        <h1>Powering Business Performance With<br><span class="highlight">Premium IT Infrastructure</span><br><span class="thin">& Elite Talent Acquisition</span></h1>
+        <p>We architect resilient IT ecosystems, deploy world-class service desks, and connect organizations with top-tier technology professionals - delivering operational excellence at every layer of your enterprise.</p>
+        <div class="hero-actions">
+          <a href="contact.html" class="btn btn-primary"> Request a Consultation</a>
+          <a href="services.html" class="btn btn-outline"> View Our Capabilities</a>
+        </div>
+
+        <div class="hero-stats">
+            <div class="stat-item">
+            <div class="stat-number">Elite</div>
+            <div class="stat-label">Talent Network</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">Global</div>
+            <div class="stat-label">Reach &amp; Scale</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">99.99%</div>
+            <div class="stat-label">Client Commitment</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number stat-always">24/7</div>
+            <div class="stat-label">Concierge Support</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!- Team Image Strip ->
+    <div class="image-strip">
+      <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&q=80" alt="Team collaboration">
+      <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=600&q=80" alt="IT professionals">
+      <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600&q=80" alt="Tech consultation">
+      <img src="https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?w=600&q=80" alt="Business meeting">
+    </div>
+
+    <!- World Clock Grid ->
+    <section class="section world-clock-section">
+      <div class="section-header fade-in reveal reveal-up">
+        <span class="section-tag">Global Presence</span>
+        <h2 class="section-title">Live Worldwide <span class="highlight">Clocks</span></h2>
+        <div class="gold-divider"></div>
+        <p class="section-desc">Track our operating hours across the globe in real-time. <span class="clock-add-hint" onclick="showClockSelector()" style="cursor:pointer;color:var(--teal);text-decoration:underline;">+ Add a timezone</span></p>
+      </div>
+      <div class="clock-grid" id="clockGrid"></div>
+    </section>
+
+    <!- Services Overview ->
+    <section class="section">
+      <div class="section-header fade-in reveal reveal-up">
+        <span class="section-tag">Our Capabilities</span>
+        <h2 class="section-title">Enterprise <span class="highlight">Service Portfolio</span></h2>
+        <div class="gold-divider"></div>
+        <p class="section-desc">End-to-end technology infrastructure and strategic workforce solutions engineered for high-performance enterprises.</p>
+      </div>
+
+      <div class="services-grid">
+        <a href="services/recruitment.html" style="text-decoration:none;color:inherit;display:block;">
+        <div class="service-card fade-in reveal reveal-up reveal-delay-1">
+          <div class="service-icon">-</div>
+          <h3>Executive Recruitment & Global Staffing</h3>
+          <p>Top-notch talent acquisition and workforce solutions - sourcing, screening, and delivering the right candidates perfectly suited for your business. Premium white-glove service across every industry worldwide.</p>
+        </div>
+        </a>
+        <a href="services/managed-it.html" style="text-decoration:none;color:inherit;display:block;">
+        <div class="service-card fade-in reveal reveal-up reveal-delay-2">
+          <div class="service-icon">-</div>
+          <h3>Managed IT Infrastructure</h3>
+          <p>Proactive monitoring, maintenance, and optimization of enterprise IT environments - ensuring maximum uptime, security posture, and operational efficiency.</p>
+        </div>
+        </a>
+        <a href="services/m365-admin.html" style="text-decoration:none;color:inherit;display:block;">
+        <div class="service-card fade-in reveal reveal-up reveal-delay-3">
+          <div class="service-icon">-</div>
+          <h3>Microsoft 365 Enterprise Admin</h3>
+          <p>End-to-end architecture, migration, and governance of Microsoft 365 ecosystems including Exchange Online, Teams, SharePoint, and Entra ID.</p>
+        </div>
+        </a>
+        <a href="services/it-service-desk.html" style="text-decoration:none;color:inherit;display:block;">
+        <div class="service-card fade-in reveal reveal-up reveal-delay-4">
+          <div class="service-icon"></div>
+          <h3>IT Service Desk</h3>
+          <p>24/7 multi-tier service desk operations with ITIL-aligned incident management, rapid escalation protocols, and certified support engineers.</p>
+        </div>
+        </a>
+        <a href="services/customer-support.html" style="text-decoration:none;color:inherit;display:block;">
+        <div class="service-card fade-in reveal reveal-up reveal-delay-5">
+          <div class="service-icon">-</div>
+          <h3>Customer Experience Support</h3>
+          <p>Omnichannel customer service solutions combining AI-assisted automation with human expertise - voice, email, chat, and social across all time zones.</p>
+        </div>
+        </a>
+        <a href="services/cybersecurity.html" style="text-decoration:none;color:inherit;display:block;">
+        <div class="service-card fade-in reveal reveal-up reveal-delay-1">
+          <div class="service-icon">-</div>
+          <h3>Cybersecurity & Compliance</h3>
+          <p>Comprehensive threat assessments, security architecture design, and regulatory compliance management aligned with ISO 27001, SOC 2, and GDPR standards.</p>
+        </div>
+        </a>
+      </div>
+    </section>
+
+    <!- Why Us ->
+    <section class="section">
+      <div class="section-header fade-in reveal reveal-up">
+        <span class="section-tag">The Monarq Standard</span>
+        <h2 class="section-title">Engineered for <span class="highlight">Excellence</span></h2>
+        <div class="gold-divider"></div>
+        <p class="section-desc">We fuse deep technical mastery with an uncompromising commitment to measurable enterprise outcomes.</p>
+      </div>
+
+      <div class="why-us-grid">
+        <div class="why-us-card fade-in reveal reveal-up reveal-delay-1">
+          <span class="icon">></span>
+          <h4>Fortified & Resilient</h4>
+          <p>Enterprise-grade security architecture with zero-trust principles and proven reliability spanning every service layer.</p>
+        </div>
+        <div class="why-us-card fade-in reveal reveal-up reveal-delay-2">
+          <span class="icon">-</span>
+          <h4>Elite Talent Pool</h4>
+          <p>Our practitioners bring decades of collective expertise across Fortune 500 IT environments and executive recruitment.</p>
+        </div>
+        <div class="why-us-card fade-in reveal reveal-up reveal-delay-3">
+          <span class="icon"></span>
+          <h4>Rapid Response</h4>
+          <p>Rapid incident acknowledgment with accelerated escalation pathways and guaranteed SLA adherence.</p>
+        </div>
+        <div class="why-us-card fade-in reveal reveal-up reveal-delay-4">
+          <span class="icon"></span>
+          <h4>White-Glove Support</h4>
+          <p>Concierge-level support delivered 24/7/365 - because enterprise operations never sleep, neither do we.</p>
+        </div>
+      </div>
+    </section>
+
+    <!- CTA ->
+    <section class="cta-section">
+      <div class="cta-box fade-in reveal reveal-up">
+        <span class="section-tag">Begin Your Transformation</span>
+        <h2>Ready to Elevate Your <span class="highlight">Enterprise Operations?</span></h2>
+        <p>Schedule a discovery consultation with our solutions architects and learn how Monarq Luxe can accelerate your technology and talent strategy.</p>
+        <a href="contact.html" class="btn btn-primary"> Speak With Our Team - +91 9010552555</a>
+      </div>
+    </section>
+
+  </div>
+
+  <!- Footer ->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h3>MONARQ LUXE</h3>
+        <p>Delivering enterprise-grade IT infrastructure, strategic workforce solutions, and white-glove service to industry-leading organizations worldwide.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="industries.html">Industries</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="services/recruitment.html">Recruitment & Staffing</a></li>
+          <li><a href="services.html">Managed IT</a></li>
+          <li><a href="services.html">M365 Admin</a></li>
+          <li><a href="services/it-service-desk.html">IT Service Desk</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="contact.html">Get in Touch</a></li>
+          <li><a href="tel:+919010552555">+91 9010552555</a></li>
+          <li><a href="careers.html">Careers</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>(C) 2026 ML TECH PVT LTD. All Rights Reserved.</p>
+      <div class="footer-social">
+        <a href="#" aria-label="LinkedIn">in</a>
+        <a href="#" aria-label="Twitter">*</a>
+        <a href="#" aria-label="Facebook">f</a>
+      </div>
+    </div>
+  <a href="https://wa.me/919010552555?text=Hi MonarqLuxe!%0A%0AI would like to inquire about your services.%0A%0AThank you!" target="_blank" class="whatsapp-float" aria-label="Chat on WhatsApp"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg></a>
+</footer>
+
+  <!- Guide Chatbot - visible during splash ->
+  <div id="guideChatbot">
+    <button class="chatbot-float" id="guideToggle" aria-label="Open guide">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"/><path d="M7 9h2v2H7zm4 0h2v2h-2zm4 0h2v2h-2z"/></svg>
+    </button>
+    <div class="chatbot-panel" id="guidePanel">
+      <div class="chatbot-header">
+        <div class="chatbot-avatar"></div>
+        <div class="chatbot-header-info">
+          <h4>MonarqLuxe Welcome Guide</h4>
+          <p>I'll help you get started</p>
+        </div>
+        <button class="chatbot-close" id="guideClose" aria-label="Close"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+      </div>
+      <div class="chatbot-body" id="guideBody">
+        <div class="chat-msg bot"> Welcome to <strong>MonarqLuxe</strong>!<br><br> I'm your guide. Press the <b>Explore Services</b> button above to unlock our full AI assistant and explore all our services - Staffing, IT Services, Cybersecurity, and more.<br><br> Ready to begin?</div>
+        <div class="chat-quick-replies" id="guideReplies">
+          <button class="chat-quick-reply" onclick="enterSite()"> Explore Services</button>
+          <button class="chat-quick-reply" onclick="enterSite()"> Unlock Full Experience</button>
+        </div>
+      </div>
+      <div class="chatbot-footer">
+        <p style="text-align:center;width:100%;color:#999;font-size:11px;letter-spacing:1px;padding:8px 0;">Press Explore Services to unlock full AI assistant</p>
+      </div>
+    </div>
+    <script>
+      (function() {
+        document.getElementById('guideToggle').addEventListener('click', function() {
+          var p = document.getElementById('guidePanel');
+          if (p.classList.contains('open')) p.classList.remove('open'); else p.classList.add('open');
+        });
+        document.getElementById('guideClose').addEventListener('click', function() {
+          document.getElementById('guidePanel').classList.remove('open');
+        });
+      })();
+    </script>
+  </div>
+
+  <!- Full AI Chatbot - hidden during splash, shown after unlock ->
+  <div id="innerChatbot" style="display:none;">
+    <button class="chatbot-float" id="chatbotToggle" aria-label="Open AI Chatbot">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"/><path d="M7 9h2v2H7zm4 0h2v2h-2zm4 0h2v2h-2z"/></svg>
+    </button>
+    <div class="chatbot-panel" id="chatbotPanel">
+      <div class="chatbot-header">
+        <div class="chatbot-avatar"></div>
+        <div class="chatbot-header-info">
+          <h4>Monarq AI Assistant</h4>
+          <p>Online - Typically replies instantly</p>
+        </div>
+        <button class="chatbot-close" id="chatbotClose" aria-label="Close chatbot"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+      </div>
+      <div class="chatbot-body" id="chatbotBody">
+        <div class="chat-msg bot"> I am your <strong>AI Assistant</strong>, ready to help with all our services.<br><br><b>Staffing</b> - IT and Non-IT hiring, sourcing, screening, and delivering top-notch candidates perfectly suited for your business.<br><b>Service Delivery</b> - Teams setup, helpdesk support, ticketing tools, and lot more across multiple industries.<br><br>Ask me anything!</div>
+        <div class="chat-quick-replies" id="quickReplies">
+          <button class="chat-quick-reply" data-key="it"> IT Infrastructure</button>
+          <button class="chat-quick-reply" data-key="staffing"> Staffing</button>
+          <button class="chat-quick-reply" data-key="support"> Support</button>
+          <button class="chat-quick-reply" data-key="cyber"> Cybersecurity</button>
+          <button class="chat-quick-reply" data-key="pricing"> Pricing</button>
+          <button class="chat-quick-reply" data-key="contact"> Contact</button>
+        </div>
+      </div>
+      <div class="chatbot-footer">
+        <input type="text" id="chatInput" placeholder="Type your message..." />
+        <button id="chatSend" aria-label="Send"><svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></button>
+      </div>
+    </div>
+    <script>
+      (function() {
+        var toggle = document.getElementById('chatbotToggle');
+        var panel = document.getElementById('chatbotPanel');
+        var close = document.getElementById('chatbotClose');
+        var body = document.getElementById('chatbotBody');
+        var input = document.getElementById('chatInput');
+        var send = document.getElementById('chatSend');
+        var replies = document.getElementById('quickReplies');
+
+        var knowledge = [
+          { keys: ["it", "infrastructure", "managed", "network", "server", "cloud", "tech support"], reply: " <b>Managed IT Infrastructure</b><br>We provide end-to-end IT management: proactive monitoring, cloud infrastructure, network security, and 24/7 support - with enterprise-grade uptime commitment.<br><br>> Services include: server maintenance, cloud migration, network optimization, and disaster recovery." },
+          { keys: ["staffing", "recruit", "hire", "talent", "job", "employment", "staff", "workforce"], reply: " <b>Executive Recruitment and Global Staffing</b><br>We place top-tier tech professionals worldwide - contract, permanent, and executive-level.<br><br>> Industries: Technology, Finance, Healthcare, Manufacturing, Retail and Government.<br>> Coverage: North America, Europe, Middle East, Asia Pacific." },
+          { keys: ["support", "customer service", "helpdesk", "bpo", "call center"], reply: " <b>Customer Experience Support</b><br>Omnichannel solutions combining AI automation with human expertise.<br><br>> Channels: Voice, Email, Chat, Social Media<br>> Coverage: 24/7, multilingual<br>> Levels: L1-L3 technical support" },
+          { keys: ["microsoft", "m365", "office", "exchange", "teams", "sharepoint", "entra"], reply: " <b>Microsoft 365 Enterprise Admin</b><br>Full-spectrum M365 management: architecture, migration, security and governance.<br><br>> Exchange Online, Teams, SharePoint, Entra ID<br>> Security and compliance configuration<br>> User and license management" },
+          { keys: ["cyber", "security", "hack", "protect", "firewall", "compliance", "soc"], reply: " <b>Cybersecurity and Compliance</b><br>Comprehensive security services to protect your enterprise.<br><br>> Vulnerability assessments and pen testing<br>> SOC monitoring and threat response<br>> Compliance: ISO 27001, SOC 2, GDPR, HIPAA" },
+          { keys: ["service desk", "help desk", "ticket", "level 1", "level 2", "level 3"], reply: " <b>IT Service Desk</b><br>24/7 multi-tier support with ITIL-aligned processes.<br><br>> L1-L3 certified engineers (Microsoft, Cisco)<br>> Ticketing: ServiceNow, Jira, Zendesk<br>> Rapid incident acknowledgment" },
+          { keys: ["price", "pricing", "cost", "rate", "quote", "package", "plan", "budget"], reply: " <b>Pricing and Quotes</b><br>Our pricing is tailored to your enterprise needs.<br><br> Contact our sales team:<br>* Phone: +91 9010555555<br>* Email: nusrathali25011999@gmail.com<br><br>We offer competitive enterprise-grade pricing with flexible engagement models." },
+          { keys: ["contact", "phone", "email", "reach", "call", "whatsapp", "address"], reply: " <b>Contact Information</b><br><br> Phone: +91 9010555555<br> Email: nusrathali25011999@gmail.com<br> WhatsApp: Click the green chat button (bottom-right)<br> Web: monarqluxe.com<br><br>Available 24/7 for your inquiries." },
+          { keys: ["about", "company", "monarq", "who", "background", "mission"], reply: " <b>About Monarq Luxe</b><br>A premium B2B IT Services and Workforce Solutions company.<br><br>> Managed IT Infrastructure<br>> M365 Administration<br>> IT Service Desk<br>> Executive Recruitment and Staffing<br>> Customer Support<br>> Cybersecurity and Compliance<br><br> Serving clients across North America, Europe, Middle East and Asia Pacific." },
+          { keys: ["industry", "sector", "client", "enterprise", "business", "verticals"], reply: " <b>Industries We Serve</b><br><br>* Technology and SaaS<br>* Finance and Banking<br>* Healthcare and Pharma<br>* Manufacturing and Logistics<br>* Retail and E-commerce<br>* Government and Public Sector<br><br>Each engagement is tailored to your industry's unique compliance and operational needs." },
+          { keys: ["training", "onboard", "onboarding", "induction"], reply: " <b>Training and Onboarding</b><br>We provide structured onboarding and training programs:<br><br>> Technical certification programs<br>> Compliance and security awareness training<br>> Tool-specific training (M365, ServiceNow, etc.)<br>> Continuous professional development" },
+          { keys: ["tech", "technology", "stack", "tools", "platform"], reply: " <b>Technology Stack</b><br><br>> Cloud: Azure, AWS, Google Cloud<br>> M365: Exchange, Teams, SharePoint, Entra ID<br>> Security: Sentinel, Defender, CrowdStrike<br>> ITSM: ServiceNow, Jira, Zendesk<br>> Monitoring: SolarWinds, PRTG, Datadog" },
+          { keys: ["sla", "uptime", "guarantee", "service level"], reply: " <b>Service Level Agreements</b><br><br>> Enterprise-grade infrastructure uptime<br>> Rapid incident acknowledgment<br>> Fast critical issue response<br>> 24/7/365 support coverage<br>> Monthly performance reporting" },
+          { keys: ["location", "global", "office", "presence", "worldwide"], reply: " <b>Global Presence</b><br><br>> North America: United States, Canada<br>> Europe: United Kingdom, Germany, Netherlands<br>> Middle East: UAE, Saudi Arabia<br>> Asia Pacific: India, Singapore, Australia<br><br>Multi-shore delivery model for 24/7 coverage." },
+          { keys: ["clock", "timezone", "time zone", "world clock", "live clock", "clocks"], reply: " <b>World Clock</b><br>The floating clock (bottom-left) shows live time in your selected timezone.<br><br> Default: India (IST)<br><br> Change it anytime: type <b>'set clock UAE'</b>, <b>'set clock USA'</b>, <b>'set clock London'</b>, etc.<br><br> Type <b>'list clocks'</b> to see all available countries." },
+          { keys: ["partner", "partnership", "alliance", "vendor"], reply: " <b>Partnerships and Alliances</b><br><br>> Microsoft Gold Partner<br>> Cisco Premier Partner<br>> AWS Advanced Tier Partner<br>> ServiceNow Alliance Partner<br>> ISO 27001 Certified" },
+          { keys: ["hello", "hi", "hey", "greetings", "good morning", "good evening"], reply: " Hello! Welcome to <b>Monarq Luxe</b>!<br><br>I'm your AI assistant. Ask me about:<br>*  IT Infrastructure<br>*  Staffing Solutions<br>*  Cybersecurity<br>*  Pricing<br>*  Contact Info<br><br>Or type your question below!" },
+          { keys: ["thank", "thanks", "appreciate", "grateful"], reply: " You're very welcome! If you have more questions, just ask. We're available 24/7 to help your business succeed.<br><br> Need urgent help? WhatsApp us at +919010552555" },
+          { keys: ["bye", "goodbye", "see you", "talk later"], reply: " Goodbye! Thanks for visiting <b>Monarq Luxe</b>.<br><br> For urgent inquiries: +91 9010555555<br> WhatsApp the green chat button anytime.<br><br>We look forward to serving you!" }
+        ];
+
+        var knowledgeFlat = {};
+        for (var i = 0; i < knowledge.length; i++) {
+          for (var j = 0; j < knowledge[i].keys.length; j++) {
+            knowledgeFlat[knowledge[i].keys[j]] = knowledge[i].reply;
+          }
+        }
+
+        var topicSuggestions = {
+          it: ["Tell me about pricing", "What about cybersecurity?", "Contact sales team"],
+          staffing: ["What industries do you serve?", "Tell me about pricing", "Contact information"],
+          support: ["Tell me about service desk", "What about SLAs?", "Pricing information"],
+          microsoft: ["What about cybersecurity?", "Training and onboarding", "Technology stack"],
+          cyber: ["Tell me about compliance", "IT infrastructure services", "Pricing"],
+          "service desk": ["IT infrastructure services", "SLAs and uptime", "Contact support"],
+          pricing: ["IT infrastructure pricing", "Contact sales", "What about SLAs?"],
+          contact: ["About Monarq Luxe", "IT Services overview", "WhatsApp chat"],
+          about: ["Industries served", "Technology partners", "Global presence"],
+          industry: ["IT infrastructure", "Staffing solutions", "Contact us"],
+          training: ["Technology stack", "Certifications", "Contact us"],
+          tech: ["Cloud services", "M365 admin", "Security tools"],
+          sla: ["IT service desk", "Infrastructure services", "Contact support"],
+          location: ["Global offices", "Industries served", "About us"],
+          clock: ["List available clocks", "Set clock UAE", "Set clock USA"],
+          partner: ["Technology stack", "About Monarq Luxe", "Contact us"],
+          hello: ["IT Services overview", "Staffing solutions", "Pricing"],
+          thank: ["Tell me about IT", "Contact information", "WhatsApp chat"],
+          bye: ["IT services", "Contact us", "Visit website"]
+        };
+
+        var quickRepliesMap = {
+          it: "Tell me about your IT infrastructure services",
+          staffing: "Tell me about your staffing solutions",
+          support: "Tell me about your customer support services",
+          cyber: "Tell me about cybersecurity",
+          pricing: "What are your pricing details?",
+          contact: "What are your contact details?",
+          clock: "Set clock UAE"
+        };
+
+        function getMatchedKey(text) {
+          var lower = text.toLowerCase().trim();
+          for (var key in knowledgeFlat) {
+            if (lower.indexOf(key) !== -1) return key;
+          }
+          return null;
+        }
+
+        function showSuggestions(topicKey) {
+          var suggestions = topicSuggestions[topicKey] || ["IT Services overview", "Pricing information", "Contact us"];
+          var container = document.createElement('div');
+          container.className = 'chat-quick-replies';
+          container.style.marginTop = '6px';
+          for (var i = 0; i < suggestions.length; i++) {
+            var btn = document.createElement('button');
+            btn.className = 'chat-quick-reply';
+            btn.textContent = suggestions[i];
+            btn.setAttribute('data-followup', suggestions[i]);
+            container.appendChild(btn);
+          }
+          body.insertBefore(container, replies);
+          body.scrollTop = body.scrollHeight;
+          container.addEventListener('click', function(e) {
+            var btn = e.target.closest('.chat-quick-reply');
+            if (!btn) return;
+            handleUserMessage(btn.textContent);
+          });
+        }
+
+        function openChat() { panel.classList.add('open'); }
+        function closeChat() { panel.classList.remove('open'); }
+        toggle.addEventListener('click', function() {
+          if (panel.classList.contains('open')) closeChat(); else openChat();
+        });
+        close.addEventListener('click', closeChat);
+
+        function addUserMsg(text) {
+          var div = document.createElement('div');
+          div.className = 'chat-msg user';
+          div.innerHTML = text;
+          body.insertBefore(div, replies);
+          body.scrollTop = body.scrollHeight;
+        }
+
+        function showTyping(callback) {
+          var div = document.createElement('div');
+          div.className = 'chat-msg bot';
+          div.id = 'typingIndicator';
+          div.innerHTML = 'Typing...';
+          div.style.color = '#999';
+          div.style.fontStyle = 'italic';
+          body.insertBefore(div, replies);
+          body.scrollTop = body.scrollHeight;
+          setTimeout(function() {
+            var el = document.getElementById('typingIndicator');
+            if (el) el.remove();
+            if (callback) callback();
+          }, 600 + Math.random() * 500);
+        }
+
+        function addBotMsg(html) {
+          var div = document.createElement('div');
+          div.className = 'chat-msg bot';
+          div.innerHTML = html;
+          body.insertBefore(div, replies);
+          body.scrollTop = body.scrollHeight;
+        }
+
+        function handleUserMessage(text) {
+          addUserMsg(text);
+          replies.style.display = 'none';
+          var lower = text.toLowerCase().trim();
+          if (lower.indexOf('list') !== -1 && (lower.indexOf('clock') !== -1 || lower.indexOf('timezone') !== -1)) {
+            showTyping(function() {
+              var html = '<b>Available Countries for Clock</b><br><br>';
+              for (var cc in clockCountries) {
+                var c = clockCountries[cc];
+                var active = activeClocks.indexOf(cc) > -1;
+                var img = '<img src="'+c.flag+'" style="width:20px;border-radius:2px;vertical-align:middle;margin-right:4px;">';
+                html += (active ? ' ' : ' ') + img + ' <b>'+c.name+'</b> - '+c.city+' (UTC'+(c.offset>=0?'+':'')+c.offset/60+')' + (active ? ' [active]' : '') + '<br>';
+              }
+              html += '<br>Type <b>add [country]</b> to add to grid, <b>remove [country]</b> to remove, <b>set clock [country]</b> for the floating clock.';
+              addBotMsg(html);
+            });
+            return;
+          }
+          if (lower.indexOf('set clock') !== -1 || lower.indexOf('change timezone') !== -1 || lower.indexOf('change to') !== -1 || lower.indexOf('switch to') !== -1) {
+            var parts = lower.replace(/set clock |change timezone to |change to |switch to /, '').trim().split(/\s+/);
+            var searchName = parts.join(' ');
+            var found = null;
+            for (var cc in clockCountries) {
+              if (clockCountries[cc].name.toLowerCase().indexOf(searchName) !== -1 || cc === searchName) {
+                found = cc; break;
+              }
+            }
+            showTyping(function() {
+              if (found) {
+                setClockTimezone(found);
+                addBotMsg(' Floating clock updated to <b>' + clockCountries[found].name + '</b> (' + getTzAbbr(clockCountries[found].offset) + ') time!');
+              } else {
+                addBotMsg(' Country not found. Try: set clock UAE, set clock USA, etc. Type <b>list clocks</b> for all options.');
+              }
+            });
+            return;
+          }
+          if (lower.indexOf('add ') !== -1 || lower.indexOf('remove ') !== -1) {
+            var isAdd = lower.indexOf('add ') !== -1;
+            var parts = lower.split(/\s+/);
+            var searchName = parts.slice(1).join(' ');
+            var found = null;
+            for (var cc in clockCountries) {
+              if (clockCountries[cc].name.toLowerCase().indexOf(searchName) !== -1 || cc === searchName) {
+                found = cc; break;
+              }
+            }
+            showTyping(function() {
+              if (found) {
+                if (isAdd) {
+                  if (activeClocks.indexOf(found) === -1) {
+                    addClock(found);
+                    addBotMsg(' Added <b>'+clockCountries[found].name+'</b> clock to your dashboard!');
+                  } else {
+                    addBotMsg(' <b>'+clockCountries[found].name+'</b> clock is already active.');
+                  }
+                } else {
+                  removeClock(found);
+                  addBotMsg(' Removed <b>'+clockCountries[found].name+'</b> clock from your dashboard.');
+                }
+              } else {
+                addBotMsg(' Country not found. Type <b>list clocks</b> to see all available countries.');
+              }
+            });
+            return;
+          }
+          showTyping(function() {
+            var key = getMatchedKey(text);
+            if (key) {
+              addBotMsg(knowledgeFlat[key]);
+              showSuggestions(key);
+            } else {
+              addBotMsg("Thanks for reaching out! I'm not sure about that specific query. Our team would be happy to help:<br><br> +91 9010555555<br> nusrathali25011999@gmail.com<br><br>Or type <b>'whatsapp'</b> to chat with us on WhatsApp!");
+            }
+          });
+        }
+
+        replies.addEventListener('click', function(e) {
+          var btn = e.target.closest('.chat-quick-reply');
+          if (!btn) return;
+          var key = btn.getAttribute('data-key');
+          var text = quickRepliesMap[key] || btn.textContent;
+          handleUserMessage(text);
+        });
+
+        send.addEventListener('click', function() {
+          var text = input.value.trim();
+          if (!text) return;
+          input.value = '';
+          if (text.toLowerCase().indexOf('whatsapp') !== -1) {
+            addUserMsg(text);
+            replies.style.display = 'none';
+            showTyping(function() {
+              addBotMsg("Opening WhatsApp for you now. Our team will respond shortly.");
+              setTimeout(function() {
+                window.open('https://wa.me/919010552555?text=' + encodeURIComponent("Hi MonarqLuxe! I would like to know more about your services.\n\nThank you!"), '_blank');
+              }, 500);
+            });
+            return;
+          }
+          handleUserMessage(text);
+        });
+
+        input.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter') send.click();
+        });
+      })();
+    </script>
+  </div>
+  <!- Floating Clock Widget ->
+  <div class="float-clock" id="floatClock">
+    <div class="fc-face" id="fcFace">
+      <div class="fc-hand fc-hour" id="fcH"></div>
+      <div class="fc-hand fc-minute" id="fcM"></div>
+      <div class="fc-hand fc-second" id="fcS"></div>
+      <div class="fc-center"></div>
+    </div>
+    <div class="fc-info">
+      <span class="fc-tz" id="fcTz">India (IST)</span>
+      <span class="fc-digital" id="fcDigital">--:--:--</span>
+    </div>
+  </div>
+
+  <!- Clock Selector Overlay ->
+  <div class="clock-selector-overlay" id="clockSelector">
+    <div class="clock-selector-modal">
+      <h3>World Clock</h3>
+      <p>Select countries to add to your live clock dashboard.</p>
+      <div class="clock-selector-list" id="clockSelectorList"></div>
+      <button class="clock-selector-close" onclick="closeClockSelector()">Done</button>
+    </div>
+  </div>
+
+  <script>
+    /* ── World Clock ── */
+    var clockCountries = {
+      'in': { name: 'India', flag: 'https://flagcdn.com/w40/in.png', city: 'New Delhi', offset: 330, code: 'in' },
+      'us': { name: 'United States', flag: 'https://flagcdn.com/w40/us.png', city: 'New York', offset: -300, code: 'us' },
+      'gb': { name: 'United Kingdom', flag: 'https://flagcdn.com/w40/gb.png', city: 'London', offset: 60, code: 'gb' },
+      'ae': { name: 'UAE', flag: 'https://flagcdn.com/w40/ae.png', city: 'Dubai', offset: 240, code: 'ae' },
+      'sg': { name: 'Singapore', flag: 'https://flagcdn.com/w40/sg.png', city: 'Singapore', offset: 480, code: 'sg' },
+      'au': { name: 'Australia', flag: 'https://flagcdn.com/w40/au.png', city: 'Sydney', offset: 660, code: 'au' },
+      'sa': { name: 'Saudi Arabia', flag: 'https://flagcdn.com/w40/sa.png', city: 'Riyadh', offset: 180, code: 'sa' },
+      'qa': { name: 'Qatar', flag: 'https://flagcdn.com/w40/qa.png', city: 'Doha', offset: 180, code: 'qa' },
+      'kw': { name: 'Kuwait', flag: 'https://flagcdn.com/w40/kw.png', city: 'Kuwait City', offset: 180, code: 'kw' },
+      'bh': { name: 'Bahrain', flag: 'https://flagcdn.com/w40/bh.png', city: 'Manama', offset: 180, code: 'bh' },
+      'om': { name: 'Oman', flag: 'https://flagcdn.com/w40/om.png', city: 'Muscat', offset: 240, code: 'om' },
+      'ca': { name: 'Canada', flag: 'https://flagcdn.com/w40/ca.png', city: 'Toronto', offset: -300, code: 'ca' },
+      'de': { name: 'Germany', flag: 'https://flagcdn.com/w40/de.png', city: 'Berlin', offset: 60, code: 'de' },
+      'fr': { name: 'France', flag: 'https://flagcdn.com/w40/fr.png', city: 'Paris', offset: 60, code: 'fr' },
+      'nl': { name: 'Netherlands', flag: 'https://flagcdn.com/w40/nl.png', city: 'Amsterdam', offset: 60, code: 'nl' },
+      'jp': { name: 'Japan', flag: 'https://flagcdn.com/w40/jp.png', city: 'Tokyo', offset: 540, code: 'jp' },
+      'cn': { name: 'China', flag: 'https://flagcdn.com/w40/cn.png', city: 'Beijing', offset: 480, code: 'cn' },
+      'kr': { name: 'South Korea', flag: 'https://flagcdn.com/w40/kr.png', city: 'Seoul', offset: 540, code: 'kr' },
+      'za': { name: 'South Africa', flag: 'https://flagcdn.com/w40/za.png', city: 'Johannesburg', offset: 120, code: 'za' },
+      'br': { name: 'Brazil', flag: 'https://flagcdn.com/w40/br.png', city: 'Brasilia', offset: -180, code: 'br' }
+    };
+
+    function detectDefaultClocks() {
+      var def = ['in'];
+      try {
+        var tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        var tzMap = {
+          'America/New_York':'us','America/Chicago':'us','America/Denver':'us','America/Los_Angeles':'us','America/Phoenix':'us',
+          'America/Anchorage':'us','Pacific/Honolulu':'us','America/Toronto':'ca','America/Vancouver':'ca','America/Montreal':'ca',
+          'Europe/London':'gb','Europe/Paris':'fr','Europe/Berlin':'de','Europe/Amsterdam':'nl',
+          'Asia/Dubai':'ae','Asia/Riyadh':'sa','Asia/Qatar':'qa','Asia/Kuwait':'kw','Asia/Bahrain':'bh','Asia/Muscat':'om',
+          'Asia/Singapore':'sg','Asia/Tokyo':'jp','Asia/Seoul':'kr','Asia/Shanghai':'cn','Asia/Hong_Kong':'cn',
+          'Australia/Sydney':'au','Australia/Melbourne':'au','Australia/Perth':'au',
+          'Africa/Johannesburg':'za','America/Sao_Paulo':'br'
+        };
+        var det = tzMap[tz];
+        if (det && det !== 'in' && def.indexOf(det) === -1) def.push(det);
+      } catch(e) {}
+      return def;
+    }
+
+    var saved = localStorage.getItem('ml_clocks');
+    var activeClocks = saved ? JSON.parse(saved) : detectDefaultClocks();
+
+    function saveClocks() {
+      localStorage.setItem('ml_clocks', JSON.stringify(activeClocks));
+    }
+
+    function getTimeStr(code) {
+      var c = clockCountries[code];
+      if (!c) return '';
+      var now = new Date();
+      var utc = now.getTime() + now.getTimezoneOffset() * 60000;
+      var t = new Date(utc + c.offset * 60000);
+      var h = t.getHours(), m = String(t.getMinutes()).padStart(2,'0'), s = String(t.getSeconds()).padStart(2,'0');
+      var ampm = h >= 12 ? 'PM' : 'AM';
+      var h12 = h % 12 || 12;
+      return { h12: String(h12).padStart(2,'0'), m: m, s: s, ampm: ampm };
+    }
+
+    var currentClockTz = localStorage.getItem('ml_clock_tz') || 'in';
+
+    function tickFloatClock() {
+      var c = clockCountries[currentClockTz];
+      if (!c) { currentClockTz = 'in'; c = clockCountries['in']; }
+      var now = new Date();
+      var utc = now.getTime() + now.getTimezoneOffset() * 60000;
+      var t = new Date(utc + c.offset * 60000);
+      var h24 = t.getHours(), h = h24 % 12, m = t.getMinutes(), s = t.getSeconds();
+      var ampm = h24 >= 12 ? 'PM' : 'AM';
+      var h12 = h || 12;
+      var fh = document.getElementById('fcH');
+      var fm = document.getElementById('fcM');
+      var fs = document.getElementById('fcS');
+      var ftz = document.getElementById('fcTz');
+      var fdig = document.getElementById('fcDigital');
+      if (fh) { fh.style.transform = 'translateX(-50%) rotate(' + (h * 30 + m * 0.5) + 'deg)'; }
+      if (fm) { fm.style.transform = 'translateX(-50%) rotate(' + (m * 6 + s * 0.1) + 'deg)'; }
+      if (fs) { fs.style.transform = 'translateX(-50%) rotate(' + (s * 6) + 'deg)'; }
+      if (ftz) ftz.textContent = c.name + ' (' + getTzAbbr(c.offset) + ')';
+      if (fdig) fdig.textContent = String(h12).padStart(2,'0') + ':' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0') + ' ' + ampm;
+    }
+
+    function getTzAbbr(offset) {
+      var abbrs = { 330: 'IST', 60: 'GMT', -300: 'EST', -240: 'EDT', -180: 'BRT', 120: 'SAST', 180: 'AST', 240: 'GST', 480: 'SGT', 540: 'JST', 660: 'AEST' };
+      return abbrs[offset] || 'UTC' + (offset >= 0 ? '+' : '') + (offset / 60);
+    }
+
+    function setClockTimezone(code) {
+      if (clockCountries[code]) {
+        currentClockTz = code;
+        localStorage.setItem('ml_clock_tz', code);
+        tickFloatClock();
+      }
+    }
+
+    function renderGridClocks() {
+      var grid = document.getElementById('clockGrid');
+      if (!grid) return;
+      grid.innerHTML = '';
+      activeClocks.forEach(function(code) {
+        var c = clockCountries[code];
+        if (!c) return;
+        var t = getTimeStr(code);
+        var card = document.createElement('div');
+        card.className = 'clock-card reveal reveal-up';
+        card.innerHTML =
+          '<button class="clock-remove" onclick="removeClock(\''+code+'\')" title="Remove">x</button>' +
+          '<img class="clock-flag" src="'+c.flag+'" alt="'+c.name+'">' +
+          '<span class="clock-country">'+c.name+'</span>' +
+          '<span class="clock-city">'+c.city+'</span>' +
+          '<div><span class="clock-time">'+t.h12+':'+t.m+':'+t.s+'</span><span class="clock-ampm"> '+t.ampm+'</span></div>';
+        grid.appendChild(card);
+        setTimeout(function(el){ el.classList.add('visible'); }, 50, card);
+      });
+    }
+
+    function renderClocks() {
+      renderGridClocks();
+    }
+
+    function tickClocks() {
+      renderClocks();
+    }
+
+    function addClock(code) {
+      if (activeClocks.indexOf(code) === -1) {
+        activeClocks.push(code);
+        saveClocks();
+        renderClocks();
+      }
+    }
+
+    function removeClock(code) {
+      var idx = activeClocks.indexOf(code);
+      if (idx > -1) {
+        activeClocks.splice(idx, 1);
+        saveClocks();
+        renderClocks();
+      }
+    }
+
+    function showClockSelector() {
+      var list = document.getElementById('clockSelectorList');
+      list.innerHTML = '';
+      for (var code in clockCountries) {
+        var c = clockCountries[code];
+        var sel = activeClocks.indexOf(code) > -1;
+        var item = document.createElement('div');
+        item.className = 'clock-selector-item' + (sel ? ' selected' : '');
+        item.innerHTML = '<img src="'+c.flag+'" alt="'+c.name+'"> '+c.name+' ('+c.city+')';
+        item.onclick = function(cc) {
+          return function() {
+            if (activeClocks.indexOf(cc) === -1) {
+              addClock(cc);
+            } else {
+              removeClock(cc);
+            }
+            showClockSelector();
+          };
+        }(code);
+        list.appendChild(item);
+      }
+      document.getElementById('clockSelector').classList.add('active');
+    }
+
+    function closeClockSelector() {
+      document.getElementById('clockSelector').classList.remove('active');
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      renderClocks();
+      tickFloatClock();
+      setInterval(function() { tickFloatClock(); tickClocks(); }, 1000);
+    });
+  </script>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
