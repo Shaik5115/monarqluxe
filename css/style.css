@@ -729,6 +729,13 @@ body {
   cursor: pointer;
   box-shadow: var(--shadow-card);
 }
+.service-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0,10,20,0.92) 0%, rgba(0,30,25,0.88) 100%);
+  z-index: 1;
+  pointer-events: none;
+}
 
 .service-card::before {
   content: '';
@@ -763,6 +770,13 @@ body {
   border-color: var(--border-brand);
   box-shadow: var(--shadow-brand), var(--shadow-card);
   background: var(--bg-card-hover);
+}
+
+.service-card .service-icon,
+.service-card h3,
+.service-card p {
+  position: relative;
+  z-index: 2;
 }
 
 .service-icon {
