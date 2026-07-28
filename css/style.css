@@ -828,6 +828,8 @@ body {
   text-align: center;
   transition: var(--transition);
   box-shadow: var(--shadow-card);
+  position: relative;
+  overflow: hidden;
 }
 
 .why-us-card:hover {
@@ -840,20 +842,26 @@ body {
   font-size: 2.5rem;
   margin-bottom: 1.2rem;
   display: block;
+  position: relative;
+  z-index: 2;
 }
 
 .why-us-card h4 {
   font-size: 1.1rem;
   font-weight: 700;
   margin-bottom: 0.5rem;
-  color: #000000;
+  color: #ffffff;
   letter-spacing: 0.3px;
+  position: relative;
+  z-index: 2;
 }
 
 .why-us-card p {
-  color: var(--text-secondary);
+  color: rgba(255,255,255,0.85);
   font-size: 0.9rem;
   line-height: 1.7;
+  position: relative;
+  z-index: 2;
 }
 
 /* "" Page Header (inner pages) "" */
