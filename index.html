@@ -24,8 +24,29 @@
       <p class="splash-quote">-Transforming vision into reality through technology and talent.-</p>
     </div>
     <div class="splash-loader" id="splashLoader">
-      <div class="loader-track">
-        <div class="loader-fill" id="loaderFill"></div>
+      <div class="loader-progress">
+        <div class="loader-track">
+          <div class="loader-fill" id="loaderFill"></div>
+        </div>
+        <div class="loader-pct" id="loaderPct">0%</div>
+      </div>
+      <div class="loader-sparks">
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+    </div>
+    <div class="splash-clock-card" id="splashClockCard">
+      <div class="splash-clock-face" id="splashLiveClock">
+        <div class="splash-clock-hand sh-hour" id="splashCh"></div>
+        <div class="splash-clock-hand sh-minute" id="splashCm"></div>
+        <div class="splash-clock-hand sh-second" id="splashCs"></div>
+        <div class="splash-clock-center"></div>
+      </div>
+      <div class="splash-clock-info">
+        <span class="splash-clock-label">Business Hours</span>
+        <span class="splash-clock-days">Mon - Sat</span>
+        <span class="splash-clock-hours">9:00 AM - 6:00 PM</span>
+        <span class="splash-clock-247">24/7 Support Available</span>
       </div>
     </div>
   </div>
@@ -205,6 +226,7 @@
         splashActive = false;
         var loader = document.getElementById('splashLoader');
         var fill = document.getElementById('loaderFill');
+        var pct = document.getElementById('loaderPct');
         loader.classList.add('active');
         var start = performance.now();
         var duration = 1000;
@@ -213,6 +235,7 @@
           var progress = Math.min(elapsed / duration, 1);
           var eased = 1 - Math.pow(1 - progress, 3);
           fill.style.width = (eased * 100) + '%';
+          pct.textContent = Math.round(eased * 100) + '%';
           if (progress < 1) {
             requestAnimationFrame(tick);
           } else {
@@ -853,7 +876,22 @@
       });
     }
 
+    function tickSplashClock() {
+      var ch = document.getElementById('splashCh');
+      var cm = document.getElementById('splashCm');
+      var cs = document.getElementById('splashCs');
+      if (!ch) return;
+      var now = new Date();
+      var utc = now.getTime() + now.getTimezoneOffset() * 60000;
+      var ist = new Date(utc + 330 * 60000);
+      var h = ist.getHours() % 12, m = ist.getMinutes(), s = ist.getSeconds();
+      ch.style.transform = 'translateX(-50%) rotate(' + (h * 30 + m * 0.5) + 'deg)';
+      cm.style.transform = 'translateX(-50%) rotate(' + (m * 6 + s * 0.1) + 'deg)';
+      cs.style.transform = 'translateX(-50%) rotate(' + (s * 6) + 'deg)';
+    }
+
     function renderClocks() {
+      tickSplashClock();
       renderGridClocks();
     }
 

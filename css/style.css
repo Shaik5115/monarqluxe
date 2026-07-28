@@ -194,12 +194,16 @@ body {
 .splash-loader.active {
   display: flex;
 }
+.loader-progress {
+  text-align: center;
+}
 .loader-track {
   width: 280px;
   height: 3px;
   background: rgba(0,77,64,0.15);
   border-radius: 3px;
   overflow: hidden;
+  margin-bottom: 16px;
 }
 .loader-fill {
   height: 100%;
@@ -212,12 +216,140 @@ body {
 @keyframes loaderGrad {
   to { background-position: 200% 0; }
 }
+.loader-pct {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 36px;
+  font-weight: 700;
+  color: #004D40;
+  letter-spacing: 4px;
+  text-shadow: 0 0 30px rgba(0,77,64,0.3);
+}
+.loader-sparks {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.loader-sparks span {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: #004D40;
+  border-radius: 50%;
+  animation: spark 0.8s ease-out forwards;
+  opacity: 0;
+}
+.loader-sparks span:nth-child(1) { left: 10%; top: 20%; animation-delay: 0s; }
+.loader-sparks span:nth-child(2) { left: 30%; top: 70%; animation-delay: 0.08s; }
+.loader-sparks span:nth-child(3) { left: 55%; top: 15%; animation-delay: 0.16s; }
+.loader-sparks span:nth-child(4) { left: 75%; top: 60%; animation-delay: 0.24s; }
+.loader-sparks span:nth-child(5) { left: 90%; top: 30%; animation-delay: 0.32s; }
+.loader-sparks span:nth-child(6) { left: 20%; top: 50%; animation-delay: 0.1s; }
+.loader-sparks span:nth-child(7) { left: 45%; top: 80%; animation-delay: 0.18s; }
+.loader-sparks span:nth-child(8) { left: 65%; top: 10%; animation-delay: 0.26s; }
+.loader-sparks span:nth-child(9) { left: 85%; top: 75%; animation-delay: 0.34s; }
+.loader-sparks span:nth-child(10) { left: 50%; top: 40%; animation-delay: 0.4s; }
+@keyframes spark {
+  0% { transform: translate(0,0) scale(1); opacity: 1; }
+  100% { transform: translate(var(--dx, 60px), var(--dy, -80px)) scale(0); opacity: 0; }
+}
+.loader-sparks span:nth-child(1) { --dx: 40px; --dy: -100px; }
+.loader-sparks span:nth-child(2) { --dx: -60px; --dy: -50px; }
+.loader-sparks span:nth-child(3) { --dx: 30px; --dy: -120px; }
+.loader-sparks span:nth-child(4) { --dx: -40px; --dy: -80px; }
+.loader-sparks span:nth-child(5) { --dx: 50px; --dy: -60px; }
+.loader-sparks span:nth-child(6) { --dx: -70px; --dy: -40px; }
+.loader-sparks span:nth-child(7) { --dx: 20px; --dy: -90px; }
+.loader-sparks span:nth-child(8) { --dx: -30px; --dy: -110px; }
+.loader-sparks span:nth-child(9) { --dx: 60px; --dy: -70px; }
+.loader-sparks span:nth-child(10) { --dx: -50px; --dy: -100px; }
 @media (max-width: 480px) {
   .splash-title { font-size: 52px; letter-spacing: 4px; }
   .splash-subtitle { font-size: 10px; letter-spacing: 2px; }
   .splash-quote { font-size: 14px; margin-top: 20px; max-width: 300px; }
   .splash-enter-btn { padding: 12px 32px; font-size: 11px; letter-spacing: 2px; }
   .loader-track { width: 200px; }
+  .loader-pct { font-size: 28px; }
+}
+
+/* "" Splash Analog Clock "" */
+.splash-clock-card {
+  position: absolute;
+  bottom: 25px;
+  right: 25px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0,128,123,0.25);
+  border-radius: 16px;
+  padding: 12px 16px;
+}
+
+.splash-clock-face {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 2px solid rgba(0,128,123,0.4);
+  position: relative;
+  flex-shrink: 0;
+  background: rgba(0,0,0,0.3);
+}
+
+.splash-clock-hand {
+  position: absolute;
+  bottom: 50%;
+  left: 50%;
+  transform-origin: bottom center;
+  border-radius: 2px;
+}
+
+.sh-hour { width: 2px; height: 14px; background: #0D9488; }
+.sh-minute { width: 1.5px; height: 18px; background: #0D9488; }
+.sh-second { width: 1px; height: 20px; background: rgba(13,148,136,0.5); }
+
+.splash-clock-center {
+  width: 3px;
+  height: 3px;
+  background: #0D9488;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.splash-clock-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.splash-clock-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #c8e6e0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.splash-clock-days {
+  font-size: 0.6rem;
+  color: rgba(13,148,136,0.7);
+  font-weight: 600;
+}
+
+.splash-clock-hours {
+  font-size: 0.65rem;
+  color: rgba(13,148,136,0.6);
+}
+
+.splash-clock-247 {
+  font-size: 0.55rem;
+  color: rgba(13,148,136,0.4);
+  letter-spacing: 0.5px;
 }
 
 /* "" Animated Background "" */
