@@ -24,15 +24,8 @@
       <p class="splash-quote">-Transforming vision into reality through technology and talent.-</p>
     </div>
     <div class="splash-loader" id="splashLoader">
-      <div class="loader-progress">
-        <div class="loader-track">
-          <div class="loader-fill" id="loaderFill"></div>
-        </div>
-        <div class="loader-pct" id="loaderPct">0%</div>
-      </div>
-      <div class="loader-sparks">
-        <span></span><span></span><span></span><span></span><span></span>
-        <span></span><span></span><span></span><span></span><span></span>
+      <div class="loader-track">
+        <div class="loader-fill" id="loaderFill"></div>
       </div>
     </div>
   </div>
@@ -212,7 +205,6 @@
         splashActive = false;
         var loader = document.getElementById('splashLoader');
         var fill = document.getElementById('loaderFill');
-        var pct = document.getElementById('loaderPct');
         loader.classList.add('active');
         var start = performance.now();
         var duration = 1000;
@@ -221,7 +213,6 @@
           var progress = Math.min(elapsed / duration, 1);
           var eased = 1 - Math.pow(1 - progress, 3);
           fill.style.width = (eased * 100) + '%';
-          pct.textContent = Math.round(eased * 100) + '%';
           if (progress < 1) {
             requestAnimationFrame(tick);
           } else {
