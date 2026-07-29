@@ -310,6 +310,19 @@ body {
 .navbar.scrolled .nav-links a {
   color: #ffffff;
 }
+.navbar-dark .logo {
+  color: #000000;
+}
+.navbar-dark .nav-links a {
+  color: #000000;
+}
+.navbar-dark .hamburger span {
+  background: #000000;
+}
+.navbar-dark .nav-links .dropdown-menu > li > a,
+.navbar-dark .nav-links .dropdown-submenu li a {
+  color: #ffffff;
+}
 
 .navbar .container {
   max-width: 1280px;
