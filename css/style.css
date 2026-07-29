@@ -948,7 +948,7 @@ body {
 }
 
 .service-card p {
-  color: rgba(255,255,255,0.85);
+  color: #ffffff;
   font-size: 0.92rem;
   line-height: 1.8;
 }
@@ -997,7 +997,7 @@ body {
 }
 
 .why-us-card p {
-  color: rgba(255,255,255,0.85);
+  color: #ffffff;
   font-size: 0.9rem;
   line-height: 1.7;
   position: relative;
