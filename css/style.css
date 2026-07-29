@@ -139,7 +139,7 @@ body {
   cursor: pointer;
   transition: all 0.35s ease;
   box-shadow: 0 0 20px rgba(0,77,64,0.1), inset 0 0 20px rgba(0,77,64,0.02);
-  animation: splashBtnIn 0.5s ease 0.2s both, btnPulse 0.8s ease-in-out 0.7s infinite;
+  animation: splashBtnIn 0.5s ease 0.2s both, btnPulse 3s ease-in-out 0.7s infinite;
   position: relative;
   overflow: hidden;
 }
