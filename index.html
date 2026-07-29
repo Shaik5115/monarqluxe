@@ -9,60 +9,52 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&family=Bebas+Neue&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg?v=2">
-  <link rel="stylesheet" href="css/style.css?ts=20260728v17">
+  <link rel="stylesheet" href="css/style.css?ts=20260729v18">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
 
-  <!- Splash Screen " Three.js 3D Gold Theme ->
+  <!- Splash Screen " Three.js 3D Hero Section ->
   <div id="splashScreen">
     <canvas id="splashCanvas"></canvas>
     <div id="splashLanding">
       <h1 class="splash-title">MonarqLuxe</h1>
       <p class="splash-subtitle">Staffing Solutions, IT &amp; Non-IT, Technology Solutions, IT Service Delivery &amp; Helpdesk, Designing Solution Teams &amp; Architects</p>
-      <button class="splash-enter-btn" onclick="enterSite()">Explore Services &rarr;</button>
+      <button class="splash-enter-btn">Explore Services &rarr;</button>
       <p class="splash-quote">Transforming vision into reality through technology and talent.</p>
-    </div>
-    <div class="splash-loader" id="splashLoader">
-      <div class="loader-track">
-        <div class="loader-fill" id="loaderFill"></div>
-      </div>
     </div>
   </div>
 
   <script>
     (function() {
+      var splash = document.getElementById('splashScreen');
       var canvas = document.getElementById('splashCanvas');
       var renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      renderer.setClearColor(0xffffff, 0);
+      renderer.setSize(splash.clientWidth, splash.clientHeight);
+      renderer.setClearColor(0x000000, 1);
 
       var scene = new THREE.Scene();
-      var camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 200);
+      var camera = new THREE.PerspectiveCamera(60, splash.clientWidth / splash.clientHeight, 0.1, 200);
       camera.position.set(0, 0.8, 18);
 
-      scene.fog = new THREE.FogExp2(0xffffff, 0.025);
+      scene.fog = new THREE.FogExp2(0x000000, 0.035);
 
-      var GREEN = new THREE.Color(0x004D40);
-      var GREEN_DIM = new THREE.Color(0x00352B);
-      var GREEN_LIGHT = new THREE.Color(0x00897B);
-
-      scene.add(new THREE.AmbientLight(0xccdddd, 0.9));
-      var dirLight = new THREE.DirectionalLight(0x0D9488, 1.0);
+      scene.add(new THREE.AmbientLight(0x0a1a0a, 0.8));
+      var dirLight = new THREE.DirectionalLight(0x004D40, 1.2);
       dirLight.position.set(5, 10, 8);
       scene.add(dirLight);
-      var backLight = new THREE.PointLight(0xccdddd, 0.6, 50);
+      var backLight = new THREE.PointLight(0x0a3320, 0.8, 50);
       backLight.position.set(-8, -5, -10);
       scene.add(backLight);
-      var rimLight = new THREE.PointLight(0x0D9488, 0.4, 30);
+      var rimLight = new THREE.PointLight(0x004D40, 0.5, 30);
       rimLight.position.set(0, 8, -12);
       scene.add(rimLight);
 
       var geoDiamond = new THREE.OctahedronGeometry(2.2, 0);
       var matDiamond = new THREE.MeshPhongMaterial({
-        color: 0xcccccc, emissive: 0x0D9488, emissiveIntensity: 0.15,
-        specular: 0x14B8A6, shininess: 200, transparent: true, opacity: 0.0, wireframe: false,
+        color: 0x000000, emissive: 0x004D40, emissiveIntensity: 0.08,
+        specular: 0x00897B, shininess: 200, transparent: true, opacity: 0.0, wireframe: false,
       });
       var diamond = new THREE.Mesh(geoDiamond, matDiamond);
       scene.add(diamond);
@@ -90,8 +82,6 @@
 
       var PARTICLE_COUNT = 700;
       var posArr = new Float32Array(PARTICLE_COUNT * 3);
-      var sizeArr = new Float32Array(PARTICLE_COUNT);
-      var alphaArr = new Float32Array(PARTICLE_COUNT);
       for (var i = 0; i < PARTICLE_COUNT; i++) {
         var theta = Math.random() * Math.PI * 2;
         var phi = Math.acos(2 * Math.random() - 1);
@@ -99,8 +89,6 @@
         posArr[i * 3]     = r * Math.sin(phi) * Math.cos(theta);
         posArr[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
         posArr[i * 3 + 2] = r * Math.cos(phi);
-        sizeArr[i] = 0.5 + Math.random() * 1.8;
-        alphaArr[i] = Math.random();
       }
       var particleGeo = new THREE.BufferGeometry();
       particleGeo.setAttribute('position', new THREE.BufferAttribute(posArr, 3));
@@ -110,7 +98,7 @@
       var particles = new THREE.Points(particleGeo, particleMat);
       scene.add(particles);
 
-      var gridHelper = new THREE.GridHelper(60, 40, 0xccdddd, 0x99bbbb);
+      var gridHelper = new THREE.GridHelper(60, 40, 0x0a1a0a, 0x050a05);
       gridHelper.position.y = -8;
       gridHelper.material.transparent = true;
       gridHelper.material.opacity = 0.0;
@@ -121,7 +109,7 @@
         var size = 0.08 + Math.random() * 0.18;
         var fgeo = new THREE.TetrahedronGeometry(size, 0);
         var fmat = new THREE.MeshPhongMaterial({
-          color: 0x0D9488, emissive: 0x14B8A6, transparent: true, opacity: 0.0,
+          color: 0x004D40, emissive: 0x00281F, transparent: true, opacity: 0.0,
           wireframe: Math.random() > 0.5,
         });
         var fmesh = new THREE.Mesh(fgeo, fmat);
@@ -145,10 +133,9 @@
       }
 
       var startTime = null;
-      var splashActive = true;
+      var baseCamPos = { x: 0, y: 0.8, z: 18 };
 
       function animate(ts) {
-        if (!splashActive) return;
         requestAnimationFrame(animate);
 
         if (!startTime) startTime = ts;
@@ -187,8 +174,12 @@
           mesh.position.y = ud.origY + Math.sin(elapsed * ud.floatFreq + ud.floatOffset) * ud.floatAmp;
         });
 
-        camera.position.x = Math.sin(elapsed * 0.12) * 1.2;
-        camera.position.y = Math.sin(elapsed * 0.08) * 0.6;
+        var cx = Math.sin(elapsed * 0.09) * 2.8 + Math.sin(elapsed * 0.13) * 0.8;
+        var cy = Math.sin(elapsed * 0.06) * 1.4 + Math.cos(elapsed * 0.1) * 0.6;
+        var cz = baseCamPos.z + Math.sin(elapsed * 0.04) * 1.2;
+        camera.position.x = cx;
+        camera.position.y = baseCamPos.y + cy;
+        camera.position.z = cz;
         camera.lookAt(0, 0, 0);
 
         renderer.render(scene, camera);
@@ -196,40 +187,12 @@
       requestAnimationFrame(animate);
 
       window.addEventListener('resize', function() {
-        camera.aspect = window.innerWidth / window.innerHeight;
+        var w = splash.clientWidth;
+        var h = splash.clientHeight;
+        camera.aspect = w / h;
         camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setSize(w, h);
       });
-
-      window.enterSite = function() {
-        splashActive = false;
-        var loader = document.getElementById('splashLoader');
-        var fill = document.getElementById('loaderFill');
-        loader.classList.add('active');
-        var start = performance.now();
-        var duration = 400;
-        function tick(now) {
-          var elapsed = now - start;
-          var progress = Math.min(elapsed / duration, 1);
-          var eased = 1 - Math.pow(1 - progress, 3);
-          fill.style.width = (eased * 100) + '%';
-          if (progress < 1) {
-            requestAnimationFrame(tick);
-          } else {
-            setTimeout(function() {
-              var splash = document.getElementById('splashScreen');
-              splash.classList.add('exit-anim');
-              splash.addEventListener('animationend', function() {
-                splash.style.display = 'none';
-              }, { once: true });
-              document.getElementById('guideChatbot').style.display = 'none';
-              document.getElementById('innerChatbot').style.display = '';
-              sessionStorage.setItem('ml_unlocked', 'true');
-            }, 80);
-          }
-        }
-        requestAnimationFrame(tick);
-      };
     })();
   </script>
 
@@ -678,14 +641,14 @@
         <button class="chatbot-close" id="guideClose" aria-label="Close"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
       </div>
       <div class="chatbot-body" id="guideBody">
-        <div class="chat-msg bot"> Welcome to <strong>MonarqLuxe</strong>!<br><br> I'm your guide. Press the <b>Explore Services</b> button above to unlock our full AI assistant and explore all our services: Staffing, IT Services, Cybersecurity, and more.<br><br> Ready to begin?</div>
+        <div class="chat-msg bot"> Welcome to <strong>MonarqLuxe</strong>!<br><br> Explore our services: Staffing, IT Services, Cybersecurity, and more.<br><br> Ask me anything!</div>
         <div class="chat-quick-replies" id="guideReplies">
-          <button class="chat-quick-reply" onclick="enterSite()"> Explore Services</button>
-          <button class="chat-quick-reply" onclick="enterSite()"> Unlock Full Experience</button>
+          <button class="chat-quick-reply"> Explore Services</button>
+          <button class="chat-quick-reply"> Get Started</button>
         </div>
       </div>
       <div class="chatbot-footer">
-        <p style="text-align:center;width:100%;color:#999;font-size:11px;letter-spacing:1px;padding:8px 0;">Press Explore Services to unlock full AI assistant</p>
+        <p style="text-align:center;width:100%;color:#999;font-size:11px;letter-spacing:1px;padding:8px 0;">Welcome to MonarqLuxe — explore our services</p>
       </div>
     </div>
     <script>
@@ -701,8 +664,8 @@
     </script>
   </div>
 
-  <!- Full AI Chatbot - hidden during splash, shown after unlock ->
-  <div id="innerChatbot" style="display:none;">
+  <!- Full AI Chatbot ->
+  <div id="innerChatbot">
     <button class="chatbot-float" id="chatbotToggle" aria-label="Open AI Chatbot">
       <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"/><path d="M7 9h2v2H7zm4 0h2v2h-2zm4 0h2v2h-2z"/></svg>
     </button>
