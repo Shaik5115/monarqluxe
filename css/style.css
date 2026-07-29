@@ -164,10 +164,10 @@ body {
 .splash-enter-btn {
   margin-top: 40px;
   padding: 14px 48px;
-  border: 1.5px solid #004D40;
+  border: 1.5px solid rgba(255,255,255,0.3);
   border-radius: 6px;
-  background: rgba(0,77,64,0.06);
-  color: #004D40;
+  background: rgba(255,255,255,0.06);
+  color: #ffffff;
   font-family: 'DM Sans', sans-serif;
   font-size: 14px;
   font-weight: 600;
@@ -175,7 +175,7 @@ body {
   text-transform: uppercase;
   cursor: pointer;
   transition: all 0.35s ease;
-  box-shadow: 0 0 20px rgba(0,77,64,0.1), inset 0 0 20px rgba(0,77,64,0.02);
+  box-shadow: 0 0 20px rgba(0,77,64,0.15), inset 0 0 20px rgba(0,77,64,0.02);
   animation: splashBtnIn 0.5s ease 0.2s both, btnPulse 3s ease-in-out 0.7s infinite;
   position: relative;
   overflow: hidden;
@@ -198,8 +198,8 @@ body {
   100% { opacity: 1; transform: translateY(0) scale(1); }
 }
 .splash-enter-btn:hover {
-  background: rgba(0,77,64,0.15);
-  border-color: #00897B;
+  background: rgba(255,255,255,0.12);
+  border-color: #ffffff;
   color: #ffffff;
   box-shadow: 0 0 40px rgba(0,77,64,0.3), 0 0 80px rgba(0,77,64,0.1);
   transform: translateY(-3px) scale(1.03);
