@@ -36,33 +36,33 @@
       var renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       renderer.setSize(window.innerWidth, window.innerHeight);
-      renderer.setClearColor(0x000000, 1);
+      renderer.setClearColor(0xffffff, 0);
 
       var scene = new THREE.Scene();
       var camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 200);
       camera.position.set(0, 0.8, 18);
 
-      scene.fog = new THREE.FogExp2(0x000000, 0.035);
+      scene.fog = new THREE.FogExp2(0xffffff, 0.025);
 
       var GREEN = new THREE.Color(0x004D40);
       var GREEN_DIM = new THREE.Color(0x00352B);
       var GREEN_LIGHT = new THREE.Color(0x00897B);
 
-      scene.add(new THREE.AmbientLight(0x0a1a0a, 0.8));
-      var dirLight = new THREE.DirectionalLight(0x004D40, 1.2);
+      scene.add(new THREE.AmbientLight(0xccdddd, 0.9));
+      var dirLight = new THREE.DirectionalLight(0x0D9488, 1.0);
       dirLight.position.set(5, 10, 8);
       scene.add(dirLight);
-      var backLight = new THREE.PointLight(0x0a3320, 0.8, 50);
+      var backLight = new THREE.PointLight(0xccdddd, 0.6, 50);
       backLight.position.set(-8, -5, -10);
       scene.add(backLight);
-      var rimLight = new THREE.PointLight(0x004D40, 0.5, 30);
+      var rimLight = new THREE.PointLight(0x0D9488, 0.4, 30);
       rimLight.position.set(0, 8, -12);
       scene.add(rimLight);
 
       var geoDiamond = new THREE.OctahedronGeometry(2.2, 0);
       var matDiamond = new THREE.MeshPhongMaterial({
-        color: 0x000000, emissive: 0x004D40, emissiveIntensity: 0.08,
-        specular: 0x00897B, shininess: 200, transparent: true, opacity: 0.0, wireframe: false,
+        color: 0xcccccc, emissive: 0x0D9488, emissiveIntensity: 0.15,
+        specular: 0x14B8A6, shininess: 200, transparent: true, opacity: 0.0, wireframe: false,
       });
       var diamond = new THREE.Mesh(geoDiamond, matDiamond);
       scene.add(diamond);
@@ -110,7 +110,7 @@
       var particles = new THREE.Points(particleGeo, particleMat);
       scene.add(particles);
 
-      var gridHelper = new THREE.GridHelper(60, 40, 0x0a1a0a, 0x050a05);
+      var gridHelper = new THREE.GridHelper(60, 40, 0xccdddd, 0x99bbbb);
       gridHelper.position.y = -8;
       gridHelper.material.transparent = true;
       gridHelper.material.opacity = 0.0;
@@ -121,7 +121,7 @@
         var size = 0.08 + Math.random() * 0.18;
         var fgeo = new THREE.TetrahedronGeometry(size, 0);
         var fmat = new THREE.MeshPhongMaterial({
-          color: 0x004D40, emissive: 0x00281F, transparent: true, opacity: 0.0,
+          color: 0x0D9488, emissive: 0x14B8A6, transparent: true, opacity: 0.0,
           wireframe: Math.random() > 0.5,
         });
         var fmesh = new THREE.Mesh(fgeo, fmat);

@@ -46,14 +46,14 @@ body {
 
 
 
-/* "" Splash Screen " Three.js 3D Black & Green Theme "" */
+/* "" Splash Screen " Three.js 3D White & Teal Theme "" */
 #splashScreen {
   position: fixed;
   inset: 0;
   z-index: 999999;
   overflow: hidden;
-  background: #000000;
-  background-image: radial-gradient(circle at 50% 0%, #001a0a 0%, #000000 70%);
+  background: #ffffff;
+  background-image: radial-gradient(circle at 50% 0%, #f0fdfa 0%, #ffffff 70%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -88,14 +88,14 @@ body {
   font-weight: 700;
   letter-spacing: 8px;
   margin: 0 0 8px;
-  background: linear-gradient(135deg, #004D40 0%, #004D40 15%, #ffffff 30%, #ffffff 50%, #004D40 70%, #004D40 85%, #ffffff 100%);
+  background: linear-gradient(135deg, #0D9488 0%, #0D9488 15%, #1a1a1a 30%, #1a1a1a 50%, #0D9488 70%, #0D9488 85%, #1a1a1a 100%);
   background-size: 400% 400%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   animation: shineRotate 4s ease-in-out infinite;
   text-shadow: none;
-  filter: drop-shadow(0 0 30px rgba(0,77,64,0.15)) drop-shadow(0 0 60px rgba(0,77,64,0.05));
+  filter: drop-shadow(0 0 30px rgba(13,148,136,0.1)) drop-shadow(0 0 60px rgba(13,148,136,0.03));
 }
 @keyframes shineRotate {
   0% { background-position: 0% 0%; }
@@ -110,7 +110,7 @@ body {
   font-weight: 400;
   letter-spacing: 3px;
   text-transform: uppercase;
-  color: #5a9e98;
+  color: #1a1a1a;
   margin: 0 0 8px;
 }
 .splash-meta {
@@ -118,13 +118,13 @@ body {
   font-size: 11px;
   font-weight: 300;
   letter-spacing: 2px;
-  color: #2a6b66;
+  color: #555555;
 }
 .splash-quote {
   font-family: 'Cormorant Garamond', serif;
   font-style: italic;
   font-size: 18px;
-  color: rgba(255,255,255,0.3);
+  color: rgba(0,0,0,0.5);
   margin-top: 28px;
   letter-spacing: 1px;
   font-weight: 300;
@@ -170,7 +170,7 @@ body {
 .splash-enter-btn:hover {
   background: rgba(0,77,64,0.15);
   border-color: #00897B;
-  color: #ffffff;
+  color: #0D9488;
   box-shadow: 0 0 40px rgba(0,77,64,0.3), 0 0 80px rgba(0,77,64,0.1);
   transform: translateY(-3px) scale(1.03);
 }
@@ -189,7 +189,7 @@ body {
   position: absolute;
   inset: 0;
   z-index: 100;
-  background: rgba(0,0,0,0.92);
+  background: rgba(255,255,255,0.95);
   display: none;
   align-items: center;
   justify-content: center;
